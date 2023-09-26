@@ -4,221 +4,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tambah Guru</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
-    .card {
-        background-color: #20B2AA;
-        border: 1px solid #ccc;
-        border-radius: 2px;
-        padding: 10px;
-        margin: 5px;
-        width: 150px;
-        display: inline-block;
-        color: white;
-        margin-left: 0;
-        transition: margin-left 0.5s;
-    }
-
-
     body {
-        font-family: Arial, sans-serif;
+        display: flex;
+
         margin: 0;
-        padding: 0;
+        min-height: 100vh;
+        background-color: #61677A;
+
     }
 
-    .login-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #008B8B;
+    #sidebar {
+        background-color: #272829;
+
         color: #fff;
-
-        text-decoration: none;
-        text-align: center;
-        font-size: 10px;
-        border: none;
-
-        width: 100px;
-    }
-
-    .navbar {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1;
-    }
-
-    /* CSS Untuk Side Navbar (Samping) */
-    .sidenav {
         height: 100%;
-        width: 0;
+        width: 250px;
         position: fixed;
-        z-index: 2;
-        top: 0;
         left: 0;
-        background-color: #333;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 0px;
+        top: 0;
+        transition: 0.3s;
+        padding-top: 20px;
     }
 
-    .sidenav a {
-        padding: 5px 10px;
+    #sidebar a {
+        padding: 10px 15px;
         text-decoration: none;
-        font-size: 18px;
         color: #fff;
         display: block;
+    }
+
+    #sidebar a:hover {
+        background-color: black;
+
+    }
+
+    #content {
+        flex: 1;
+        margin-left: 250px;
         transition: 0.3s;
-    }
-
-    .sidenav a:hover {
-        background-color: #555;
-    }
-
-    /* CSS Untuk Konten */
-    .content {
-        margin-left: 0;
-        padding: 40px;
-        transition: margin-left 0.5s;
-    }
-
-    /* CSS Umum */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Tombol untuk membuka side navbar */
-    .openbtn {
-        background-color: #333;
-        color: #fff;
-        padding: 10px 15px;
-        border: none;
-        cursor: pointer;
-        margin-left: 0;
-        transition: margin-left 0.5s;
-    }
-
-    .openbtn:hover {
-        background-color: #555;
-    }
-
-    .search-container {
-        float: right;
-    }
-
-    .search-box {
-        padding: 2px;
-        border: none;
-        border-radius: 5px;
-    }
-
-    .navbar h1 {
-        margin: 0;
-    }
-
-    .table-container {
-        margin-top: 80px;
-        /* Membuat ruang antara navbar dan tabel */
         padding: 20px;
+    }
+
+    @media screen and (max-width: 788px) {
+        #sidebar {
+            width: 100%;
+            position: static;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        #content {
+            margin-left: 0;
+        }
     }
     </style>
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
+                <a href="<?php echo base_url('admin') ?>">
+                    <i class="fas fa-chart-line mr-2"></i> Dashboard
+                </a>
+                <a href="<?php echo base_url('admin/siswa') ?>">
+                    <i class="fas fa-user mr-2"></i> Siswa
+                </a>
 
-    <div class="navbar">
-        <span class="openbtn" onclick="openNav()">&#9776;</span>
-        <h3 class="text-center text-white">Data Siswa</h3>
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="Cari...">
-            <button type="submit">Cari</button>
-        </div>
-    </div>
 
-    <!-- Side Navbar (Samping) -->
-    <div class="sidenav" id="mySidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times; tutup</a>
-        <a href="<?php echo base_url('admin') ?>">Beranda</a>
-        <a href="<?php echo base_url('admin/siswa') ?>">Siswa</a>
-    </div>
-    <div class="content">
-        <div class="container mt-12">
+            </div>
 
-            <div class="overflow-x-auto">
-                <form action="<?php echo base_url('admin/aksi_Tambah_siswa') ?>" enctype="multipart/form-data"
-                    method="post">
-                    <div class="max-full rounded border overflow-hidden shadow-lg">
-                        <div class="px-6 py-4">
-                            <p class="text-xl font-bold text-center">Tambah Siswa</p>
-                            <div class="grid grid-cols-2 gap-4 mt-5">
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nama">
-                                        Nama Siswa
-                                    </label>
-                                    <input
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        id="nama" name="nama" type="text" placeholder="Nama">
+            <div id="content" role="main">
+                <div class="card mb-4 shadow">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <h1>Tambah Siswa</h1>
+
+                    </div>
+                </div>
+
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <form action="<?php echo base_url('admin/aksi_tambah_siswa') ?>" enctype="multipart/form-data"
+                            method="POST" class="grid grid-cols-2 gap-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nama">Foto Siswa</label>
+                                        <input type="file" class="form-control" name="nama" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nama">Nama Siswa</label>
+                                        <input type="text" class="form-control" id="nama" name="nama"
+                                            placeholder="Masukkan Nama Siswa" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nisn">NISN</label>
+                                        <input type="text" class="form-control" id="nisn" name="nisn"
+                                            placeholder="Masukkan NISN" required>
+                                    </div>
                                 </div>
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nisn">
-                                        NISN
-                                    </label>
-                                    <input
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        id="nisn" name="nisn" type="number" placeholder="Nisn">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="gender">
-                                        Gender
-                                    </label>
-                                    <select name="gender" id="gender"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                        <option selected>Pilih Gender</option>
-                                        <option value="Laki-Laki">Laki-Laki</option>
-                                        <option value="Perempuan">Perempuan</option>
-                                    </select>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="kelas">
-                                        Kelas
-                                    </label>
-                                    <select name="kelas" id="kelas"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                        <option selected>Pilih Kelas</option>
-                                        <?php foreach($kelas as $row): ?>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select class="form-control" id="gender" name="gender" required>
+                                            <option selected>
+                                                Pilih Gender
+                                            </option>
+                                            <option value="Laki-laki">Laki-laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
+                                    </div>
+                                    <label for="kelas">Kelas</label>
+                                    <select class="form-control" id="kelas" name="kelas" required>
+                                        <option selected>
+                                            Pilih Kelas
+                                        </option>
+                                        <?php foreach ($kelas as $row): ?>
                                         <option value="<?php echo $row->id ?>">
-                                            <?php echo $row->tingkat_kelas.' '.$row->jurusan_kelas ?></option>
+                                            <?php echo $row->tingkat_kelas . ' ' . $row->jurusan_kelas ?>
+                                        </option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>
-                                <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/6">
-                                    Tambah
-                                </button>
                             </div>
-                        </div>
+
                     </div>
-                </form>
+                    <button type="submit" class="btn btn-warning">
+                        Tambah Siswa
+                    </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-    <script>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementsByClassName("content")[0].style.marginLeft = "250px";
-    }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementsByClassName("content")[0].style.marginLeft = "0";
-    }
+    <?php if ($this->session->flashdata('success')): ?>
+    <script>
+    Swal.fire({
+        icon: 'success',
+        title: '<?= $this->session->flashdata('success') ?>',
+        showConfirmButton: false,
+        timer: 1500
+    });
     </script>
+    <?php endif; ?>
 </body>
 
 </html>

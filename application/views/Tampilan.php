@@ -83,7 +83,7 @@
             <h3>SMK Bina Nusantara Semarang</h3>
             <a href="" target="_blank" class="login-button">PERPUSTAKAAN</a>
             </a>
-            <a href="./auth" target="_blank" class="login-butto">LOGIN</a>
+            <a href="./auth" class="login-butto">LOGIN</a>
         </div>
     </div>
 

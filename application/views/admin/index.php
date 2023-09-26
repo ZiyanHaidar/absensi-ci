@@ -1,22 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body>
-    <h1 class="my-5 fw-bold">selamat datang <?php echo $this->session->userdata('username')?></h1>
-    <a href="<?php echo base_url('auth/logout');?>"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        logout
-    </a>
-</body>
-
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,182 +5,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
-    .card {
-        background-color: #20B2AA;
-        border: 1px solid #ccc;
-        border-radius: 2px;
-        padding: 10px;
-        margin: 5px;
-        width: 200px;
-        display: inline-block;
-        color: white;
-        margin-left: 0;
-        transition: margin-left 0.5s;
-    }
-
-
     body {
-        font-family: Arial, sans-serif;
+        display: flex;
+
         margin: 0;
-        padding: 0;
+        min-height: 100vh;
+        background-color: #61677A;
+
     }
 
-    .login-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #008B8B;
+    #sidebar {
+        background-color: #272829;
+
         color: #fff;
-
-        text-decoration: none;
-        text-align: center;
-        font-size: 10px;
-        border: none;
-
-        width: 100px;
-    }
-
-    .navbar {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1;
-    }
-
-    /* CSS Untuk Side Navbar (Samping) */
-    .sidenav {
         height: 100%;
-        width: 0;
+        width: 250px;
         position: fixed;
-        z-index: 2;
-        top: 0;
         left: 0;
-        background-color: #333;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 0px;
+        top: 0;
+        transition: 0.3s;
+        padding-top: 20px;
     }
 
-    .sidenav a {
-        padding: 5px 10px;
+    #sidebar a {
+        padding: 10px 15px;
         text-decoration: none;
-        font-size: 18px;
         color: #fff;
         display: block;
+    }
+
+    #sidebar a:hover {
+        background-color: black;
+
+    }
+
+    #content {
+        flex: 1;
+        margin-left: 250px;
         transition: 0.3s;
+        padding: 20px;
     }
 
-    .sidenav a:hover {
-        background-color: #555;
-    }
+    @media screen and (max-width: 788px) {
+        #sidebar {
+            width: 100%;
+            position: static;
+            height: auto;
+            margin-bottom: 20px;
+        }
 
-    /* CSS Untuk Konten */
-    .content {
-        margin-left: 0;
-        padding: 60px;
-        transition: margin-left 0.5s;
-    }
-
-    /* CSS Umum */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Tombol untuk membuka side navbar */
-    .openbtn {
-        background-color: #333;
-        color: #fff;
-        padding: 10px 15px;
-        border: none;
-        cursor: pointer;
-        margin-left: 0;
-        transition: margin-left 0.5s;
-    }
-
-    .openbtn:hover {
-        background-color: #555;
-    }
-
-    .search-container {
-        float: right;
-    }
-
-    .search-box {
-        padding: 2px;
-        border: none;
-        border-radius: 5px;
-    }
-
-    .navbar h1 {
-        margin: 0;
+        #content {
+            margin-left: 0;
+        }
     }
     </style>
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
+                <a href="<?php echo base_url('admin') ?>">
+                    <i class="fas fa-chart-line mr-2"></i> Dashboard
+                </a>
+                <a href="<?php echo base_url('admin/siswa') ?>">
+                    <i class="fas fa-user mr-2"></i> Siswa
+                </a>
+                <a href="<?php echo base_url('admin/akun') ?>">
+                    <i class="fas fa-chalkboard mr-2"></i> Akun
+                </a>
+                <a type="button" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
+                </a>
+            </div>
 
-    <div class="navbar">
-        <span class="openbtn" onclick="openNav()">&#9776;</span>
-        <h3 class="text-center text-white">Dashboard</h3>
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="Cari...">
-            <button type="submit">Cari</button>
+            <div id="content" role="main">
+                <div class="card mb-4 shadow">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <h1>Dashboard</h1>
+
+                    </div>
+                </div>
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="fas fa-door-closed mr-2" style="font-size: 60px;"></i>
+                                        </div>
+                                        <div class="ml-auto">Jumlah Kelas</div>
+                                        <span style="font-size: 24px;">
+                                            <?php echo $kelas ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="fas fa-file-invoice mr-2" style="font-size: 60px;"></i>
+                                        </div>
+                                        <div class="ml-auto">Jumlah Mapel</div>
+                                        <span style="font-size: 24px;">
+                                            <?php echo $mapel ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="fas fa-user mr-2" style="font-size: 60px;"></i>
+                                        </div>
+                                        <div class="ml-auto">Jumlah Siswa</div>
+                                        <span style="font-size: 24px;">
+                                            <?php echo $siswa ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="fas fa-user-tie mr-2" style="font-size: 60px;"></i>
+                                            <p class="m-0"></p>
+                                        </div>
+                                        <div class="ml-auto">Jumlah Guru</div>
+                                        <span style="font-size: 24px;">
+                                            <?php echo $guru ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- Side Navbar (Samping) -->
-    <div class="sidenav" id="mySidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times; tutup</a>
-        <a href="<?php echo base_url('admin') ?>">Beranda</a>
-        <a href="<?php echo base_url('admin/siswa') ?>">Siswa</a>
-    </div>
-
-    <!-- Konten -->
-    <div class="content">
-
-        <div class="card">
-            <p>Jumlah Kelas</p>
-            <h1>6 </h1>
-            <a href="" target="_blank" class="login-button">Info untuk lebih lanjut</a>
-        </div>
-        <div class="card">
-            <p>Jumlah Mapel</p>
-            <h1>9</h1>
-            <a href="" target="_blank" class="login-button">Info untuk lebih lanjut</a>
-        </div>
-        <div class="card">
-            <p>Jumlah Siswa</p>
-            <h1>4</h1>
-            <a href="" target="_blank" class="login-button">Info untuk lebih lanjut</a>
-        </div>
-        <div class="card">
-            <p>Jumlah guru</p>
-            <h1>10</h1>
-            <a href="" target="_blank" class="login-button">Info untuk lebih lanjut</a>
-        </div>
-
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- LOGOUT -->
     <script>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementsByClassName("content")[0].style.marginLeft = "250px";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementsByClassName("content")[0].style.marginLeft = "0";
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Yakin mau LogOut?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?php echo base_url('/') ?>";
+            }
+        });
     }
     </script>
-    </div>
-
+    <script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        var content = document.getElementById("content");
+        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+        content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+    }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
