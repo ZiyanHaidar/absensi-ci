@@ -76,6 +76,7 @@
                 <a href="<?php echo base_url('admin/akun') ?>">
                     <i class="fas fa-chalkboard mr-2"></i> Akun
                 </a>
+
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>

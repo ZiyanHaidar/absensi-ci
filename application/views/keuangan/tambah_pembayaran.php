@@ -69,7 +69,7 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
 
-                <a href="<?php echo base_url('admin/siswa') ?>">
+                <a href="<?php echo base_url('keuangan/Pembayaran') ?>">
                     <i class="fas fa-arrow-left mr-2"></i> Back
                 </a>
 
@@ -79,60 +79,58 @@
             <div id="content" role="main">
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex justify-content-between align-items-center">
-                        <h1>Tambah Siswa</h1>
+                        <h1>Tambah Pembayaran</h1>
 
                     </div>
                 </div>
 
                 <div class="card mb-4 shadow">
                     <div class="card-body">
-                        <form action="<?php echo base_url('admin/aksi_tambah_siswa') ?>" enctype="multipart/form-data"
-                            method="POST" class="grid grid-cols-2 gap-4">
+                        <form action="<?php echo base_url('keuangan/aksi_tambah_pembayaran') ?>"
+                            enctype="multipart/form-data" method="POST" class="grid grid-cols-2 gap-4">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="nama">Foto Siswa</label>
-                                        <input type="file" class="form-control" name="nama" required>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="nama">Nama Siswa</label>
-                                        <input type="text" class="form-control" id="nama" name="nama"
-                                            placeholder="Masukkan Nama Siswa" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nisn">NISN</label>
-                                        <input type="text" class="form-control" id="nisn" name="nisn"
-                                            placeholder="Masukkan NISN" required>
+                                        <select id="siswa" name="siswa" class="form-control" required>
+                                            <option selected>Pilih Siswa</option>
+                                            <?php foreach ($siswa as $row): ?>
+                                            <option value="<?php echo $row->id_siswa ?>">
+                                                <?php echo $row->nama_siswa ?>
+                                            </option>
+                                            <?php endforeach ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="gender">Gender</label>
-                                        <select class="form-control" id="gender" name="gender" required>
+                                        <label for="pembayaran">Pembayaran</label>
+                                        <select class="form-control" id="pembayaran" name="pembayaran" required>
                                             <option selected>
-                                                Pilih Gender
+                                                Pilih Pembayaran
                                             </option>
-                                            <option value="Laki-laki">Laki-laki</option>
-                                            <option value="Perempuan">Perempuan</option>
+                                            <option value="Pembayaran SPP">Pembayaran SPP</option>
+                                            <option value="Pembayaran Uang Gedung">Pembayaran Uang Gedung</option>
+                                            <option value="Pembayaran Uang Seragam">Pembayaran Uang Seragam</option>
+
                                         </select>
                                     </div>
-                                    <label for="kelas">Kelas</label>
-                                    <select class="form-control" id="kelas" name="kelas" required>
-                                        <option selected>
-                                            Pilih Kelas
-                                        </option>
-                                        <?php foreach ($kelas as $row): ?>
-                                        <option value="<?php echo $row->id ?>">
-                                            <?php echo $row->tingkat_kelas . ' ' . $row->jurusan_kelas ?>
-                                        </option>
-                                        <?php endforeach ?>
-                                    </select>
+
+
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="total">Total Pembayaran</label>
+                                        <input type="text" class="form-control" id="total" name="total"
+                                            placeholder="Masukkan total" required>
+                                    </div>
+                                </div>
+
                             </div>
 
                     </div>
                     <button type="submit" class="btn btn-warning">
-                        Tambah Siswa
+                        Tambah Pembayaran
                     </button>
                     </form>
                 </div>

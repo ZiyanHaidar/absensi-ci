@@ -76,6 +76,7 @@
                 <a href="<?php echo base_url('admin/akun') ?>">
                     <i class="fas fa-chalkboard mr-2"></i> Akun
                 </a>
+
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -92,84 +93,85 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
+                            <h3>Akun <?php echo $this->session->userdata('username')?></h3>
+                        </div>
 
 
-                            <?php foreach ($user as $users): ?>
+                        <?php foreach ($user as $users): ?>
 
-                            <form action="<?php echo base_url('auth/aksi_ubah_password'); ?>" method="post"
-                                class="grid grid-cols-2 gap-4">
-                                <input name="id" type="hidden" value="<?php echo $users->id ?>">
+                        <form action="<?php echo base_url('admin/aksi_ubah_akun')?>" method="post"
+                            enctype="multipart/from-data">
+                            <input name="id" type="hidden" value="<?php echo $users->id ?>">
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Masukkan Email Anda" value="<?php echo $users->email ?>"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="username">Username</label>
-                                            <input type="text" class="form-control" id="username" name="username"
-                                                placeholder="Masukkan Username Anda"
-                                                value="<?php echo $users->username ?>" required>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="passwordbaru">Password Baru</label>
-                                            <input type="password" class="form-control" id="passwordbaru"
-                                                name="passwordbaru" placeholder="Masukkan Password Baru Anda" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="konfirmasi_password">Konfirmasi Password</label>
-                                            <input type="konfirmasi_password" class="form-control"
-                                                id="konfirmasi_password" name="konfirmasi_password"
-                                                placeholder="Masukkan Password Anda" required>
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Masukkan Email Anda" value="<?php echo $users->email ?>"
+                                            required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </form>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            placeholder="Masukkan Username Anda" value="<?php echo $users->username ?>"
+                                            required>
+                                    </div>
+                                </div>
 
 
-                            <?php endforeach ?>
-                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="passwordbaru">Password Baru</label>
+                                        <input type="password" class="form-control" id="passwordbaru"
+                                            name="passwordbaru" placeholder="Masukkan Password Baru Anda">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="konfirmasi_password">Konfirmasi Password</label>
+                                        <input type="konfirmasi_password" class="form-control" id="konfirmasi_password"
+                                            name="konfirmasi_password" placeholder="Masukkan Password Anda">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </form>
+
+
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-            <!-- SweetAlert untuk berhasil mengubah siswa -->
-            <?php if ($this->session->flashdata('success')): ?>
-            <script>
-            Swal.fire({
-                icon: 'success',
-                title: '<?= $this->session->flashdata('success') ?>',
-                showConfirmButton: false,
-                timer: 1500
-            });
-            </script>
-            <?php endif; ?>
+        <!-- SweetAlert untuk berhasil mengubah siswa -->
+        <?php if ($this->session->flashdata('success')): ?>
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: '<?= $this->session->flashdata('success') ?>',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+        <?php endif; ?>
 
-            <!-- SweetAlert untuk gagal mengubah siswa -->
-            <?php if ($this->session->flashdata('error')): ?>
-            <script>
-            Swal.fire({
-                icon: 'error',
-                title: '<?= $this->session->flashdata('error') ?>',
-                showConfirmButton: false,
-                timer: 1500
-            });
-            </script>
-            <?php endif; ?>
+        <!-- SweetAlert untuk gagal mengubah siswa -->
+        <?php if ($this->session->flashdata('error')): ?>
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: '<?= $this->session->flashdata('error') ?>',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+        <?php endif; ?>
 </body>
 
 </html>
