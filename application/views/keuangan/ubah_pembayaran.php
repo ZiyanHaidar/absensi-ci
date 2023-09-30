@@ -132,14 +132,17 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </form>
-                        <?php endforeach ?>
                     </div>
+
+                    <button type="submit" class="btn btn-warning">
+                        Ubah Pembayaran
+                    </button>
+                    </form>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
         <!-- SweetAlert untuk berhasil mengubah siswa -->

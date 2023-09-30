@@ -124,7 +124,7 @@
                                     <?php echo $row->jenis_pembayaran ?>
                                 </td>
                                 <td>
-                                    <?php echo $row->total_pembayaran ?>
+                                    <?php echo convRupiah($row->total_pembayaran) ?>
                                 </td>
 
                                 <td class="text-center">

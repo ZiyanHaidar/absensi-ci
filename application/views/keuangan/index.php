@@ -81,7 +81,7 @@
     </div>
     <div id="content" role="main">
         <header class="flex justify-between items-center p-2 bg-white border-b-2 border-gray-200">
-            <h1 class="text-4xl">Keuangan</h1>
+            <h1 class="text-4xl">Dashboard Keuangan</h1>
             <div class="flex items-center space-x-2">
 
             </div>
