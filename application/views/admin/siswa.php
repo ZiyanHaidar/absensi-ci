@@ -92,6 +92,16 @@
 
                 <div class="card mb-4 shadow">
                     <div class="card-body">
+                        <a href="<?php echo base_url('admin/export') ?>" class="btn btn-success m-2">Export</a>
+                        <form action="<?= base_url('keuangan/import') ?>" method="POST" enctype="multipart/form-data">
+                            <div class="my-4">
+                                <input type="file" name="file" class="w-full py-2 px-3 border border-gray-300">
+
+                                <button type="submit" name="import" class="btn btn-warning m-2">
+                                    Import
+                                </button>
+                            </div>
+                        </form>
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Daftar Siswa</h5>
                             <a href="<?php echo base_url('admin/tambah_siswa') ?>" class="btn btn-success m-2">
@@ -142,9 +152,10 @@
                                                 Ubah
                                             </a>
                                             <button onClick="hapus(<?php echo $row->id_siswa; ?>)"
-                                                class="btn btn-warning">
+                                                class="btn btn-danger">
                                                 Hapus
                                             </button>
+
                                         </td>
 
 

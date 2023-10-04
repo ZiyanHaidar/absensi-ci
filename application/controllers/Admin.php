@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Admin extends CI_Controller
 {
 
@@ -42,6 +43,8 @@ class Admin extends CI_Controller
     }
 }
 
+	
+
 	//from untuk siswa
 	public function siswa()
 	{
@@ -53,36 +56,219 @@ class Admin extends CI_Controller
 		$data['kelas'] = $this->m_model->get_data('kelas')->result();
 		$this->load->view('admin/tambah_siswa', $data);
 	}
-	public function aksi_tambah_siswa()
-  {
-    $file_name = $_FILES['foto']['name'];
-    $file_temp = $_FILES['foto']['tmp_name'];
-    $kode = round(microtime(true) * 1000);
-    $file_name = $kode . '_' . $file_name;
-    $upload_path = './images/siswa/' . $file_name;
+	public function export()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-    if (move_uploaded_file($file_temp, $upload_path)) {
-      $data = [
-        'foto' => $file_name,
-        'nama_siswa' => $this->input->post('nama'),
-        'nisn' => $this->input->post('nisn'),
-        'gender' => $this->input->post('gender'),
-        'id_kelas' => $this->input->post('kelas'),
-      ];
-      $this->m_model->tambah_data('siswa', $data);
-      redirect(base_url('admin/siswa'));
-    } else {
-      $data = [
-        'foto' => 'User.png',
-        'nama_siswa' => $this->input->post('nama'),
-        'nisn' => $this->input->post('nisn'),
-        'gender' => $this->input->post('gender'),
-        'id_kelas' => $this->input->post('kelas'),
-      ];
-      $this->m_model->tambah_data('siswa', $data);
-      redirect(base_url('admin/siswa'));
+        $style_col = [
+            'font' => ['bold' => true],
+            'alignment' => [
+                'horizontal' =>
+                    \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' =>
+                    \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'borders' => [
+                'top' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+                'right' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+                'bottom' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+                'left' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $style_row = [
+            'font' => ['bold' => true],
+            'alignment' => [
+                'vertical' =>
+                    \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'borders' => [
+                'top' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+                'right' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+                'bottom' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+                'left' => [
+                    'borderStyle' =>
+                        \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $sheet->setCellValue('A1', 'DATA SISWA');
+        $sheet->mergeCells('A1:E1');
+        $sheet
+            ->getStyle('A1')
+            ->getFont()
+            ->setBold(true);
+
+        $sheet->setCellValue('A3', 'ID');
+        $sheet->setCellValue('B3', 'NAMA SISWA');
+        $sheet->setCellValue('C3', 'NISN');
+        $sheet->setCellValue('D3', 'GENDER');
+        $sheet->setCellValue('E3', 'KELAS');
+
+        $sheet->getStyle('A3')->applyFromArray($style_col);
+        $sheet->getStyle('B3')->applyFromArray($style_col);
+        $sheet->getStyle('C3')->applyFromArray($style_col);
+        $sheet->getStyle('D3')->applyFromArray($style_col);
+        $sheet->getStyle('E3')->applyFromArray($style_col);
+
+        // get dari database
+        $data = $this->m_model->get_data_siswa();
+
+        $no = 1;
+        $numrow = 4;
+        foreach ($data as $data) {
+            $sheet->setCellValue('A' . $numrow, $data->id_siswa);
+            $sheet->setCellValue('B' . $numrow, $data->nama_siswa);
+            $sheet->setCellValue('C' . $numrow, $data->nisn);
+            $sheet->setCellValue('D' . $numrow, $data->gender);
+            $sheet->setCellValue(
+                'E' . $numrow,
+                $data->tingkat_kelas . ' ' . $data->jurusan_kelas
+            );
+
+            $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
+            $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
+            $sheet->getStyle('C' . $numrow)->applyFromArray($style_row);
+            $sheet->getStyle('D' . $numrow)->applyFromArray($style_row);
+            $sheet->getStyle('E' . $numrow)->applyFromArray($style_row);
+
+            $no++;
+            $numrow++;
+        }
+
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(25);
+        $sheet->getColumnDimension('C')->setWidth(25);
+        $sheet->getColumnDimension('D')->setWidth(20);
+		$sheet->getColumnDimension('E')->setWidth(30);
+        $sheet->getDefaultRowDimension()->setRowHeight(-1);
+
+        $sheet
+            ->getPageSetup()
+            ->setOrientation(
+                \PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE
+            );
+
+        $sheet->setTitle('LAPORAN DATA SISWA');
+
+        header(
+            'Content-Type: aplication/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+        header('Content-Disposition: attachment; filename="SISWA.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
     }
-  }	
+
+
+ public function import()  
+ {  
+   if (isset($_FILES["file"]["name"])) {  
+	 $path = $_FILES["file"]["tmp_name"];  
+	 $object = PhpOffice\PhpSpreadsheet\IOFactory::load($path);  
+	 foreach ($object->getWorksheetIterator() as $worksheet) {  
+	   $highestRow = $worksheet->getHighestRow();  
+	   $highestColumn = $worksheet->getHighestColumn();  
+	   for ($row = 2; $row <= $highestRow; $row++) {  
+		 $foto = $worksheet->getCellByColumnAndRow(2, $row)->getValue();  
+		 $nisn = $worksheet->getCellByColumnAndRow(4, $row)->getValue();  
+		 $nama_siswa = $worksheet->getCellByColumnAndRow(3, $row)->getValue();  
+		 $gender = $worksheet->getCellByColumnAndRow(5, $row)->getValue();  
+		 $kelas = $worksheet->getCellByColumnAndRow(6, $row)->getValue(); 
+   
+		 // Periksa apakah ID siswa sudah ada  
+		 $get_id_by_nisn = $this->m_model->get_by_nisn($nisn);  
+		 $parts = explode(' ', $kelas);  
+					   
+		 // Ambil kata pertama  
+		 $tingkat = $parts[0];  
+		 $jurusan = $parts[1];  
+		 $get_id_by_jurusan = $this->m_model->get_by_jurusan($jurusan, $tingkat);  
+
+		 if (!$get_id_by_nisn) {  
+		   // Jika ID siswa belum ada, masukkan data baru  
+		   $data = array(  
+			 'foto' => $foto,  
+			 'nisn' => $nisn,  
+			 'nama_siswa' => $nama_siswa,  
+			 'gender' => $gender,  
+	 'id_kelas' => $get_id_by_jurusan 
+		   );  
+		   $this->m_model->tambah_data('siswa', $data);  
+		 } else {  
+		   // Jika ID siswa sudah ada, lakukan tindakan yang sesuai 
+		   // Misalnya, Anda bisa memperbarui data yang sudah ada  
+		   $data = array(  
+			 'foto' => $foto,  
+			 'nisn' => $nisn,  
+			 'nama_siswa' => $nama_siswa,  
+			 'gender' => $gender,  
+	 'id_kelas' => $get_id_by_jurusan 
+		   );  
+		   $this->m_model->ubah_data('siswa', $data, array('id_siswa' => $get_id_by_nisn));  
+		 }  
+	   }  
+	 }  
+	 redirect(base_url('admin/datasiswa'));  
+   } else {  
+	 echo 'Invalid File';  
+   }  
+ }
+
+	
+	public function aksi_tambah_siswa()
+	{
+		$foto = $this->upload_img('foto');
+		if ($foto[0] == false) {
+			$data = [
+				'foto' => 'User.png',
+				'nama_siswa' => $this->input->post('nama'),
+				'nisn' => $this->input->post('nisn'),
+				'gender' => $this->input->post('gender'),
+				'id_kelas' => $this->input->post('kelas'),
+			];
+
+			$this->m_model->tambah_data('siswa', $data);
+			redirect(base_url('admin/siswa'));
+		} else {
+			$data = [
+				'foto' => $foto[1],
+				'nama_siswa' => $this->input->post('nama'),
+				'nisn' => $this->input->post('nisn'),
+				'gender' => $this->input->post('gender'),
+				'id_kelas' => $this->input->post('kelas'),
+			];
+
+			$this->m_model->tambah_data('siswa', $data);
+			redirect(base_url('admin/siswa'));
+		}
+
+	}
+
 	
 	public function ubah_siswa($id)
 	{
@@ -138,38 +324,38 @@ class Admin extends CI_Controller
 			redirect(base_url('admin/ubah_siswa/' . $this->input->post('id_siswa')));
 		}
 	}
+
 	// hapus 
 	public function hapus_siswa($id)
-	{
-		$siswa = $this->m_model->get_by_id('siswa', 'id_siswa', $id)->row();
-		if($siswa) {
-			if ($siswa->foto !== 'User.png') {
-				$file_path = './images/siswa/' . $siswa->foto;
+		{
+			$siswa = $this->m_model->get_by_id('siswa', 'id_siswa', $id)->row();
+			if($siswa){
+				if($siswa->foto !== 'User.png'){
+					$file_path = './images/siswa/' . $siswa->foto;
 
-				if (file_exists($file_path)) {
-
-					if (unlink($file_path)) {
-						// hapus file berhasil menggunakan model delete
-						$this->m_model->deelete('siswa', 'id_siswa',$id);
-						redirect(base_url('admin/siswa'));
-					} else {
-						//gagal menghapus file
-						echo "Gagal menghapus file.";
+					if(file_exists($file_path)){
+						if(unlink($file_path)){
+							//hapus file berhasil menggunakan model delete
+							$this->m_model->delete('siswa', 'id_siswa',$id);
+							redirect(base_url('admin/siswa'));
+						}else{
+							//gagal menghapus file
+							echo "gagal menghapus file.";
+						}
+					}else{
+						//file tidak di temukan
+						echo "File Tidak Di Temukan"; 
 					}
-				} else {
-					//file tidak ditemukan
-					echo "File tidak ditemukan.";
+				}else{
+					//Tanpa Hapus File User.png
+					$this->m_model->delete('siswa', 'id_siswa', $id);
+					redirect(base_url('admin/siswa'));
 				}
-			} else {
-				//Tanpa hapus file 'User.png'
-				$this->m_model->delete('siswa', 'id_siswa', $id);
-				redirect(nase_url('admin/siswa'));
+			}else{
+				//Siswa Tidak Di Temukan
+				echo "Siswa Tidak Di Temukan";
 			}
-		} else {
-			//Siswa tidak ditemukan
-			echo "Siswa tidak ditemukan.";
 		}
-	}
 
 	public function akun()
 	{

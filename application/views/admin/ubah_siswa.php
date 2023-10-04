@@ -95,8 +95,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nama">Foto Siswa</label>
-                                        <input type="file" class="form-control" name="nama"
-                                            value="<?php echo $data_siswa->foto ?>" required>
+                                        <input type="file" class="form-control" id="foto" name="foto">
                                     </div>
                                     <div class="form-group">
                                         <label for="nama">Nama Siswa</label>
