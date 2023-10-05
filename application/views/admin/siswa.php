@@ -93,7 +93,7 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body">
                         <a href="<?php echo base_url('admin/export') ?>" class="btn btn-success m-2">Export</a>
-                        <form action="<?= base_url('keuangan/import') ?>" method="POST" enctype="multipart/form-data">
+                        <form action="<?= base_url('admin/import') ?>" method="POST" enctype="multipart/form-data">
                             <div class="my-4">
                                 <input type="file" name="file" class="w-full py-2 px-3 border border-gray-300">
 

@@ -185,60 +185,77 @@ class Admin extends CI_Controller
     }
 
 
- public function import()  
- {  
-   if (isset($_FILES["file"]["name"])) {  
-	 $path = $_FILES["file"]["tmp_name"];  
-	 $object = PhpOffice\PhpSpreadsheet\IOFactory::load($path);  
-	 foreach ($object->getWorksheetIterator() as $worksheet) {  
-	   $highestRow = $worksheet->getHighestRow();  
-	   $highestColumn = $worksheet->getHighestColumn();  
-	   for ($row = 2; $row <= $highestRow; $row++) {  
-		 $foto = $worksheet->getCellByColumnAndRow(2, $row)->getValue();  
-		 $nisn = $worksheet->getCellByColumnAndRow(4, $row)->getValue();  
-		 $nama_siswa = $worksheet->getCellByColumnAndRow(3, $row)->getValue();  
-		 $gender = $worksheet->getCellByColumnAndRow(5, $row)->getValue();  
-		 $kelas = $worksheet->getCellByColumnAndRow(6, $row)->getValue(); 
-   
-		 // Periksa apakah ID siswa sudah ada  
-		 $get_id_by_nisn = $this->m_model->get_by_nisn($nisn);  
-		 $parts = explode(' ', $kelas);  
-					   
-		 // Ambil kata pertama  
-		 $tingkat = $parts[0];  
-		 $jurusan = $parts[1];  
-		 $get_id_by_jurusan = $this->m_model->get_by_jurusan($jurusan, $tingkat);  
-
-		 if (!$get_id_by_nisn) {  
-		   // Jika ID siswa belum ada, masukkan data baru  
-		   $data = array(  
-			 'foto' => $foto,  
-			 'nisn' => $nisn,  
-			 'nama_siswa' => $nama_siswa,  
-			 'gender' => $gender,  
-	 'id_kelas' => $get_id_by_jurusan 
-		   );  
-		   $this->m_model->tambah_data('siswa', $data);  
-		 } else {  
-		   // Jika ID siswa sudah ada, lakukan tindakan yang sesuai 
-		   // Misalnya, Anda bisa memperbarui data yang sudah ada  
-		   $data = array(  
-			 'foto' => $foto,  
-			 'nisn' => $nisn,  
-			 'nama_siswa' => $nama_siswa,  
-			 'gender' => $gender,  
-	 'id_kelas' => $get_id_by_jurusan 
-		   );  
-		   $this->m_model->ubah_data('siswa', $data, array('id_siswa' => $get_id_by_nisn));  
-		 }  
-	   }  
-	 }  
-	 redirect(base_url('admin/datasiswa'));  
-   } else {  
-	 echo 'Invalid File';  
-   }  
- }
-
+	public function import()
+    {
+        if (isset($_FILES['file']['name'])) {
+            $path = $_FILES['file']['tmp_name'];
+            $object = PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+            foreach ($object->getWorksheetIterator() as $worksheet) {
+                $highestRow = $worksheet->getHighestRow();
+                $highestColumn = $worksheet->getHighestColumn();
+                for ($row = 2; $row <= $highestRow; $row++) {
+                    $id_siswa = $worksheet
+                        ->getCellByColumnAndRow(1, $row)
+                        ->getValue();
+                    $nama_siswa = $worksheet
+                        ->getCellByColumnAndRow(2, $row)
+                        ->getValue();
+                    $nisn = $worksheet
+                        ->getCellByColumnAndRow(3, $row)
+                        ->getValue();
+                    $gender = $worksheet
+                        ->getCellByColumnAndRow(4, $row)
+                        ->getValue();
+                    $kelas = $worksheet
+                        ->getCellByColumnAndRow(5, $row)
+                        ->getValue();
+    
+                    list($tingkat_kelas, $jurusan_kelas) = explode(
+                        ' ',
+                        $kelas,
+                        2
+                    );
+    
+                    $id_kelas = $this->m_model->getKelasByTingkatJurusan(
+                        $tingkat_kelas,
+                        $jurusan_kelas
+                    );
+    
+                    if ($id_kelas) {
+                        $file_name = 'User.png';
+    
+                        if (isset($_FILES['foto']['name']) && !empty($_FILES['foto']['name'])) {
+                            $file_name = $_FILES['foto']['name'];
+                            $file_temp = $_FILES['foto']['tmp_name'];
+                            $kode = round(microtime(true) * 1000);
+                            $file_name = $kode . '_' . $file_name;
+                            $upload_path = './images/siswa/' . $file_name;
+    
+                            if (move_uploaded_file($file_temp, $upload_path)) {
+                            } else {
+                                $file_name = 'User.png';
+                            }
+                        }
+    
+                        $data = [
+                            'nama_siswa' => $nama_siswa,
+                            'nisn' => $nisn,
+                            'gender' => $gender,
+                            'id_kelas' => $id_kelas,
+                            'foto' => $file_name,
+                        ];
+    
+                        $this->m_model->tambah_data('siswa', $data);
+    
+                        $siswa_exist = $this->m_model->get_by_nisn($nisn);
+                    }
+                }
+            }
+            redirect(base_url('admin/siswa'));
+        } else {
+            echo 'Invalid File';
+        }
+    }
 	
 	public function aksi_tambah_siswa()
 	{
