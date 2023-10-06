@@ -67,89 +67,73 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <a href="<?php echo base_url('admin') ?>">
-                    <i class="fas fa-chart-line mr-2"></i> Dashboard
-                </a>
-                <a href="<?php echo base_url('admin/siswa') ?>">
-                    <i class="fas fa-user mr-2"></i> Siswa
-                </a>
                 <a href="<?php echo base_url('admin/guru') ?>">
-                    <i class="fas fa-users mr-2"></i> Guru
-                </a>
-                <a href="<?php echo base_url('admin/akun') ?>">
-                    <i class="fas fa-chalkboard mr-2"></i> Akun
+                    <i class="fas fa-arrow-left mr-2"></i> Back
                 </a>
 
-                <a type="button" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
-                </a>
             </div>
 
             <div id="content" role="main">
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex justify-content-between align-items-center">
-                        <h1>Ubah Akun</h1>
+                        <h1>Ubah Guru</h1>
 
                     </div>
                 </div>
 
                 <div class="card mb-4 shadow">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3>Akun <?php echo $this->session->userdata('username')?></h3>
-                        </div>
 
-
-                        <?php foreach ($user as $users): ?>
-
-                        <form action="<?php echo base_url('admin/aksi_ubah_akun')?>" method="post"
-                            enctype="multipart/from-data">
-                            <input name="id" type="hidden" value="<?php echo $users->id ?>">
+                        <?php foreach ($guru as $data_guru): ?>
+                        <form action="<?php echo base_url('admin/aksi_ubah_guru') ?>" enctype="multipart/form-data"
+                            method="POST">
+                            <input name="id" type="hidden" value="<?php echo $data_guru->id ?>">
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Masukkan Email Anda" value="<?php echo $users->email ?>"
+                                        <label for="nama">Nama Guru</label>
+                                        <input type="text" class="form-control" id="nama" name="nama"
+                                            placeholder="Nama Guru" value="<?php echo $data_guru->nama_guru ?>"
                                             required>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username"
-                                            placeholder="Masukkan Username Anda" value="<?php echo $users->username ?>"
-                                            required>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="passwordbaru">Password Baru</label>
-                                        <input type="password" class="form-control" id="passwordbaru"
-                                            name="passwordbaru" placeholder="Masukkan Password Baru Anda">
+                                        <label for="nisn">NISN</label>
+                                        <input type="text" class="form-control" id="nik" name="nisn"
+                                            placeholder="Masukkan NISN" value="<?php echo $data_guru->nik ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="konfirmasi_password">Konfirmasi Password</label>
-                                        <input type="konfirmasi_password" class="form-control" id="konfirmasi_password"
-                                            name="konfirmasi_password" placeholder="Masukkan Password Anda">
+                                        <label for="gender">Gender</label>
+                                        <select class="form-control" id="gender" name="gender" required>
+                                            <option selected value="<?php echo $data_guru->gender ?>">
+                                                <?php echo $data_guru->gender ?>
+                                            </option>
+                                            <option value="Laki-laki">Laki-laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
                                     </div>
+                                    <label for="mapel">Mapel</label>
+                                    <select class="form-control" id="mapel" name="mapel" required>
+                                        <option selected value="<?php $data_guru->id_mapel ?>">
+                                            <?php echo tampil_full_mapel_byid($data_guru->id_mapel) ?>
+                                        </option>
+                                        <?php foreach ($mapel as $row): ?>
+                                        <option value="<?php echo $row->id ?>">
+                                            <?php echo $row->nama_mapel ?>
+                                        </option>
+                                        <?php endforeach ?>
+                                    </select>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
-
-
                         <?php endforeach ?>
                     </div>
                 </div>
             </div>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
         <!-- SweetAlert untuk berhasil mengubah siswa -->

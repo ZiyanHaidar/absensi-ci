@@ -10,6 +10,7 @@
     <style>
     body {
         display: flex;
+
         margin: 0;
         min-height: 100vh;
         background-color: #61677A;
@@ -84,31 +85,19 @@
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
             </div>
-
             <div id="content" role="main">
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex justify-content-between align-items-center">
-                        <h1>Siswa</h1>
+                        <h1>Guru</h1>
 
                     </div>
                 </div>
 
                 <div class="card mb-4 shadow">
                     <div class="card-body">
-                        <a href="<?php echo base_url('admin/export') ?>" class="btn btn-success m-2">Export</a>
-
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">Daftar Siswa</h5>
-                            <form action="<?= base_url('admin/import') ?>" method="POST" enctype="multipart/form-data">
-                                <div class="my-4">
-                                    <input type="file" name="file" class="w-full py-2 px-3 border border-gray-300">
-
-                                    <button type="submit" name="import" class="btn btn-warning m-2">
-                                        Import
-                                    </button>
-                                </div>
-                            </form>
-                            <a href="<?php echo base_url('admin/tambah_siswa') ?>" class="btn btn-success m-2">
+                            <h5 class="card-title">Daftar Guru</h5>
+                            <a href="<?php echo base_url('admin/tambah_guru') ?>" class="btn btn-success m-2">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         </div>
@@ -117,54 +106,44 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Foto Siswa</th>
-                                        <th>Nama Siswa</th>
+                                        <th>Nama Guru</th>
                                         <th>NISN</th>
                                         <th>Gender</th>
-                                        <th>Kelas</th>
+                                        <th>Mapel</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $no = 0;
-                            foreach ($siswa as $row):
-                                $no++ ?>
-                                    <!-- Data Siswa -->
+                                    foreach ($guru as $row):
+                                        $no++ ?>
                                     <tr>
                                         <td>
                                             <?php echo $no ?>
                                         </td>
                                         <td>
-                                            <img src="<?php echo base_url('images/siswa/'.$row->foto) ?>" width="100"
-                                                height="100" alt="Foto Siswa">
+                                            <?php echo $row->nama_guru?>
                                         </td>
                                         <td>
-                                            <?php echo $row->nama_siswa ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $row->nisn ?>
+                                            <?php echo $row->nik ?>
                                         </td>
                                         <td>
                                             <?php echo $row->gender ?>
                                         </td>
                                         <td>
-                                            <?php echo tampil_full_kelas_byid($row->id_kelas) ?>
+                                            <?php echo tampil_full_mapel_byid($row->id_mapel) ?>
                                         </td>
                                         <td class="text-center">
-                                            <a href="<?php echo base_url('admin/ubah_siswa/') . $row->id_siswa ?>"
+
+                                            <a href="<?php echo base_url('admin/ubah_guru/') . $row->id ?>"
                                                 class="btn btn-primary">
                                                 <i class="fas fa-edit"></i> Ubah
                                             </a>
-                                            <button onClick="hapus(<?php echo $row->id_siswa; ?>)"
-                                                class="btn btn-danger">
+                                            <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i> Hapus
                                             </button>
-
                                         </td>
-
-
                                     </tr>
-                                    <!-- Tambahkan baris data siswa lainnya sesuai kebutuhan -->
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
@@ -187,7 +166,7 @@
             confirmButtonText: 'Ya, Hapus!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('admin/hapus_siswa/') ?>" + id;
+                window.location.href = "<?php echo base_url('admin/hapus_guru/') ?>" + id;
             }
         });
     }

@@ -74,6 +74,9 @@
                 <a href="<?php echo base_url('admin/siswa') ?>">
                     <i class="fas fa-user mr-2"></i> Siswa
                 </a>
+                <a href="<?php echo base_url('admin/guru') ?>">
+                    <i class="fas fa-users mr-2"></i> Guru
+                </a>
                 <a href="<?php echo base_url('admin/akun') ?>">
                     <i class="fas fa-chalkboard mr-2"></i> Akun
                 </a>
