@@ -6,12 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-    .background {
-        background-image: url(https://foto.data.kemdikbud.go.id/getImage/20328986/12.jpg);
-        background-size: cover;
-
-    }
-
     .ddd {
         text-align: center;
         color: yellow;
@@ -43,6 +37,7 @@
         font-size: 10px;
         border: none;
         cursor: pointer;
+
     }
 
     .login-butto {
@@ -56,7 +51,7 @@
         font-size: 10px;
         border: none;
         cursor: pointer;
-        width: 120px;
+
     }
 
     .login-button:hover {
@@ -71,21 +66,15 @@
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
-<body class="background">
-    <h3 class="ddd">ASIS</h3>
-    <div class="container">
-        <div class="centered">
-            <h1>Sistem Informasi Sekolah</h1>
-            <center>
-                <img src="https://binusasmg.sch.id/ppdb/logobinusa.png" width="300px" height="250px">
-            </center>
-            <br>
-            <h3>SMK Bina Nusantara Semarang</h3>
-            <a href="" target="_blank" class="login-button">PERPUSTAKAAN</a>
-            </a>
-            <a href="./auth" class="login-butto">LOGIN</a>
-        </div>
+<body>
+    <div class="card mt-5 w-50 justify-content-center mx-auto">
+        <h1 class="text-center">Welcome</h1>
+        <a href="auth/register" class="login-button">REGISTER</a>
     </div>
+    <div class="card mt-5 w-50 justify-content-center mx-auto">
+        <a href="./auth" class="login-butto">LOGIN</a>
+    </div>
+
 
 </body>
 
