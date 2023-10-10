@@ -150,7 +150,7 @@
         <div class="container">
             <div class="card">
                 <h5 class="card-header mx-auto">Registrasi</h5>
-                <form action="<?php echo base_url('auth/aksi_register'); ?>" method="post">
+                <form action="<?php echo base_url('auth/aksi_registerr'); ?>" method="post">
                     <label for="username">Username</label>
                     <input type="text" id="username" placeholder="Masukkan username" class="form-control"
                         name="username" class="block mb-2 text-sm" required>
@@ -176,8 +176,8 @@
                     <input type="file" class="form-control" id="image" name="image">
                     <label for="role">Role</label>
                     <select id="role" name="role" class="form-control" required>
+                        <option value="admin">Admin</option>
 
-                        <option value="karyawan">karyawan</option>
                     </select>
                     <button type="submit" class="btn btn-primary text-bg-info">Register</button>
                 </form>

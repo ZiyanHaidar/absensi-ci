@@ -58,7 +58,10 @@
                             <button type="submit" class="btn btn-primary text-bg-info">Login</button>
 
                             <p style="text-align: center; margin-top: 10px;">
-                                Belum punya akun? </p><a href="./register" class="login-button">Register</a>
+                                Belum punya akun? <a href="<?php echo base_url('auth/register'); ?>"
+                                    class="login-button">Register Karyawan</a><a
+                                    href="<?php echo base_url('auth/registerr'); ?>" class="login-button">Register
+                                    Admin</a></p>
                 </form>
             </div>
         </div>
