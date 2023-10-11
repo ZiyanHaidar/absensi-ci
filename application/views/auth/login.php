@@ -2,72 +2,77 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <style>
-    .login-button {
-        display: inline-block;
-        padding: 15px 30px;
-        background-color: #FFA500;
-        /* Warna latar belakang */
-        color: #fff;
-        /* Warna teks */
-        border-radius: 10px;
-        /* Sudut-sudut melengkung */
-        text-decoration: none;
-        text-align: center;
-        font-size: 10px;
-        border: none;
-        cursor: pointer;
+    .body {
+        height: 100vh;
+        margin: 0;
     }
 
-    .login-button:hover {
+    .card {
+        border-radius: 15px;
+        background-color: #CDFAD5;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+        font-size: 2rem;
+        color: #FFA500;
+    }
+
+    .btn-warning {
+        background-color: #FFA500;
+        border-color: #FFA500;
+    }
+
+    .btn-warning:hover {
         background-color: #FFD700;
+        border-color: #FFD700;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .form-control-sm {
+        height: 30px;
     }
     </style>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
-<body class="body">
-    <div class="container ">
 
-        <div class="card mt-5 w-50 justify-content-center mx-auto">
-
-            <h5 class="card-header mx-auto">Login</h5>
-            <div class="card-body">
-                <form action="<?php echo base_url(); ?>auth/aksi_login" method="post" class="space-y-12">
-                    <div class="mb-3">
-                        <label for="email" class="block mb-2 text-sm">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Input your email"
-                            aria-describedby="emailHelp">
-                        <br>
-                        <div class="flex justify-between mb-2">
-                            <label for="password" class="text-sm">Password</label>
-                            <input type="password" class="form-control" name="password" id="password"
-                                placeholder="Input your password" autocomplete="off">
-
-                        </div>
-
-                        <div class="d-grid gap-2 col-6 mx-auto">
-
-                            <button type="submit" class="btn btn-primary text-bg-info">Login</button>
-
-                            <p style="text-align: center; margin-top: 10px;">
-                                Belum punya akun? <a href="<?php echo base_url('auth/register'); ?>"
-                                    class="login-button">Register Karyawan</a><a
-                                    href="<?php echo base_url('auth/registerr'); ?>" class="login-button">Register
-                                    Admin</a></p>
-                </form>
+<body class="body d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="card p-4 text-center">
+            <h5 class="card-header text-center card-title mb-4">Login</h5>
+            <form action="<?php echo base_url(); ?>auth/aksi_login" method="post">
+                <div class="mb-3">
+                    <input type="email" class="form-control form-control-sm" name="email" id="email"
+                        placeholder="Masukan Email Anda" autocomplete="on" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control form-control-sm" name="password" id="password"
+                        placeholder="Masukan Password Anda" autocomplete="off" required>
+                </div>
+                <button type="submit" class="btn btn-warning btn-block">Login</button>
+            </form>
+            <div class="mt-3">
+                <p>Belum punya akun?</p>
+                <a href="<?php echo base_url('auth/register'); ?>" class="btn btn-success me-2">Register Karyawan</a>
+                <a href="<?php echo base_url('auth/register_admin'); ?>" class="btn btn-danger">Register Admin</a>
             </div>
         </div>
     </div>
-    </div>
-
 </body>
 
 </html>

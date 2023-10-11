@@ -8,133 +8,48 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-    body {
-        top: 0;
-        left: 0;
-        margin: 0;
-        padding: 0;
-        font-family: 'Montserrat', sans-serif;
-    }
-
-
-
-    .full-bg {
-        background-image: url(https://c4.wallpaperflare.com/wallpaper/700/96/937/space-stars-lights-star-wallpaper-preview.jpg);
-        background-position: center center;
-        background-size: cover;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100vw;
-        z-index: -99;
-        transition: all 0.3s ease-in;
-    }
-
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-
     .card {
-        width: 350px;
-        background-color: rgba(255, 255, 255, 0.3);
         border-radius: 15px;
-        padding: 40px;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: #CDFAD5;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
-    h2 {
-        color: #111;
-        text-align: center;
+    .card-header {
+        border-radius: 15px 15px 0 0;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-success:hover,
+    .btn-info:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .form-group {
         margin-bottom: 20px;
     }
 
-    form {
-        display: flex;
-        flex-direction: column;
+    .text-danger {
+        font-size: 14px;
     }
 
-    label {
-        color: #111;
-        margin-bottom: 5px;
+    .card-title {
+        font-size: 2rem;
+        color: #FFA500;
     }
 
-    input,
-    select,
-    option {
-        padding: 10px;
-        margin-bottom: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    button {
-        padding: 10px;
-        background-color: #fff;
-        color: #498ffc;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #70c1ff;
-    }
-
-    @media (max-width: 480px) {
-        .card {
-            width: 100%;
-            max-width: 350px;
-        }
-    }
-
-    a {
-        color: #498ffc;
-        /* Warna teks tautan */
-        text-decoration: none;
-        /* Menghilangkan garis bawah tautan */
-        font-weight: bold;
-        /* Ketebalan teks tautan */
-    }
-
-    a:hover {
-        color: #70c1ff;
-        /* Warna teks tautan saat dihover */
-    }
-
-    .login-link a {
-        color: #498ffc;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .login-link a:hover {
-        color: #70c1ff;
-    }
-
-    .login-button {
-        display: inline-block;
-        padding: 15px 30px;
-        background-color: #FFA500;
-        /* Warna latar belakang */
-        color: #fff;
-        /* Warna teks */
-        border-radius: 10px;
-        /* Sudut-sudut melengkung */
-        text-decoration: none;
-        text-align: center;
-        font-size: 10px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .login-button:hover {
-        background-color: #FFD700;
+    .form-control-sm {
+        height: 30px;
     }
     </style>
 </head>
@@ -149,43 +64,52 @@
     <body>
         <div class="container">
             <div class="card">
-                <h5 class="card-header mx-auto">Registrasi</h5>
+                <h5 class="card-header text-center card-title mb-4">Registrasi Karyawan</h5>
                 <form action="<?php echo base_url('auth/aksi_register'); ?>" method="post">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="Masukkan username" class="form-control"
-                        name="username" class="block mb-2 text-sm" required>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control form-control-sm"
+                            placeholder="Masukkan username" class="form-control" name="username"
+                            class="block mb-2 text-sm" required>
+                    </div>
 
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Masukkan email Anda" class="form-control" name="email"
-                        class="block mb-2 text-sm" required>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control form-control-sm"
+                            placeholder="Masukkan email Anda" class="form-control" name="email"
+                            class="block mb-2 text-sm" required>
+                    </div>
 
-                    <label for="nama_depan">Nama Depan</label>
-                    <input type="text" id="nama_depan" placeholder="Masukkan nama depan Anda" class="form-control"
-                        name="nama_depan" class="block mb-2 text-sm" required>
+                    <div class="form-group">
+                        <label for="nama_depan">Nama Depan</label>
+                        <input type="text" id="nama_depan" class="form-control form-control-sm"
+                            placeholder="Masukkan nama depan Anda" class="form-control" name="nama_depan"
+                            class="block mb-2 text-sm" required>
+                    </div>
 
-                    <label for="nama_belakang">Nama Belakang</label>
-                    <input type="text" id="nama_belakang" placeholder="Masukkan nama belakang Anda" class="form-control"
-                        name="nama_belakang" class="block mb-2 text-sm" required>
+                    <div class="form-group">
+                        <label for="nama_belakang">Nama Belakang</label>
+                        <input type="text" id="nama_belakang" class="form-control form-control-sm"
+                            placeholder="Masukkan nama belakang Anda" class="form-control" name="nama_belakang"
+                            class="block mb-2 text-sm" required>
+                    </div>
 
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Masukkan kata sandi Anda" class="form-control"
-                        name="password" class="block mb-2 text-sm" required>
-                    <small style="color:red">Kata sandi minimal harus 8 karakter!</small>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" minlength="8"
+                            class="form-control form-control-sm" placeholder="Masukkan kata sandi Anda"
+                            class="form-control" name="password" required>
+                        <small class="text-danger">Kata sandi minimal harus 8 karakter!</small>
+                    </div>
 
-                    <label for="image">Profil</label>
-                    <input type="file" class="form-control" id="image" name="image">
-                    <label for="role">Role</label>
-                    <select id="role" name="role" class="form-control" required>
 
-                        <option value="karyawan">karyawan</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary text-bg-info">Register</button>
+                    <button type="submit" class="btn btn-warning btn-block ">Register</button>
                 </form>
-                <p style="text-align: center; margin-top: 10px;">
-                    Sudah punya akun? <a href="<?php echo base_url('auth'); ?>" class="login-button">Login</a></p>
-
+                <p class="text-center mt-3">Sudah punya akun? <a href="<?php echo base_url('auth'); ?>"
+                        class="btn btn-info btn-sm">Login</a></p>
             </div>
         </div>
+
 
     </body>
 
