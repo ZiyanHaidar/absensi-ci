@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Riwayat Absen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
@@ -69,7 +69,7 @@
         border: 1px solid #ccc;
         background-color: #f9f9f9;
         border-radius: 5px;
-
+        margin: 10px;
     }
 
     .profile-details {
@@ -138,7 +138,7 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
-                        <h1>Dashboard</h1>
+                        <h1>History</h1>
                         <div class="profile-details">
                             <div class="profile-content">
                                 <?php
@@ -165,51 +165,48 @@
                 </div>
 
                 <!-- Role Karyawan - History Absen -->
-                <div class="card mb-4 shadow" style="background-color:#fff">
+                <div class="card mb-4 shadow">
+
+
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
-
                             <thead class="table-dark">
-                                <tr>
+                                <tr class="text-center">
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Kegiatan</th>
+                                    <th>Tanggal</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Pulang</th>
-
                                     <th>Status</th>
-
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no = 0;
-                                    foreach ($absensi as $row):
-                                        $no++ ?>
-                                <tr>
+                                <?php $no=0; foreach($absensi as $row): $no++ ?>
+                                <tr class="text-center">
+                                    <td><?php echo $no ?></td>
+                                    <td><?php echo $row->tanggal ?></td>
+                                    <td><?php echo $row->jam_masuk ?></td>
+                                    <td><?php echo $row->jam_pulang ?></td>
+                                    <td><?php echo $row->status ?></td>
                                     <td>
-                                        <?php echo $no ?>
+                                        <?php if ($row->status == 'done'): ?>
+                                        Izin
+                                        <?php else: ?>
+                                        <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>"
+                                            class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>"><i
+                                                class="fas fa-house-user"></i>Pulang</a>
+                                        <a href="<?php echo base_url('karyawan/ubah_history/') . $row->id ?>"
+                                            class="btn btn-primary">
+                                            <i class="fas fa-edit"></i> Ubah
+                                        </a>
+                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                        <?php endif; ?>
                                     </td>
-                                    <td>
-                                        <?php echo tampil_full_nama_byid($row->id_karyawan) ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row->kegiatan ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row->jam_masuk ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row->jam_pulang ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo $row->status?>
-                                    </td>
-
                                 </tr>
-                                <?php endforeach ?>
-
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -220,6 +217,62 @@
 
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+    function hapus(id) {
+        Swal.fire({
+            title: 'Yakin DI Hapus?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?php echo base_url('karyawan/hapus_history/') ?>" + id;
+            }
+        });
+    }
+    </script>
+    <?php if ($this->session->flashdata('success')): ?>
+    <script>
+    Swal.fire({
+        icon: 'success',
+        title: '<?= $this->session->flashdata('success') ?>',
+        showConfirmButton: false,
+        timer: 1500
+    });
+    </script>
+    <?php endif; ?>
+    <!-- Bootstrap CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+    <?php foreach ($absensi as $row): ?>
+    var absenId = <?php echo $row->id; ?>;
+    var status = '<?php echo $row->status; ?>';
+    disablePulangButton(absenId, status);
+    <?php endforeach; ?>
+
+    function showSweetAlert(message) {
+        Swal.fire({
+            icon: 'info',
+            text: message,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function disablePulangButton(absenId, status) {
+        var pulangButton = document.getElementById("pulangButton_" + absenId);
+        if (status === 'pulang') {
+            pulangButton.classList.add("disabled");
+            pulangButton.removeAttribute("href");
+        }
+    }
+    </script>
     <script>
     // Mengambil nilai jumlah masuk dan jumlah izin dari PHP dan menampilkannya dalam elemen HTML
     const jumlahMasukElement = document.getElementById('jumlahMasuk');
@@ -248,7 +301,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('/') ?>";
+                window.location.href = "<?php echo base_url('auth') ?>";
             }
         });
     }

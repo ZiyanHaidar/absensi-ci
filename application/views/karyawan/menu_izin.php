@@ -63,40 +63,34 @@
         }
     }
 
-    .absen-form {
-        background-color: #ffffff;
+
+
+    .container {
         padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     }
 
-    .absen-form textarea {
+    .form-container {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .form-container h1 {
+        text-align: center;
+    }
+
+    .form-container label {
+        font-weight: bold;
+    }
+
+    .form-container textarea {
         width: 100%;
-        height: 100px;
-        margin-bottom: 10px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
     }
 
-    .absen-form button {
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .absen-form button:hover {
-        background-color: #45a049;
-    }
-
-    .card.absensi-card {
-        margin-left: auto;
-        margin-right: auto;
+    .form-container button {
+        display: block;
+        margin: 0 auto;
     }
 
     .profile-details {
@@ -165,7 +159,7 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
-                        <h1>Absensi</h1>
+                        <h1>Izin/cuti</h1>
                         <div class="profile-details">
                             <div class="profile-content">
                                 <?php
@@ -194,75 +188,55 @@
                     <div class="d-flex justify-content-between">
                         <div class="col-md-6 mb-10">
                             <div class="card shadow bg-D8D9DA text-black shadow border-15 rounded ">
-                                <div class="card-body d-flex flex-column align-items-center">
-
-                                    <div class="card-body d-flex align-items-center justify-content-between">
-                                        <h2 class="mt-4">Menu Absen</h2>
+                                <form action="<?= base_url('karyawan/menu_izin'); ?>" method="post">
+                                    <div class="mb-3">
+                                        <label for="keterangan">
+                                            <h2>Keterangan Izin/Cuti</h2>
+                                        </label>
+                                        <textarea class="form-control" id="keterangan" name="keterangan" rows="4"
+                                            required></textarea>
                                     </div>
-
-                                    <form action="<?= base_url('karyawan/menu_absen'); ?>" method="post" class="mt-3">
-                                        <div class="mb-5">
-                                            <label for="kegiatan" class="form-label">Kegiatan</label>
-                                            <textarea class="form-control" id="kegiatan" name="kegiatan" rows="5"
-                                                required></textarea>
-
-                                            <button type="submit" class="btn btn-primary">Absen</button>
-                                    </form>
-                                </div>
+                                    <button type="submit" class="btn btn-primary">Ajukan Izin</button>
+                                </form>
                             </div>
                         </div>
-                        <!-- Tambahkan tautan ke SweetAlert JS -->
-                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.2.7/dist/sweetalert2.min.js">
-                        </script>
-                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-                        </script>
-                        <script src="path/to/your/custom.js"></script>
-                        <!-- Tambahkan script JavaScript untuk SweetAlert -->
-                        <script>
-                        <?php if ($this->session->flashdata('success')) : ?>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: '<?= $this->session->flashdata('success') ?>'
-                        });
-                        <?php endif; ?>
-                        </script>
-
-
-
-
-                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                        <!-- LOGOUT -->
-                        <script>
-                        function confirmLogout() {
-                            Swal.fire({
-                                title: 'Yakin mau LogOut?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Ya',
-                                cancelButtonText: 'Batal'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = "<?php echo base_url('auth') ?>";
-                                }
-                            });
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+                </script>
+                <script src="path/to/your/custom.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                <!-- LOGOUT -->
+                <script>
+                function confirmLogout() {
+                    Swal.fire({
+                        title: 'Yakin mau LogOut?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "<?php echo base_url('auth') ?>";
                         }
-                        </script>
-                        <script>
-                        function toggleSidebar() {
-                            var sidebar = document.getElementById("sidebar");
-                            var content = document.getElementById("content");
-                            sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                            content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-                        }
-                        </script>
-                        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-                        </script>
-                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
-                        </script>
+                    });
+                }
+                </script>
+                <script>
+                function toggleSidebar() {
+                    var sidebar = document.getElementById("sidebar");
+                    var content = document.getElementById("content");
+                    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+                    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+                }
+                </script>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+                </script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+                </script>
 </body>
 
 </html>
