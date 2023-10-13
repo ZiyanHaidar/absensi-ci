@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Side Navigation Bar</title>
+    <title>Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -178,11 +178,14 @@
                 <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Menu Izin
                 </a>
-
+                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
             </div>
+
             <div id="content" role="main">
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
@@ -194,13 +197,13 @@
 
                 <section class="home-section">
                     <div class="home-content">
-                        >
+
                     </div>
                     <div class="card">
                         <div class="card-body text-center">
                             <?php
-                $profile_image_url = isset($this->session->userdata['image']) ? base_url('images/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                ?>
+                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images/' . $this->session->userdata('image')) : base_url('images/user/User.png');
+                            ?>
                             <img src="<?php echo $profile_image_url; ?>" alt="profileImg" class="rounded-circle">
                             <h5 class="card-title">
                                 <?php echo $this->session->userdata('username'); ?>
@@ -210,12 +213,17 @@
                             </p>
                             <p class="card-text">***********</p>
                             <!-- Tampilkan tanda bintang atau karakter lain sebagai ganti password -->
+                            <!-- Tambahkan tombol "Ubah" pada halaman profil -->
+                            <a href="<?php echo base_url('') ?>" class="btn btn-primary">Edit
+                                Profile</a>
+
                         </div>
                     </div>
             </div>
         </div>
 
         </section>
+
 
 
         <script>
@@ -235,38 +243,6 @@
             sidebar.classList.toggle("close");
         });
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <!-- LOGOUT -->
-        <script>
-        function confirmLogout() {
-            Swal.fire({
-                title: 'Yakin mau LogOut?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "<?php echo base_url('auth') ?>";
-                }
-            });
-        }
-        </script>
-        <script>
-        // Mengambil nilai jumlah masuk dan jumlah izin dari PHP dan menampilkannya dalam elemen HTML
-        const jumlahMasukElement = document.getElementById('jumlahMasuk');
-        const jumlahIzinElement = document.getElementById('jumlahIzin');
-        const jumlahTotalElement = document.getElementById('jumlahTotal');
-
-        // Menetapkan nilai yang dihitung ke dalam elemen HTML
-        jumlahMasukElement.textContent = '<?php echo $jumlahMasuk; ?>';
-        jumlahIzinElement.textContent = '<?php echo $jumlahIzin; ?>';
-        jumlahTotalElement.textContent = '<?php echo $jumlahTotal; ?>';
-        </script>
-
-
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <!-- LOGOUT -->

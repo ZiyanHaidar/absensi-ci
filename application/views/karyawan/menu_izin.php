@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Menu Izin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
@@ -149,7 +149,9 @@
                 <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Menu Izin
                 </a>
-
+                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -188,18 +190,20 @@
                     <div class="d-flex justify-content-between">
                         <div class="col-md-6 mb-10">
                             <div class="card shadow bg-D8D9DA text-black shadow border-15 rounded ">
-                                <form action="<?= base_url('karyawan/menu_izin'); ?>" method="post">
-                                    <div class="mb-3">
-                                        <label for="keterangan">
-                                            <h2>Keterangan Izin/Cuti</h2>
-                                        </label>
-                                        <textarea class="form-control" id="keterangan" name="keterangan" rows="4"
-                                            required></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Ajukan Izin</button>
-                                </form>
+                                <div class="card-body">
+                                    <h1>Form Izin Karyawan</h1>
+                                    <form action="<?= base_url('karyawan/menu_izin'); ?>" method="post">
+                                        <div class="mb-3">
+                                            <label for="keterangan">Keterangan Izin</label>
+                                            <textarea class="form-control" id="keterangan" name="keterangan" rows="4"
+                                                required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Ajukan Izin</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">

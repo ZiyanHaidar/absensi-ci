@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Absen</title>
+    <title>History</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
@@ -69,7 +69,7 @@
         border: 1px solid #ccc;
         background-color: #f9f9f9;
         border-radius: 5px;
-        margin: 10px;
+
     }
 
     .profile-details {
@@ -128,7 +128,9 @@
                 <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Menu Izin
                 </a>
-
+                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -165,14 +167,14 @@
                 </div>
 
                 <!-- Role Karyawan - History Absen -->
-                <div class="card mb-4 shadow">
+                <div class="card mb-4 shadow" style="background-color:#fff">
 
 
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead class="table-dark">
-                                <tr class="text-center">
+                                <tr>
                                     <th>No</th>
                                     <th>Tanggal</th>
                                     <th>Jam Masuk</th>
@@ -186,6 +188,7 @@
                                 <tr class="text-center">
                                     <td><?php echo $no ?></td>
                                     <td><?php echo $row->tanggal ?></td>
+
                                     <td><?php echo $row->jam_masuk ?></td>
                                     <td><?php echo $row->jam_pulang ?></td>
                                     <td><?php echo $row->status ?></td>

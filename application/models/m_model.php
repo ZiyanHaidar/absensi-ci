@@ -41,10 +41,10 @@ class M_model extends CI_Model{
         public function addAbsensi($data) {
             // Fungsi ini digunakan untuk menambahkan data absensi.
             // Anda dapat mengisi tanggal dan jam masuk sesuai dengan waktu saat ini.
-            // Anda juga harus mengatur status ke "Not Done".
+            // Anda juga harus mengatur status ke "belum done".
             $data['tanggal'] = date('Y-m-d');
             $data['jam_masuk'] = date('H:i:s');
-            $data['status'] = 'Not Done';
+            $data['status'] = 'Belum Pulang';
         
             // Selanjutnya, masukkan data ini ke tabel "absensi".
             $this->db->insert('absensi', $data);
@@ -54,10 +54,10 @@ class M_model extends CI_Model{
         }
     
         public function setAbsensiPulang($absen_id) {
-            // Fungsi ini digunakan untuk mengisi jam pulang dan mengubah status menjadi "Done".
+            // Fungsi ini digunakan untuk mengisi jam pulang dan mengubah status menjadi "pulang".
             $data = array(
                 'jam_pulang' => date('H:i:s'),
-                'status' => 'Done'
+                'status' => 'pulang'
             );
     
             // Ubah data absensi berdasarkan absen_id.
@@ -72,8 +72,9 @@ class M_model extends CI_Model{
         
             $data = array(
                 'id_karyawan' => $data['id_karyawan'], // Menggunakan data dari parameter
-                'kegiatan' => $data['keterangan'],      // Menggunakan data dari parameter
+                'keterangan_izin' => $data['keterangan'],      // Menggunakan data dari parameter
                 'tanggal' => date('Y-m-d'),
+                'kegiatan' => '-',
                 'jam_masuk' => '-',
                 'jam_pulang' => '-',
                 'status' => 'done'
@@ -82,6 +83,19 @@ class M_model extends CI_Model{
             // Selanjutnya, masukkan data ini ke tabel "absensi".
             $this->db->insert('absensi', $data);
         }
-
+    
+        public function hapusAbsensi($absen_id) {
+            $this->db->where('id', $absen_id);
+            $this->db->delete('absensi');
+        }    
+    
+        public function updateAbsensi($absen_id, $data) {
+            // Perbarui data absensi berdasarkan $absen_id
+            $this->db->where('id', $absen_id);
+            $this->db->update('absensi', $data);
+        }
+        
+        
+    
     
 }

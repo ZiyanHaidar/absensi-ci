@@ -89,7 +89,7 @@ class Karyawan extends CI_Controller
         if ($this->session->userdata('role') === 'karyawan') {
             $user_id = $this->session->userdata('id');
             $this->form_validation->set_rules('keterangan', 'Keterangan Izin', 'required');
-    
+
             if ($this->form_validation->run() == FALSE) {
                 $this->load->view('karyawan/menu_izin');
             } else {
@@ -97,17 +97,18 @@ class Karyawan extends CI_Controller
                     'id_karyawan' => $user_id,
                     'keterangan' => $this->input->post('keterangan'), // Mengambil data dari form input
                 );
-    
+
                 // Memanggil fungsi untuk menambahkan izin
                 $this->m_model->addIzin($data);
-    
+
                 // Redirect ke halaman history_absen
                 redirect('karyawan/history');
             }
         } else {
-            redirect('karyawan/menu_izin');
+            redirect('other_page');
         }
     }
+
     
     
     
@@ -136,42 +137,7 @@ class Karyawan extends CI_Controller
         $this->load->view('karyawan/profile');
     }
 
-    public function edit_profile()
-	{
-		$password_baru = $this->input->post('password_baru');
-		$konfirmasi_password = $this->input->post('konfirmasi_password');
-		$email = $this->input->post('email');
-		$username = $this->input->post('username');
-		$nama_depan = $this->input->post('nama_depan');
-		$nama_belakang = $this->input->post('nama_belakang');
 
-		$data = array(
-			'email' => $email,
-			'username' => $username,
-			'nama_depan' => $nama_depan,
-			'nama_belakang' => $nama_belakang,
-		);
-
-		if (!empty($password_baru)) {
-			if ($password_baru === $konfirmasi_password) {
-				$data['password'] = md5($password_baru);
-			} else {
-				$this->session->set_flashdata('message', 'Password baru dan Konfirmasi password tidak sama');
-				redirect(base_url('karyawan/profile'));
-			}
-		}
-
-		
-
-		$this->session->set_userdata($data);
-		$update_result = $this->m_model->update_data('user', $data, array('id' => $this->session->userdata('id')));
-
-		if ($update_result) {
-			redirect(base_url('karyawan/profile'));
-		} else {
-			redirect(base_url('karyawan/profile'));
-		}
-	}
     
     public function edit_foto()
     {

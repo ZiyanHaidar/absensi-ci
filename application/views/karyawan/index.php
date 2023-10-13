@@ -128,7 +128,9 @@
                 <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Menu Izin
                 </a>
-
+                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -166,7 +168,48 @@
 
                 <!-- Role Karyawan - History Absen -->
                 <div class="card mb-4 shadow" style="background-color:#fff">
-
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <i class="fas fa-briefcase mr-2" style="font-size: 60px;"></i>
+                                    </div>
+                                    <div class="ml-auto">Total Masuk Kerja</div>
+                                    <span style="font-size: 24px;">
+                                        <h2>1</h2>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <i class="fas fa-check mr-2" style="font-size: 60px;"></i>
+                                    </div>
+                                    <div class="ml-auto">Total Izin</div>
+                                    <span style="font-size: 24px;">
+                                        <h2>1</h2>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <i class="fas fa-user-tie mr-2" style="font-size: 60px;"></i>
+                                        <p class="m-0"></p>
+                                    </div>
+                                    <div class="ml-auto">Total</div>
+                                    <span style="font-size: 24px;">
+                                        <h2>1</h2>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
 
@@ -177,7 +220,7 @@
                                     <th>Kegiatan</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Pulang</th>
-
+                                    <th>Keterangan Izin</th>
                                     <th>Status</th>
 
                                 </tr>
@@ -202,7 +245,7 @@
                                     <td>
                                         <?php echo $row->jam_pulang ?>
                                     </td>
-
+                                    <td><?php echo $row->keterangan_izin ?></td>
                                     <td>
                                         <?php echo $row->status?>
                                     </td>
