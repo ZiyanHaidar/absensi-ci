@@ -191,7 +191,7 @@
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
 
-                        <h1>Profile</h1>
+                        <h1>Ubah Profile</h1>
                     </div>
                 </div>
 
@@ -201,22 +201,40 @@
                     </div>
                     <div class="card">
                         <div class="card-body text-center">
-                            <?php
-                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images' . $this->session->userdata('image')) : base_url('images/user/');
-                            ?>
-                            <img src="<?php echo $profile_image_url; ?>" alt="profileImg" class="rounded-circle">
-                            <h5 class="card-title">
-                                <?php echo $this->session->userdata('username'); ?>
-                            </h5>
-                            <p class="card-text">
-                                <?php echo $this->session->userdata('email'); ?>
-                            </p>
-                            <p class="card-text">***********</p>
-                            <!-- Tampilkan tanda bintang atau karakter lain sebagai ganti password -->
-                            <!-- Tambahkan tombol "Ubah" pada halaman profil -->
-                            <a href="<?php echo base_url('karyawan/edit_profile') ?>" class="btn btn-primary">Ubah
-                                Profile</a>
-
+                            <form action="<?= base_url('karyawan/aksi_edit_profile'); ?>" method="post">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username"
+                                        placeholder="Username Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nama_depan" class="form-label">Nama Depan</label>
+                                    <input type="text" class="form-control" id="nama_depan" name="nama_depan"
+                                        placeholder="Nama Depan Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nama_belakang" class="form-label">Nama Belakang</label>
+                                    <input type="text" class="form-control" id="nama_belakang" name="nama_belakang"
+                                        placeholder="Nama Belakang Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="email@anda.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password_baru" class="form-label">Password Baru</label>
+                                    <input type="password" class="form-control" id="password_baru" name="password_baru"
+                                        placeholder="Masukan Password Baru">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="konfirmasi_password" class="form-label">Konfirmasi Password
+                                        Baru</label>
+                                    <input type="password" class="form-control" id="konfirmasi_password"
+                                        name="konfirmasi_password" placeholder="Konfirmasi Password Baru">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </form>
                         </div>
                     </div>
             </div>

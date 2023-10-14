@@ -116,19 +116,19 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
                 <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
-                <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
-                    Dashboard
+                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tag mr-2"></i>
+                    Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/daftar_karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
+                <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Daftar Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekap_harian') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('karyawan/menu_absen') ?>"><i class="fas fa-calendar-check mr-2"></i>
                     Rekap Harian
                 </a>
-                <a href="<?php echo base_url('admin/rekap_mingguan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('karyawan/history') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
 

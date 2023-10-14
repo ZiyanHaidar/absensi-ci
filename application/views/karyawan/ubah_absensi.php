@@ -201,22 +201,19 @@
                     </div>
                     <div class="card">
                         <div class="card-body text-center">
-                            <?php
-                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images' . $this->session->userdata('image')) : base_url('images/user/');
-                            ?>
-                            <img src="<?php echo $profile_image_url; ?>" alt="profileImg" class="rounded-circle">
-                            <h5 class="card-title">
-                                <?php echo $this->session->userdata('username'); ?>
-                            </h5>
-                            <p class="card-text">
-                                <?php echo $this->session->userdata('email'); ?>
-                            </p>
-                            <p class="card-text">***********</p>
-                            <!-- Tampilkan tanda bintang atau karakter lain sebagai ganti password -->
-                            <!-- Tambahkan tombol "Ubah" pada halaman profil -->
-                            <a href="<?php echo base_url('karyawan/edit_profile') ?>" class="btn btn-primary">Ubah
-                                Profile</a>
-
+                            <form action="<?= base_url('karyawan/ubah_absensi/' . $absen_id); ?>" method="post">
+                                <div class="mb-3">
+                                    <label for="kegiatan" class="form-label">Kegiatan:</label>
+                                    <input type="text" class="form-control" id="kegiatan" name="kegiatan"
+                                        value="<?= $absensi->kegiatan; ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jam_masuk" class="form-label">Jam Masuk:</label>
+                                    <input type="text" class="form-control" id="jam_masuk" name="jam_masuk"
+                                        value="<?= $absensi->jam_masuk; ?>" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </form>
                         </div>
                     </div>
             </div>

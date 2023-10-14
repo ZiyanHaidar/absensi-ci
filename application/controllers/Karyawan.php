@@ -15,20 +15,21 @@ class Karyawan extends CI_Controller
 			redirect(base_url() . 'auth');
 		}
 	}
-	public function upload_img($value)
+	public function upload_image($field_name)
     {
-        $kode = round(microtime(true) * 1000);
-        $config['upload_path'] = './images/';
+        $config['upload_path'] = './images/user/';
         $config['allowed_types'] = 'jpg|png|jpeg';
-        $config['max_size'] = '3000';
-        $config['fle_name'] = $kode;
-        $this->upload->initialize($config);
-        if (!$this->upload->do_upload($value)) {
-            return [false, ''];
+        $config['max_size'] = 30000;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload($field_name)) {
+            $error = array('error' => $this->upload->display_errors());
+            return array(false, $error);
         } else {
-            $fn = $this->upload->data();
-            $nama = $fn['file_name'];
-            return [true, $nama];
+            $data = $this->upload->data();
+            $file_name = $data['file_name'];
+            return array(true, $file_name);
         }
     }
 //karyawan
@@ -38,6 +39,12 @@ class Karyawan extends CI_Controller
         $data['users'] = $this->m_model->get_data('users')->result();
         $data['absensi'] = $this->m_model->get_data('absensi')->result();
         $this->load->view('karyawan/index', $data);
+	}
+	public function edit_profile()
+	{
+		
+        $data['users'] = $this->m_model->get_data('users')->result();
+              $this->load->view('karyawan/edit_profile', $data);
 	}
 	
 
@@ -105,13 +112,10 @@ class Karyawan extends CI_Controller
                 redirect('karyawan/history');
             }
         } else {
-            redirect('other_page');
+            redirect('karyawan/menu_izin');
         }
     }
 
-    
-    
-    
     public function pulang($absen_id) {
         if ($this->session->userdata('role') === 'karyawan') {
             $this->m_model->setAbsensiPulang($absen_id);
@@ -132,9 +136,9 @@ class Karyawan extends CI_Controller
 		$this->session->set_flashdata('success', 'History berhasil dihapus!');
 		redirect(base_url('karyawan/history'));
 	}
-	public function profile()
-    {
-        $this->load->view('karyawan/profile');
+	public function profile() {
+        $data['users'] = $this->m_model->get_by_id('users', 'id', $this->session->userdata('id'));
+        $this->load->view('karyawan/profile', $data);
     }
 
 
@@ -167,6 +171,120 @@ class Karyawan extends CI_Controller
         } else {
             $error = array('error' => $this->upload->display_errors());
             // Tangani kesalahan unggah gambar
+        }
+    }
+    public function ubah_absensi($absen_id) {
+        if ($this->session->userdata('role') === 'karyawan') {
+            // Mengambil data absensi berdasarkan ID yang diberikan
+            $absensi = $this->m_model->getAbsensiById($absen_id);
+
+            // Periksa apakah data absensi ditemukan
+            if ($absensi) {
+                // Mengecek apakah pengguna mengirimkan formulir perubahan
+                if ($this->input->post()) {
+                    // Lakukan validasi terhadap input
+                    $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
+                    $this->form_validation->set_rules('jam_masuk', 'Jam Masuk', 'required');
+
+                    if ($this->form_validation->run() === TRUE) {
+                        // Dapatkan data input pengguna
+                        $kegiatan = $this->input->post('kegiatan');
+                        $jam_masuk = $this->input->post('jam_masuk');
+
+                        // Lakukan pembaruan data absensi
+                        $data = array(
+                            'kegiatan' => $kegiatan,
+                            'jam_masuk' => $jam_masuk
+                        );
+
+                        $this->m_model->updateAbsensi($absen_id, $data);
+
+                        // Set pesan sukses
+                        $this->session->set_flashdata('success', 'Data absensi berhasil diubah.');
+
+                        // Redirect kembali ke halaman riwayat absen
+                        redirect('karyawan/history');
+                    }
+                }
+
+                $data['absensi'] = $absensi;
+                $data['absen_id'] = $absen_id;
+                $this->load->view('karyawan/ubah_absensi', $data);
+
+            } else {
+                // Data absensi tidak ditemukan, tampilkan pesan error
+                show_error('Data absensi tidak ditemukan.', 404, 'Data Tidak Ditemukan');
+            }
+        } else {
+            // Pengguna bukan karyawan, redirect ke halaman lain
+            redirect('karyawan/ubah_absensi');
+        }
+    }
+    public function aksi_edit_profile()
+    {
+        $image = $this->upload_image('foto');
+        if ($image[0] == false) {
+            $password_baru = $this->input->post('password_baru');
+            $konfirmasi_password = $this->input->post('konfirmasi_password');
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $nama_depan = $this->input->post('nama_depan');
+            $nama_belakang = $this->input->post('nama_belakang');
+            $data = [
+                'image' => 'User.png', // Ganti 'foto' menjadi 'image'
+                'email' => $email,
+                'username' => $username,
+                'nama_depan' => $nama_depan,
+                'nama_belakang' => $nama_belakang,
+            ];
+            
+
+            if (!empty($password_baru)) {
+                if ($password_baru === $konfirmasi_password) {
+                    $data['password'] = md5($password_baru);
+                } else {
+                    $this->session->set_flashdata('message', 'Password baru dan Konfirmasi password harus sama');
+                    redirect(base_url('karyawan/profile'));
+                }
+            }
+            $this->session->set_userdata($data);
+            $update_result = $this->m_model->update('users', $data, ['id' => $this->session->userdata('id')]);
+
+            if ($update_result) {
+                redirect(base_url('karyawan/profile'));
+            } else {
+                redirect(base_url('karyawan/profile'));
+            }
+        } else {
+            $password_baru = $this->input->post('password_baru');
+            $konfirmasi_password = $this->input->post('konfirmasi_password');
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $nama_depan = $this->input->post('nama_depan');
+            $nama_belakang = $this->input->post('nama_belakang');
+            $data = [
+                'foto' => $image[1],
+                'email' => $email,
+                'username' => $username,
+                'nama_depan' => $nama_depan,
+                'nama_belakang' => $nama_belakang,
+            ];
+            if (!empty($password_baru)) {
+                if ($password_baru === konfirmasi_password) {
+                    $data['password'] = md5($password_baru);
+                } else {
+                    $this->session->set_flashdata('message', 'Password baru dan Konfirmasi password harus sama');
+                    redirect(base_url('karyawan/profile'));
+                }
+            }
+            $this->session->set_userdata($data);
+            $update_result = $this->m_model->update('users', $data, ['id' => $this->session->userdata('id')]);
+
+            if ($update_result) {
+                redirect(base_url('karyawan/profile'));
+            } else {
+                redirect(base_url('karyawan/profile'));
+            }
         }
     }
 }

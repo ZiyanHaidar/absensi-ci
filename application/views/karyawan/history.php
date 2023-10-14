@@ -199,7 +199,7 @@
                                         <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>"
                                             class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>"><i
                                                 class="fas fa-house-user"></i>Pulang</a>
-                                        <a href="<?php echo base_url('karyawan/ubah_history/') . $row->id ?>"
+                                        <a href="<?php echo base_url('karyawan/ubah_absensi/') . $row->id ?>"
                                             class="btn btn-primary">
                                             <i class="fas fa-edit"></i> Ubah
                                         </a>
