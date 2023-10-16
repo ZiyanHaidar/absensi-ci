@@ -119,8 +119,8 @@
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/daftar_karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
-                    Daftar Karyawan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
+                    Karyawan
                 </a>
                 <a href="<?php echo base_url('admin/rekap_harian') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
@@ -142,28 +142,7 @@
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
                         <h1>Dashboard</h1>
-                        <div class="profile-details">
-                            <div class="profile-content">
-                                <?php
-                        $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                        ?>
-                                <a href="<?php echo base_url('karyawan/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
 
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
-                                </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
 

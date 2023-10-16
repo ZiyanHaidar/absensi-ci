@@ -227,6 +227,8 @@
                                     <input type="password" class="form-control" id="password_baru" name="password_baru"
                                         placeholder="Masukan Password Baru">
                                 </div>
+                                <small class="text-left" style="color:red">kosongkan jika tidak ingin mengganti
+                                    password</small>
                                 <div class="mb-3">
                                     <label for="konfirmasi_password" class="form-label">Konfirmasi Password
                                         Baru</label>

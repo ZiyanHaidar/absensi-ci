@@ -191,7 +191,6 @@
                         <div class="col-md-6 mb-10">
                             <div class="card shadow bg-D8D9DA text-black shadow border-15 rounded ">
                                 <div class="card-body">
-                                    <h1>Form Izin Karyawan</h1>
                                     <form action="<?= base_url('karyawan/menu_izin'); ?>" method="post">
                                         <div class="mb-3">
                                             <label for="keterangan">Keterangan Izin</label>

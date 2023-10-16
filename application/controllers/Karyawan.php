@@ -141,38 +141,6 @@ class Karyawan extends CI_Controller
         $this->load->view('karyawan/profile', $data);
     }
 
-
-    
-    public function edit_foto()
-    {
-        $config['upload_path'] = './assets/images/user/'; // Lokasi penyimpanan gambar di server
-        $config['allowed_types'] = 'jpg|jpeg|png'; // Tipe file yang diizinkan
-        $config['max_size'] = 5120; // Maksimum ukuran file (dalam KB)
-
-        $this->load->library('upload', $config);
-
-        if ($this->upload->do_upload('userfile')) {
-            $upload_data = $this->upload->data();
-            $file_name = $upload_data['file_name'];
-
-            // Update nama file gambar baru ke dalam database untuk user yang sesuai
-            $user_id = $this->session->userdata('id'); // Ganti ini dengan cara Anda menyimpan ID user yang sedang login
-            $current_image = $this->m_model->get_current_image($user_id); // Dapatkan nama gambar saat ini
-
-            if ($current_image !== 'User.png') {
-                // Hapus gambar saat ini jika bukan 'User.png'
-                unlink('./images/user/' . $current_image);
-            }
-
-            $this->m_model->update_image($user_id, $file_name); // Gantilah 'm_model' dengan model Anda
-
-            // Redirect atau tampilkan pesan keberhasilan
-            redirect('karyawan/profile'); // Gantilah dengan halaman yang sesuai
-        } else {
-            $error = array('error' => $this->upload->display_errors());
-            // Tangani kesalahan unggah gambar
-        }
-    }
     public function ubah_absensi($absen_id) {
         if ($this->session->userdata('role') === 'karyawan') {
             // Mengambil data absensi berdasarkan ID yang diberikan
@@ -222,7 +190,7 @@ class Karyawan extends CI_Controller
     }
     public function aksi_edit_profile()
     {
-        $image = $this->upload_image('foto');
+        
         if ($image[0] == false) {
             $password_baru = $this->input->post('password_baru');
             $konfirmasi_password = $this->input->post('konfirmasi_password');

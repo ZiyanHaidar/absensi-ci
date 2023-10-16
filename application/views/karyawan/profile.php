@@ -202,7 +202,7 @@
                     <div class="card">
                         <div class="card-body text-center">
                             <?php
-                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images' . $this->session->userdata('image')) : base_url('images/user/');
+                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images' . $this->session->userdata('image')) : base_url('images/user/User.png');
                             ?>
                             <img src="<?php echo $profile_image_url; ?>" alt="profileImg" class="rounded-circle">
                             <h5 class="card-title">

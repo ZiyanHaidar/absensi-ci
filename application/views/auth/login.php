@@ -11,11 +11,12 @@
     .body {
         height: 100vh;
         margin: 0;
+        background-color: #1450A3;
     }
 
     .card {
         border-radius: 15px;
-        background-color: #CDFAD5;
+        background-color: #337CCF;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 

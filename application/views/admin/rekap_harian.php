@@ -116,19 +116,19 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
                 <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
-                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tag mr-2"></i>
+                <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
+                    Dashboard
+                </a>
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
                     Karyawan
                 </a>
-                <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
-                    Daftar Karyawan
-                </a>
-                <a href="<?php echo base_url('karyawan/menu_absen') ?>"><i class="fas fa-calendar-check mr-2"></i>
+                <a href="<?php echo base_url('admin/rekap_harian') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
                 </a>
-                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
+                <a href="<?php echo base_url('admin/rekap_mingguan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('karyawan/history') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
 
@@ -141,39 +141,50 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
-                        <h1>Dashboard</h1>
-                        <div class="profile-details">
-                            <div class="profile-content">
-                                <?php
-                        $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                        ?>
-                                <a href="<?php echo base_url('karyawan/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
-
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
-                                </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
-                                </div>
-                            </div>
-
-                        </div>
+                        <h1>Rekap Harian</h1>
                     </div>
                 </div>
 
                 <!-- Role Karyawan - History Absen -->
                 <div class="card mb-4 shadow" style="background-color:#fff">
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-
+                    <!-- Filter Tanggal -->
+                    <form action="<?= base_url('admin/rekap_harian'); ?>" method="get">
+                        <div class="form-group">
+                            <label for="tanggal">
+                                <h5>Pilih Tanggal</h5>
+                            </label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal">
                         </div>
-                    </div>
+                        <button type="submit" class="btn btn-dark my-2">Filter</button>
+                    </form>
+
+                    <!-- Tabel Data Rekap Harian -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Karyawan</th>
+                                <th>Tanggal</th>
+                                <th>Kegiatan</th>
+                                <th>Masuk</th>
+                                <th>Pulang</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($rekap_harian as $rekap): ?>
+                            <tr>
+                                <td><?= $rekap['id']; ?></td>
+                                <td><?= tampil_full_nama_byid($rekap['id_karyawan']) ?></td>
+                                <td><?= $rekap['tanggal']; ?></td>
+                                <td><?= $rekap['kegiatan']; ?></td>
+                                <td><?= $rekap['jam_masuk']; ?></td>
+                                <td><?= $rekap['jam_pulang']; ?></td>
+                                <td><?= $rekap['status']; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
 
 

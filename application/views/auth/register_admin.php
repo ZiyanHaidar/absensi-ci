@@ -8,11 +8,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
+    .body {
+        height: 100vh;
+        margin: 0;
+        background-color: #1450A3;
+    }
+
     .card {
         border-radius: 15px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        background-color: #CDFAD5;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: #337CCF;
     }
 
     .card-header {
@@ -84,7 +89,7 @@
                     <input type="password" name="password" id="password" minlength="8"
                         class="form-control form-control-sm" placeholder="Masukkan kata sandi Anda" class="form-control"
                         name="password" required>
-                    <small class="text-danger">Kata sandi minimal harus 8 karakter!</small>
+                    <small class="text-warning">Kata sandi minimal harus 8 karakter!</small>
                 </div>
 
                 <button type="submit" class="btn btn-warning btn-block ">Register</button>
