@@ -166,19 +166,22 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
                 <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
-                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tag mr-2"></i>
+                <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
+                    Dashboard
+                </a>
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
                     Karyawan
                 </a>
-                <a href="<?php echo base_url('karyawan/history') ?>"><i class="fas fa-file mr-2"></i>
-                    History
+                <a href="<?php echo base_url('admin/rekap_harian') ?>"><i class="fas fa-file mr-2"></i>
+                    Rekap Harian
                 </a>
-                <a href="<?php echo base_url('karyawan/menu_absen') ?>"><i class="fas fa-calendar-check mr-2"></i>
-                    Menu Absen
+                <a href="<?php echo base_url('admin/rekap_mingguan') ?>"><i class="fas fa-file mr-2"></i>
+                    Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
-                    Menu Izin
+                <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
+                    Rekap Bulanan
                 </a>
-                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
+                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
                     Profile
                 </a>
                 <a type="button" onclick="confirmLogout()">
@@ -201,19 +204,22 @@
                     </div>
                     <div class="card">
                         <div class="card-body text-center">
-                            <form action="<?= base_url('karyawan/ubah_absensi/' . $absen_id); ?>" method="post">
-                                <div class="mb-3">
-                                    <label for="kegiatan" class="form-label">Kegiatan:</label>
-                                    <input type="text" class="form-control" id="kegiatan" name="kegiatan"
-                                        value="<?= $absensi->kegiatan; ?>" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="jam_masuk" class="form-label">Jam Masuk:</label>
-                                    <input type="text" class="form-control" id="jam_masuk" name="jam_masuk"
-                                        value="<?= $absensi->jam_masuk; ?>" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            </form>
+                            <?php
+                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images' . $this->session->userdata('image')) : base_url('images/user/User.png');
+                            ?>
+                            <img src="<?php echo $profile_image_url; ?>" alt="profileImg" class="rounded-circle">
+                            <h5 class="card-title">
+                                <?php echo $this->session->userdata('username'); ?>
+                            </h5>
+                            <p class="card-text">
+                                <?php echo $this->session->userdata('email'); ?>
+                            </p>
+                            <p class="card-text">***********</p>
+                            <!-- Tampilkan tanda bintang atau karakter lain sebagai ganti password -->
+                            <!-- Tambahkan tombol "Ubah" pada halaman profil -->
+                            <a href="<?php echo base_url('admin/edit_profile') ?>" class="btn btn-primary">Ubah
+                                Profile</a>
+
                         </div>
                     </div>
             </div>

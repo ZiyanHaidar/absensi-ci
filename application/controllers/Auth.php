@@ -47,7 +47,7 @@ class Auth extends CI_Controller {
 
  function logout() {
   $this->session->sess_destroy(); // Menggunakan sess_destroy() untuk mengakhiri sesi
-  redirect(base_url('auth'));
+  redirect(base_url('./auth'));
  }
  public function register() {
   // Muat tampilan formulir pendaftaran

@@ -131,7 +131,9 @@
                 <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
-
+                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -142,6 +144,28 @@
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
                         <h1>Rekap Bulanan</h1>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <?php
+                                $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
+                                ?>
+                                <a href="<?php echo base_url('admin/profile') ?>">
+                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
+                                </a>
+                            </div>
+
+                            <div class="name-job">
+                                <div class="profile_name">
+                                    <?php echo $this->session->userdata('username'); ?>
+                                </div>
+                                <div class="job">
+                                    <marquee scrolldelay="200">
+                                        <?php echo $_SESSION['email']; ?>
+                                    </marquee>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -167,6 +191,8 @@
                                 <option value="12">Desember</option>
                             </select>
                         </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                            formaction="<?php echo base_url('admin/export_bulanan')?>">Export</button>
                         <button type="submit" class="btn btn-dark my-2">Filter</button>
                     </form>
                     <table class="table">
@@ -239,7 +265,7 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "<?php echo base_url('/') ?>";
+                            window.location.href = "<?php echo base_url('auth') ?>";
                         }
                     });
                 }

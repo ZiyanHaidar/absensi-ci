@@ -201,44 +201,61 @@
                     </div>
                     <div class="card">
                         <div class="card-body text-center">
+
+                            <?php foreach ($users as $users): ?>
+
                             <form action="<?= base_url('karyawan/aksi_edit_profile'); ?>" method="post">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="Username Anda">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nama_depan" class="form-label">Nama Depan</label>
-                                    <input type="text" class="form-control" id="nama_depan" name="nama_depan"
-                                        placeholder="Nama Depan Anda">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nama_belakang" class="form-label">Nama Belakang</label>
-                                    <input type="text" class="form-control" id="nama_belakang" name="nama_belakang"
-                                        placeholder="Nama Belakang Anda">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="email@anda.com">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password_baru" class="form-label">Password Baru</label>
-                                    <input type="password" class="form-control" id="password_baru" name="password_baru"
-                                        placeholder="Masukan Password Baru">
-                                </div>
-                                <small class="text-left" style="color:red">kosongkan jika tidak ingin mengganti
-                                    password</small>
-                                <div class="mb-3">
-                                    <label for="konfirmasi_password" class="form-label">Konfirmasi Password
-                                        Baru</label>
-                                    <input type="password" class="form-control" id="konfirmasi_password"
-                                        name="konfirmasi_password" placeholder="Konfirmasi Password Baru">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </form>
+
+                                <form action="<?php echo base_url('admin/aksi_ubah_akun')?>" method="post"
+                                    enctype="multipart/from-data">
+                                    <input name="id" type="hidden" value="<?php echo $users->id ?>">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Masukkan Email Anda"
+                                                    value="<?php echo $users->email ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input type="text" class="form-control" id="username" name="username"
+                                                    placeholder="Masukkan Username Anda"
+                                                    value="<?php echo $users->username ?>" required>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="passwordbaru">Password Baru</label>
+                                                <input type="password" class="form-control" id="passwordbaru"
+                                                    name="passwordbaru" placeholder="Masukkan Password Baru Anda">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="konfirmasi_password">Konfirmasi Password</label>
+                                                <input type="password" class="form-control" id="konfirmasi_password"
+                                                    name="konfirmasi_password" placeholder="Masukkan Password Anda">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="mb-3 col-12">
+                                        <label for="kelas" class="form-label">Foto</label>
+                                        <input type="file" class="form-control" id="foto" name="foto">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </form>
                         </div>
                     </div>
+                    <?php endforeach ?>
             </div>
         </div>
 
@@ -278,7 +295,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "<?php echo base_url('/') ?>";
+                    window.location.href = "<?php echo base_url('auth') ?>";
                 }
             });
         }

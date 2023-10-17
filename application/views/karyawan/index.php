@@ -177,7 +177,7 @@
                                     </div>
                                     <div class="ml-auto">Total Masuk Kerja</div>
                                     <span style="font-size: 24px;">
-                                        <h2>1</h2>
+                                        <h2> <?php echo $karyawan?></h2>
                                     </span>
                                 </div>
                             </div>
@@ -188,9 +188,9 @@
                                     <div>
                                         <i class="fas fa-check mr-2" style="font-size: 60px;"></i>
                                     </div>
-                                    <div class="ml-auto">Total Izin</div>
+                                    <div class="ml-auto">Total Absen</div>
                                     <span style="font-size: 24px;">
-                                        <h2>1</h2>
+                                        <h2> <?php echo $absen?></h2>
                                     </span>
                                 </div>
                             </div>
@@ -291,7 +291,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('/') ?>";
+                window.location.href = "<?php echo base_url('auth') ?>";
             }
         });
     }

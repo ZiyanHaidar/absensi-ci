@@ -9,6 +9,10 @@ class Admin_model extends CI_Model {
     function get_data($table){
         return $this->db->get($table);
     }
+    public function get_by_id($table, $id_column, $id) { 
+        $data = $this->db->where($id_column, $id)->get($table); 
+        return $data; 
+    }
 
     public function getRekapHarian($tanggal) {
         $this->db->select('absensi.id, absensi.tanggal, absensi.kegiatan, absensi.id_karyawan, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
@@ -84,5 +88,100 @@ class Admin_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+      // get karyawan
+      public function get_karyawan($table)
+      {
+      return $this->db->where('role', 'karyawan')
+                      ->get($table);
+      }
+      public function count_absen() {
+        return $this->db->count_all_results('absensi'); 
+    }
+    public function get_absen_page($limit, $offset)
+    {
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get('absensi');
+        return $query->result();
+    }
+    public function image_user()
+        {
+            $id_karyawan = $this->session->userdata('id');
+            $this->db->select('image');
+            $this->db->from('users');
+            $this->db->where('id_karyawan');
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                $result = $query->row();
+                return $result->image;
+            } else {
+                return false;
+            }
+        }
+
+        public function update_image($user_id, $new_image) {
+            $data = array(
+                'image' => $new_image
+            );
     
+            $this->db->where('id', $user_id); // Sesuaikan dengan kolom dan nama tabel yang sesuai
+            $this->db->update('users', $data); // Sesuaikan dengan nama tabel Anda
+    
+            return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
+        }
+
+        public function get_current_image($user_id) {
+            $this->db->select('image');
+            $this->db->from('users'); // Gantilah 'user_table' dengan nama tabel Anda
+            $this->db->where('id', $user_id);
+            $query = $this->db->get();
+    
+            if ($query->num_rows() > 0) {
+                $row = $query->row();
+                return $row->image;
+            }
+    
+            return null; // Kembalikan null jika data tidak ditemukan
+        }
+        public function getBulanan($bulan)
+        {
+            $this->db->select("absensi.*, users.username");
+            $this->db->from("absensi");
+            $this->db->join("users", "absensi.id_karyawan = users.id", "left");
+            $this->db->where("DATE_FORMAT(tanggal, '%m') = ", $bulan); // Perbaikan di sini
+            $query = $this->db->get();
+            return $query->result();
+        }
+
+        public function get_absensi_count() {
+            return $this->db->count_all_results('absensi');
+        }
+
+        public function get_karyawan_rows() {
+            return $this->db->get_where('users', array('role' => 'karyawan'))->num_rows();
+        }
+        
+        public function get_data_by_role($role)
+        {
+            $this->db->where('role', $role);
+            return $this->db->get('users');
+        }
+
+        public function getDataAbsensi()
+        {
+            // Ganti 'absensi' dengan tabel yang sesuai dalam database Anda
+            $this->db->select('absensi.*, users.username');
+            $this->db->from('absensi');
+            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+            return $this->db->get()->result();
+        }
+        public function getPerHari($tanggal)
+        {
+            $this->db->select('absensi.*, users.username');
+            $this->db->from('absensi');
+            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+            $this->db->where('tanggal', $tanggal);
+            $query = $this->db->get();
+            return $query->result();
+        }
 }

@@ -195,88 +195,212 @@
                     </div>
                 </div>
 
-                <section class="home-section">
-                    <div class="home-content">
-
-                    </div>
-                    <div class="card">
+                <?php foreach($akun as $users) : ?>
+                <div class="col-xl-4">
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Foto Profil</div>
                         <div class="card-body text-center">
-                            <?php
-                            $profile_image_url = isset($this->session->userdata['image']) ? base_url('images' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                            ?>
-                            <img src="<?php echo $profile_image_url; ?>" alt="profileImg" class="rounded-circle">
-                            <h5 class="card-title">
-                                <?php echo $this->session->userdata('username'); ?>
-                            </h5>
-                            <p class="card-text">
-                                <?php echo $this->session->userdata('email'); ?>
-                            </p>
-                            <p class="card-text">***********</p>
-                            <!-- Tampilkan tanda bintang atau karakter lain sebagai ganti password -->
-                            <!-- Tambahkan tombol "Ubah" pada halaman profil -->
-                            <a href="<?php echo base_url('karyawan/edit_profile') ?>" class="btn btn-primary">Ubah
-                                Profile</a>
-
+                            <img class="img-account-profile rounded-circle mb-2"
+                                src="<?php echo base_url('images/user/' .$users->image) ?>" alt="">
+                            <div class="small font-italic text-muted">Harus berbentuk jpg/jpeg/png.</div>
+                            <p class="small font-italic text-muted mb-4">Disarankan berukuran 1:1</p>
+                            <form action="<?php echo base_url('karyawan/edit_foto'); ?>" method="post"
+                                enctype="multipart/form-data">
+                                <label for="image_upload" class="btn btn-primary">
+                                    Edit Foto
+                                    <input type="file" id="image_upload" name="userfile" style="display: none;">
+                                </label>
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                            </form>
                         </div>
                     </div>
+                </div>
+                <div class="col-xl-8">
+                    <div class="card mb-4">
+                        <div class="card-header">Informasi Data</div>
+                        <div class="card-body">
+                            <form action="<?php echo base_url('karyawan/edit_profile'); ?>"
+                                enctype="multipart/form-data" method="post">
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="email">Email</label>
+                                    <input class="form-control" id="email" type="email" placeholder="Masukan email"
+                                        value="<?php echo $users->email ?>" name="email">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="username">Username</label>
+                                    <input class="form-control" id="username" type="text" placeholder="Masukan username"
+                                        value="<?php echo $users->username ?>" name="username">
+                                </div>
+                                <div class="row gx-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="nama_depan">Nama Depan</label>
+                                        <input class="form-control" id="nama_depan" type="text"
+                                            placeholder="Masukan nama depan" value="<?php echo $users->nama_depan ?>"
+                                            name="nama_depan">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="nama_belakang">Nama Belakang</label>
+                                        <input class="form-control" id="nama_belakang" type="text"
+                                            placeholder="Masukan nama belakang"
+                                            value="<?php echo $users->nama_belakang ?>" name="nama_belakang">
+                                    </div>
+                                </div>
+                                <div class="row gx-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="password">Password Baru</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="password_baru" type="password"
+                                                placeholder="Masukan password baru" name="password_baru">
+                                            <span class="input-group-text" onclick="togglePassword('password')"><i
+                                                    id="icon-password" class="fas fa-eye"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="password">Konfirmasi Password</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="konfirmasi_password" type="password"
+                                                placeholder="Konfirmasi password" name="konfirmasi_password">
+                                            <span class="input-group-text"
+                                                onclick="togglePassword('konfirmasi_password')"><i id="icon-konfirmasi"
+                                                    class="fas fa-eye"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-success" type="submit">Simpan Perubahan</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach ?>
             </div>
         </div>
+    </div>
+    </div>
+</body>
 
-        </section>
+<script>
+function togglePassword(inputId) {
+    var x = document.getElementById(inputId);
+    var icon = document.getElementById("icon-" + inputId);
 
+    if (x.type === "password") {
+        x.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    } else {
+        x.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }
+}
+</script>
 
+<?php if($this->session->flashdata('kesalahan_password')){ ?>
+<script>
+Swal.fire({
+    title: "Error!",
+    text: "<?php echo $this->session->flashdata('kesalahan_password'); ?>",
+    icon: "warning",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php } ?>
 
-        <script>
-        const arrows = document.querySelectorAll(".arrow");
+<?php if($this->session->flashdata('gagal_update')){ ?>
+<script>
+Swal.fire({
+    title: "Error!",
+    text: "<?php echo $this->session->flashdata('gagal_update'); ?>",
+    icon: "error",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php } ?>
 
-        arrows.forEach((arrow) => {
-            arrow.addEventListener("click", (e) => {
-                const arrowParent = e.target.closest(".arrow").parentElement.parentElement;
-                arrowParent.classList.toggle("showMenu");
-            });
-        });
+<?php if($this->session->flashdata('error_profile')){ ?>
+<script>
+Swal.fire({
+    title: "Error!",
+    text: "<?php echo $this->session->flashdata('error_profile'); ?>",
+    icon: "error",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php } ?>
 
-        const sidebar = document.querySelector(".sidebar");
-        const sidebarBtn = document.querySelector(".fa-bars");
+<?php if($this->session->flashdata('berhasil_ubah_foto')){ ?>
+<script>
+Swal.fire({
+    title: "Berhasil",
+    text: "<?php echo $this->session->flashdata('berhasil_ubah_foto'); ?>",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php } ?>
 
-        sidebarBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        });
-        </script>
+<?php if($this->session->flashdata('ubah_password')){ ?>
+<script>
+Swal.fire({
+    title: "Success!",
+    text: "<?php echo $this->session->flashdata('ubah_password'); ?>",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php } ?>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <!-- LOGOUT -->
-        <script>
-        function confirmLogout() {
-            Swal.fire({
-                title: 'Yakin mau LogOut?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "<?php echo base_url('/') ?>";
-                }
-            });
+<?php if($this->session->flashdata('update_user')){ ?>
+<script>
+Swal.fire({
+    title: "Success!",
+    text: "<?php echo $this->session->flashdata('update_user'); ?>",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php } ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- LOGOUT -->
+<script>
+function confirmLogout() {
+    Swal.fire({
+        title: 'Yakin mau LogOut?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "<?php echo base_url('auth') ?>";
         }
-        </script>
-        <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            var content = document.getElementById("content");
-            sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-            content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-        }
-        </script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    });
+}
+</script>
+<script>
+function toggleSidebar() {
+    var sidebar = document.getElementById("sidebar");
+    var content = document.getElementById("content");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
 </body>
 
 </html>

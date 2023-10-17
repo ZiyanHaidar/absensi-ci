@@ -131,7 +131,9 @@
                 <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
-
+                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -142,7 +144,28 @@
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
                         <h1>Dashboard</h1>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <?php
+                                $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
+                                ?>
+                                <a href="<?php echo base_url('admin/profile') ?>">
+                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
+                                </a>
+                            </div>
 
+                            <div class="name-job">
+                                <div class="profile_name">
+                                    <?php echo $this->session->userdata('username'); ?>
+                                </div>
+                                <div class="job">
+                                    <marquee scrolldelay="200">
+                                        <?php echo $_SESSION['email']; ?>
+                                    </marquee>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -150,44 +173,68 @@
                 <div class="card mb-4 shadow" style="background-color:#fff">
                     <div class="row">
                         <div class="col-md-4 mb-4">
-
+                            <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <i class="fas fa-briefcase mr-2" style="font-size: 60px;"></i>
+                                    </div>
+                                    <div class="ml-auto">Total Masuk Kerja</div>
+                                    <span style="font-size: 24px;">
+                                        <h2> <?php echo $karyawan?></h2>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow bg-D8D9DA text-black shadow border-10 rounded">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <i class="fas fa-check mr-2" style="font-size: 60px;"></i>
+                                    </div>
+                                    <div class="ml-auto">Total Absen</div>
+                                    <span style="font-size: 24px;">
+                                        <h2> <?php echo $absen?></h2>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
 
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <!-- LOGOUT -->
-                <script>
-                function confirmLogout() {
-                    Swal.fire({
-                        title: 'Yakin mau LogOut?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "<?php echo base_url('/') ?>";
-                        }
-                    });
-                }
-                </script>
-                <script>
-                function toggleSidebar() {
-                    var sidebar = document.getElementById("sidebar");
-                    var content = document.getElementById("content");
-                    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-                }
-                </script>
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-                </script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <!-- LOGOUT -->
+            <script>
+            function confirmLogout() {
+                Swal.fire({
+                    title: 'Yakin mau LogOut?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "<?php echo base_url('auth') ?>";
+                    }
+                });
+            }
+            </script>
+            <script>
+            function toggleSidebar() {
+                var sidebar = document.getElementById("sidebar");
+                var content = document.getElementById("content");
+                sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+                content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+            }
+            </script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -104,4 +104,59 @@ class M_model extends CI_Model{
             $data = $this->db->update($table, $data, $where);
             return $this->db->affected_rows();
         }
+       // get karyawan
+        public function get_karyawan($table)
+        {
+        return $this->db->where('role', 'karyawan')
+                        ->get($table);
+        }
+        public function count_absen() {
+            return $this->db->count_all_results('absensi'); 
+        }
+        public function get_absen_page($limit, $offset)
+        {
+            $this->db->limit($limit, $offset);
+            $query = $this->db->get('absensi');
+            return $query->result();
+        }
+        public function image_user()
+        {
+            $id_karyawan = $this->session->userdata('id');
+            $this->db->select('image');
+            $this->db->from('users');
+            $this->db->where('id_karyawan');
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                $result = $query->row();
+                return $result->image;
+            } else {
+                return false;
+            }
+        }
+
+        public function update_image($user_id, $new_image) {
+            $data = array(
+                'image' => $new_image
+            );
+    
+            $this->db->where('id', $user_id); // Sesuaikan dengan kolom dan nama tabel yang sesuai
+            $this->db->update('users', $data); // Sesuaikan dengan nama tabel Anda
+    
+            return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
+        }
+
+        public function get_current_image($user_id) {
+            $this->db->select('image');
+            $this->db->from('users'); // Gantilah 'user_table' dengan nama tabel Anda
+            $this->db->where('id', $user_id);
+            $query = $this->db->get();
+    
+            if ($query->num_rows() > 0) {
+                $row = $query->row();
+                return $row->image;
+            }
+    
+            return null; // Kembalikan null jika data tidak ditemukan
+        }
 }

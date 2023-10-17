@@ -131,7 +131,9 @@
                 <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
-
+                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
+                    Profile
+                </a>
                 <a type="button" onclick="confirmLogout()">
                     <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                 </a>
@@ -142,55 +144,82 @@
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
                         <h1>Rekap Mingguan</h1>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <?php
+                                $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
+                                ?>
+                                <a href="<?php echo base_url('admin/profile') ?>">
+                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
+                                </a>
+                            </div>
+
+                            <div class="name-job">
+                                <div class="profile_name">
+                                    <?php echo $this->session->userdata('username'); ?>
+                                </div>
+                                <div class="job">
+                                    <marquee scrolldelay="200">
+                                        <?php echo $_SESSION['email']; ?>
+                                    </marquee>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
                 <div class="card mb-4 shadow" style="background-color:#fff">
+                    <form action="<?= base_url('admin/rekapPerMinggu'); ?>" method="get">
+                        <div class="d-flex justify-content-between">
+                            <div class="input-group">
+                                <span class="input-group-text">Tanggal awal</span>
+                                <input type="date" class="form-control" id="start_date" name="start_date"
+                                    value="<?php echo isset($_GET['start_date']) ? $_GET['start_date'] : ''; ?>">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text">Tanggal akhir</span>
+                                <input type="date" class="form-control" id="end_date" name="end_date"
+                                    value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>">
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                                formaction="<?php echo base_url('admin/export_mingguan')?>">Export</button>
+                            <button type="submit" class="btn btn-success">Filter</button>
+                        </div>
+                    </form>
+                    <br>
+                    <hr>
+                    <br>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="table-dark">
+                        <?php if (empty($perminggu)): ?>
+                        <h5 class="text-center">Tidak ada data diminggu ini ini.</h5>
+                        <p class="text-center">Silahkan pilih Minggu lain.</p>
+                        <?php else: ?>
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <th>NO</th>
-                                    <th>KEGIATAN</th>
-                                    <th>TANGGAL</th>
-                                    <th>JAM MASUK</th>
-                                    <th>JAM PULANG</th>
-                                    <th>KETERANGAN IZIN</th>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Kegiatan</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Jam Masuk</th>
+                                    <th scope="col">Jam Pulang</th>
+                                    <th scope="col">Keterangan</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-300">
-                                <?php $no=0; foreach ($absensi as $absen): $no++ ?>
-                                <tr class="whitespace-nowrap">
-                                    <td class="px-3 py-4 text-sm text-gray-500"><?php echo $no ?></td>
-                                    <td class="px-3 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            <?php echo $absen['kegiatan']; ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-3 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            <?php echo $absen['tanggal']; ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-3 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            <?php echo $absen['jam_masuk']; ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-3 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            <?php echo $absen['jam_pulang']; ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-3 py-4">
-                                        <div class="text-sm text-gray-900">
-                                            <?php echo $absen['keterangan_izin']; ?>
-                                        </div>
-                                    </td>
+                            <tbody>
+                                <?php $no=0; foreach ($perminggu as $rekap): $no++; ?>
+                                <tr>
+                                    <td><?= $no; ?></td>
+                                    <td><?= $rekap->date; ?></td>
+                                    <td><?= $rekap->kegiatan; ?></td>
+                                    <td><?= $rekap->jam_masuk; ?></td>
+                                    <td><?= $rekap->jam_pulang; ?></td>
+                                    <td><?= $rekap->keterangan_izin; ?></td>
                                 </tr>
-                                <?php endforeach?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -228,7 +257,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('/') ?>";
+                window.location.href = "<?php echo base_url('auth') ?>";
             }
         });
     }
