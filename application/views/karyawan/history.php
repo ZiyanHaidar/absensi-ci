@@ -116,7 +116,7 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
                 <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
-                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tag mr-2"></i>
+                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
                 <a href="<?php echo base_url('karyawan/history') ?>"><i class="fas fa-file mr-2"></i>
@@ -143,22 +143,24 @@
                         <h1>History</h1>
                         <div class="profile-details">
                             <div class="profile-content">
-                                <?php
-                        $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                        ?>
-                                <a href="<?php echo base_url('karyawan/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
-
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('karyawan/profile') ?>">
+                                        <img src="<?php echo base_url('images/user/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
                                 </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
+                                <?php endforeach ?>
+
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
                                 </div>
                             </div>
 
@@ -187,18 +189,33 @@
                                 <?php $no=0; foreach($absensi as $row): $no++ ?>
                                 <tr class="text-center">
                                     <td><?php echo $no ?></td>
-                                    <td><?php echo $row->tanggal ?></td>
+                                    <td><?php echo $row->date ?></td>
 
                                     <td><?php echo $row->jam_masuk ?></td>
                                     <td><?php echo $row->jam_pulang ?></td>
                                     <td><?php echo $row->status ?></td>
                                     <td>
-                                        <?php if ($row->status == 'done'): ?>
+                                        <?php if ($row->status == 'Izin'): ?>
                                         Izin
+                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <?php elseif ($row->status == 'Pulang'): ?>
+                                        <button class="btn btn-secondary" disabled>
+                                            <i class="fas fa-house-user"></i>Pulang
+                                        </button>
+                                        <a href="<?php echo base_url('karyawan/ubah_absensi/') . $row->id ?>"
+                                            class="btn btn-primary">
+                                            <i class="fas fa-edit"></i> Ubah
+                                        </a>
+                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
                                         <?php else: ?>
                                         <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>"
-                                            class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>"><i
-                                                class="fas fa-house-user"></i>Pulang</a>
+                                            class="btn btn-success" id="pulangButton_<?php echo $row->id ?>">
+                                            <i class="fas fa-house-user"></i> Pulang
+                                        </a>
                                         <a href="<?php echo base_url('karyawan/ubah_absensi/') . $row->id ?>"
                                             class="btn btn-primary">
                                             <i class="fas fa-edit"></i> Ubah

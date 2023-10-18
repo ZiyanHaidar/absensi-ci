@@ -143,7 +143,7 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
                 <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
-                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tag mr-2"></i>
+                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
                 <a href="<?php echo base_url('karyawan/history') ?>"><i class="fas fa-file mr-2"></i>
@@ -170,25 +170,27 @@
                         <h1>Absensi</h1>
                         <div class="profile-details">
                             <div class="profile-content">
-                                <?php
-                        $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                        ?>
-                                <a href="<?php echo base_url('karyawan/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
-
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('karyawan/profile') ?>">
+                                        <img src="<?php echo base_url('images/user/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
                                 </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
-                                </div>
-                            </div>
+                                <?php endforeach ?>
 
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -202,7 +204,7 @@
                                     <h2 class="mt-4">Menu Absen</h2>
                                 </div>
 
-                                <form action="<?= base_url('karyawan/menu_absen'); ?>" method="post" class="mt-3">
+                                <form action="<?= base_url('karyawan/aksi_menu_absen'); ?>" method="post" class="mt-3">
                                     <div class="mb-5">
                                         <label for="kegiatan" class="form-label">
                                             <h4>Kegiatan</h4>

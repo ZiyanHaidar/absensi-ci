@@ -13,24 +13,31 @@ class Admin extends CI_Controller {
         $this->load->library('form_validation');
     }
 
+    public function upload_img($value)
+    {
+        $kode = round(microtime(true) * 1000);
+        $config['upload_path'] = './images/admin/';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $config['max_size'] = '3000';
+        $config['fle_name'] = $kode;
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload($value)) {
+            return [false, ''];
+        } else {
+            $fn = $this->upload->data();
+            $nama = $fn['file_name'];
+            return [true, $nama];
+        }
+    }
+
     public function index() {
-        $this->load->library('pagination');
-        $config = array(
-            'base_url' => site_url('admin/index'),
-            'total_rows' => $this->admin_model->count_absen(),
-            'per_page' => 10,
-            'num_links' => 4,
-            'use_page_numbers' => TRUE,
-        );
-        $config['full_tag_open'] = '<div class="pagination">';
-        $config['full_tag_close'] = '</div>';
-        
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
-        $data['data_keseluruhan'] = $this->admin_model->get_absen_page($config['per_page'], ($page - 1) * $config['per_page']);
-        $data['links'] = $this->pagination->create_links();
-        $data['karyawan'] = $this-> admin_model->get_karyawan('users')->num_rows();
-        $data['absen'] = $this-> admin_model->get_data('absensi')->num_rows();
+      
+		$id_admin = $this->session->userdata('id');
+		$data['absensi'] = $this->admin_model->get_data('absensi')->result();
+		$data['user'] = $this->admin_model->get_data('users')->num_rows();
+		$data['karyawan'] = $this->admin_model->get_karyawan_rows();
+		$data['absensi_num'] = $this->admin_model->get_absensi_count();
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
         // Tampilkan halaman dashboard admin di sini
         $this->load->view('admin/index', $data);
     }
@@ -38,9 +45,15 @@ class Admin extends CI_Controller {
     public function karyawan() {
         $data['users'] = $this->admin_model->get_data('users')->result();
         $data['absensi'] = $this->admin_model->get_data('absensi')->result();
-
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
         // Tampilkan halaman daftar karyawan dengan data
         $this->load->view('admin/karyawan', $data);
+    }
+    public function rekap_keseluruhan() {
+        $data['users'] = $this->admin_model->get_data('users')->result();
+        $data['absen'] = $this->admin_model->get_data('absensi')->result();
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
+        $this->load->view('admin/rekap_keseluruhan', $data);
     }
 
     public function export_karyawan()
@@ -105,7 +118,7 @@ class Admin extends CI_Controller {
             $sheet->setCellValue('A' . $numrow, $data->id);
             $sheet->setCellValue('B' . $numrow, $data->username);
             $sheet->setCellValue('C' . $numrow, $data->kegiatan);
-            $sheet->setCellValue('D' . $numrow, $data->tanggal);
+            $sheet->setCellValue('D' . $numrow, $data->date);
             $sheet->setCellValue('E' . $numrow, $data->jam_masuk);
             $sheet->setCellValue('F' . $numrow, $data->jam_pulang);
             $sheet->setCellValue('G' . $numrow, $data->status);
@@ -146,22 +159,32 @@ class Admin extends CI_Controller {
 
     }
 
-    public function rekap_harian() {
-        $tanggal = $this->input->get('tanggal'); // Ambil tanggal dari parameter GET
-        $data['rekap_harian'] = $this->admin_model->getRekapHarian($tanggal);
+    public function rekapPerHari() {
+		$tanggal = $this->input->get('tanggal');
+        $data['perhari'] = $this->admin_model->getPerHari($tanggal);
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
         $this->load->view('admin/rekap_harian', $data);
     }
-    
-    
-    public function rekap_mingguan() {
-        $data['absensi'] = $this->admin_model->getAbsensiLast7Days();     
-        $this->load->view('admin/rekap_mingguan', $data);
-    }    
-    
-    public function rekap_bulanan() {
+
+	public function rekapPerMinggu() {
+		$start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+
+        if ($start_date && $end_date) {
+            $data['perminggu'] = $this->admin_model->getRekapPerMinggu($start_date, $end_date);
+        } else {
+            $data['perminggu'] = []; // Atau lakukan sesuai dengan kebutuhan logika Anda jika tanggal tidak ada
+        }
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
+		$this->load->view('admin/rekap_mingguan', $data);
+		// $data['absensi'] = $this->admin_model->getPerMinggu();        
+    }
+	
+	public function rekapPerBulan() {
         $bulan = $this->input->get('bulan'); // Ambil bulan dari parameter GET
-        $data['rekap_bulanan'] = $this->admin_model->getRekapBulanan($bulan);
+        $data['rekap_bulanan'] = $this->admin_model->getRekapPerBulan($bulan);
         $data['rekap_harian'] = $this->admin_model->getRekapHarianByBulan($bulan);
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
         $this->load->view('admin/rekap_bulanan', $data);
     }
     
@@ -172,81 +195,91 @@ class Admin extends CI_Controller {
         $data['rekapan'] = $this->admin_model->exportDataRekapHarian($tanggal_awal, $tanggal_akhir);
         // Tambahkan logika ekspor data rekap harian ke dalam file, misalnya Excel atau CSV
     }
-    public function profile() {
-        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'));
+    public function profile()
+    {
+        $data['akun'] = $this->admin_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
         $this->load->view('admin/profile', $data);
     }
+
     public function edit_profile()
-	{
-		$password_baru = $this->input->post('password_baru');
-		$konfirmasi_password = $this->input->post('konfirmasi_password');
-		$email = $this->input->post('email');
-		$username = $this->input->post('username');
-		$nama_depan = $this->input->post('nama_depan');
-		$nama_belakang = $this->input->post('nama_belakang');
+    {
+        $password_baru = $this->input->post('password_baru');
+        $konfirmasi_password = $this->input->post('konfirmasi_password');
+        $email = $this->input->post('email');
+        $username = $this->input->post('username');
+        $nama_depan = $this->input->post('nama_depan');
+        $nama_belakang = $this->input->post('nama_belakang');
 
-		$data = array(
-			'email' => $email,
-			'username' => $username,
-			'nama_depan' => $nama_depan,
-			'nama_belakang' => $nama_belakang,
-		);
+        $data = array(
+            'email' => $email,
+            'username' => $username,
+            'nama_depan' => $nama_depan,
+            'nama_belakang' => $nama_belakang,
+        );
 
-		if (!empty($password_baru)) {
-			if ($password_baru === $konfirmasi_password) {
-				$data['password'] = md5($password_baru);
-				$this->session->set_flashdata('ubah_password', 'Berhasil mengubah password');
-			} else {
-				$this->session->set_flashdata('kesalahan_password', 'Password baru dan Konfirmasi password tidak sama');
-				redirect(base_url('admin/profile'));
-			}
-		}
+        if (!empty($password_baru)) {
+            if ($password_baru === $konfirmasi_password) {
+                $data['password'] = md5($password_baru);
+                $this->session->set_flashdata('ubah_password', 'Berhasil mengubah password');
+            } else {
+                $this->session->set_flashdata('kesalahan_password', 'Password baru dan Konfirmasi password tidak sama');
+                redirect(base_url('admin/profile'));
+            }
+        }
 
-		$this->session->set_userdata($data);
-		$update_result = $this->admin_model->update_data('users', $data, array('id' => $this->session->userdata('id')));
+        $this->session->set_userdata($data);
+        $update_result = $this->admin_model->update_data('users', $data, array('id' => $this->session->userdata('id')));
 
-		if ($update_result) {
-			$this->session->set_flashdata('update_user', 'Data berhasil diperbarui');
-			redirect(base_url('admin/profile'));
-		} else {
-			$this->session->set_flashdata('gagal_update', 'Gagal memperbarui data');
-			redirect(base_url('admin/profile'));
-		}
-	}
+        if ($update_result) {
+            $this->session->set_flashdata('update_akun', 'Data berhasil diperbarui');
+            redirect(base_url('admin/profile'));
+        } else {
+            $this->session->set_flashdata('gagal_update', 'Gagal memperbarui data');
+            redirect(base_url('admin/profile'));
+        }
+    }
 
-	public function edit_foto() {
-		$config['upload_path'] = './assets/images/user/'; // Lokasi penyimpanan gambar di server
-		$config['allowed_types'] = 'jpg|jpeg|png'; // Tipe file yang diizinkan
-		$config['max_size'] = 5120; // Maksimum ukuran file (dalam KB)
-	
-		$this->load->library('upload', $config);
-	
-		if ($this->upload->do_upload('userfile')) {
-			$upload_data = $this->upload->data();
-			$file_name = $upload_data['file_name'];
-	
-			// Update nama file gambar baru ke dalam database untuk user yang sesuai
-			$user_id = $this->session->userdata('id'); // Ganti ini dengan cara Anda menyimpan ID user yang sedang login
-			$current_image = $this->admin_model->get_current_image($user_id); // Dapatkan nama gambar saat ini
-	
-			if ($current_image !== 'User.png') {
-				// Hapus gambar saat ini jika bukan 'User.png'
-				unlink('./images/user/' . $current_image);
-			}
-	
-			$this->admin_model->update_image($user_id, $file_name); // Gantilah 'admin_model' dengan model Anda
-			$this->session->set_flashdata('berhasil_ubah_foto', 'Foto berhasil diperbarui.');
+    public function edit_image()
+    {
+        $image = $_FILES['image']['name'];
+        $image_temp = $_FILES['image']['tmp_name'];
 
-	
-			// Redirect atau tampilkan pesan keberhasilan
-			redirect('admin/profile'); // Gantilah dengan halaman yang sesuai
-		} else {
-			$error = array('error' => $this->upload->display_errors());
-			$this->session->set_flashdata('error_profile', $error['error']);
-			redirect('admin/profile');
-			// Tangani kesalahan unggah gambar
-		}
-	}
+        // Jika ada image yang diunggah
+        if ($image) {
+            $kode = round(microtime(true) * 1000);
+            $file_name = $kode . '_' . $image;
+            $upload_path = './images/admin/' . $file_name;
+            $this->session->set_flashdata('berhasil_ubah_foto', 'Foto berhasil diperbarui.');
+            if (move_uploaded_file($image_temp, $upload_path)) {
+                // Hapus image lama jika ada
+                $old_file = $this->admin_model->get_karyawan_image_by_id($this->input->post('id'));
+                if ($old_file && file_exists('./images/admin/' . $old_file)) {
+                    unlink('./images/admin/' . $old_file);
+                }
+
+                $data = [
+                    'image' => $file_name
+                ];
+            } else {
+                // Gagal mengunggah image baru
+                redirect(base_url('admin/ubah_image/' . $this->input->post('id')));
+            }
+        } else {
+            // Jika tidak ada image yang diunggah
+            $data = [
+                'image' => 'User.png'
+            ];
+        }
+
+        // Eksekusi dengan model ubah_data
+        $eksekusi = $this->admin_model->ubah_data('users', $data, array('id' => $this->input->post('id')));
+
+        if ($eksekusi) {
+            redirect(base_url('admin/profile'));
+        } else {
+            redirect(base_url('admin/ubah_image/' . $this->input->post('id')));
+        }
+    }
     public function export_harian()
     {
 		$tanggal = $this->input->get('tanggal');
@@ -339,7 +372,7 @@ class Admin extends CI_Controller {
             $sheet->setCellValue('A' . $numrow, $no);
             $sheet->setCellValue('B' . $numrow, $data->username);
             $sheet->setCellValue('C' . $numrow, $data->kegiatan);
-            $sheet->setCellValue('D' . $numrow, $data->tanggal);
+            $sheet->setCellValue('D' . $numrow, $data->date);
             $sheet->setCellValue('E' . $numrow, $data->jam_masuk);
             $sheet->setCellValue('F' . $numrow, $data->jam_pulang);
             $sheet->setCellValue('G' . $numrow, $data->keterangan_izin);
@@ -479,7 +512,7 @@ class Admin extends CI_Controller {
             $sheet->setCellValue('A' . $numrow, $no);
             $sheet->setCellValue('B' . $numrow, $row->username);
             $sheet->setCellValue('C' . $numrow, $row->kegiatan);
-            $sheet->setCellValue('D' . $numrow, $row->tanggal);
+            $sheet->setCellValue('D' . $numrow, $row->date);
             $sheet->setCellValue('E' . $numrow, $row->jam_masuk);
             $sheet->setCellValue('F' . $numrow, $row->jam_pulang);
             $sheet->setCellValue('G' . $numrow, $row->keterangan_izin);
@@ -617,7 +650,7 @@ class Admin extends CI_Controller {
             $sheet->setCellValue('A' . $numrow, $no);
 			$sheet->setCellValue('B' . $numrow, $data->username);
 			$sheet->setCellValue('C' . $numrow, $data->kegiatan);
-			$sheet->setCellValue('D' . $numrow, $data->tanggal);
+			$sheet->setCellValue('D' . $numrow, $data->date);
 			$sheet->setCellValue('E' . $numrow, $data->jam_masuk);
 			$sheet->setCellValue('F' . $numrow, $data->jam_pulang);
 			$sheet->setCellValue('G' . $numrow, $data->keterangan_izin);
@@ -659,4 +692,5 @@ class Admin extends CI_Controller {
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
+  
 }

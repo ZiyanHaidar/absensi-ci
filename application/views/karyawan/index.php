@@ -116,7 +116,7 @@
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
                 <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
-                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tag mr-2"></i>
+                <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
                 <a href="<?php echo base_url('karyawan/history') ?>"><i class="fas fa-file mr-2"></i>
@@ -143,22 +143,24 @@
                         <h1>Dashboard</h1>
                         <div class="profile-details">
                             <div class="profile-content">
-                                <?php
-                        $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                        ?>
-                                <a href="<?php echo base_url('karyawan/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
-
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('karyawan/profile') ?>">
+                                        <img src="<?php echo base_url('images/user/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
                                 </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
+                                <?php endforeach ?>
+
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
                                 </div>
                             </div>
 
@@ -166,7 +168,6 @@
                     </div>
                 </div>
 
-                <!-- Role Karyawan - History Absen -->
                 <div class="card mb-4 shadow" style="background-color:#fff">
                     <div class="row">
                         <div class="col-md-4 mb-4">
@@ -176,9 +177,7 @@
                                         <i class="fas fa-briefcase mr-2" style="font-size: 60px;"></i>
                                     </div>
                                     <div class="ml-auto">Total Masuk Kerja</div>
-                                    <span style="font-size: 24px;">
-                                        <h2> <?php echo $karyawan?></h2>
-                                    </span>
+                                    <h2><?php echo $total_absen; ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -188,9 +187,9 @@
                                     <div>
                                         <i class="fas fa-check mr-2" style="font-size: 60px;"></i>
                                     </div>
-                                    <div class="ml-auto">Total Absen</div>
+                                    <div class="ml-auto">Total Izin</div>
                                     <span style="font-size: 24px;">
-                                        <h2> <?php echo $absen?></h2>
+                                        <h2> <?php echo $total_izin; ?></h2>
                                     </span>
                                 </div>
                             </div>
@@ -204,7 +203,7 @@
                                     </div>
                                     <div class="ml-auto">Total</div>
                                     <span style="font-size: 24px;">
-                                        <h2>1</h2>
+                                        <h2><?php echo $absensi_count; ?></h2>
                                     </span>
                                 </div>
                             </div>

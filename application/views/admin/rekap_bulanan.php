@@ -119,16 +119,16 @@
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekap_harian') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
                 </a>
-                <a href="<?php echo base_url('admin/rekap_mingguan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
@@ -146,22 +146,24 @@
                         <h1>Rekap Bulanan</h1>
                         <div class="profile-details">
                             <div class="profile-content">
-                                <?php
-                                $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                                ?>
-                                <a href="<?php echo base_url('admin/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
-
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('admin/profile') ?>">
+                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
                                 </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
+                                <?php endforeach ?>
+
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
                                 </div>
                             </div>
 
@@ -172,116 +174,142 @@
                 <!-- Role Karyawan - History Absen -->
                 <div class="card mb-4 shadow" style="background-color:#fff">
                     <!-- Filter Bulan -->
-                    <form action="<?= base_url('admin/rekap_bulanan'); ?>" method="get">
-                        <div class="form-group">
-                            <h5 class="text-center">Pilih Bulan</h5>
+                    <form action="<?= base_url('admin/rekapPerBulan'); ?>" method="get">
+
+                        <div class="d-flex justify-content-between">
                             <select class="form-control" id="bulan" name="bulan">
-                                <option>Pilih</option>
-                                <option value="1">Januari</option>
-                                <option value="2">Februari</option>
-                                <option value="3">Maret</option>
-                                <option value="4">April</option>
-                                <option value="5">Mei</option>
-                                <option value="6">Juni</option>
-                                <option value="7">Juli</option>
-                                <option value="8">Agustus</option>
-                                <option value="9">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
+                                <option>Pilih Bulan</option>
+                                <option value="1"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '1') echo 'selected'; ?>>
+                                    Januari
+                                </option>
+                                <option value="2"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '2') echo 'selected'; ?>>
+                                    Februari</option>
+                                <option value="3"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '3') echo 'selected'; ?>>
+                                    Maret
+                                </option>
+                                <option value="4"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '4') echo 'selected'; ?>>
+                                    April
+                                </option>
+                                <option value="5"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '5') echo 'selected'; ?>>Mei
+                                </option>
+                                <option value="6"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '6') echo 'selected'; ?>>
+                                    Juni
+                                </option>
+                                <option value="7"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '7') echo 'selected'; ?>>
+                                    Juli
+                                </option>
+                                <option value="8"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '8') echo 'selected'; ?>>
+                                    Agustus
+                                </option>
+                                <option value="9"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '9') echo 'selected'; ?>>
+                                    September</option>
+                                <option value="10"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '10') echo 'selected'; ?>>
+                                    Oktober</option>
+                                <option value="11"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '11') echo 'selected'; ?>>
+                                    November</option>
+                                <option value="12"
+                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '12') echo 'selected'; ?>>
+                                    Desember</option>
                             </select>
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                                formaction="<?php echo base_url('admin/export_bulanan')?>">Export</button>
+                            <button type="submit" class="btn btn-success">Filter</button>
                         </div>
-                        <button type="submit" name="submit" class="btn btn-sm btn-primary"
-                            formaction="<?php echo base_url('admin/export_bulanan')?>">Export</button>
-                        <button type="submit" class="btn btn-dark my-2">Filter</button>
                     </form>
-                    <table class="table">
-                        <table class="table">
+                    <br>
+
+                    <br>
+                    <div class="table-responsive">
+                        <?php if (empty($rekap_harian)): ?>
+                        <h5 class="text-center">Tidak ada data dibulan ini.</h5>
+                        <p class="text-center">Silahkan pilih Bulan lain.</p>
+                        <?php else: ?>
+                        <?php foreach ($rekap_bulanan as $data): ?>
+                        <table class="table" data-month="<?= $data['bulan'] ?>">
                             <thead>
                                 <tr>
-                                    <th>Bulan</th>
-                                    <th>Total Absensi</th>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Kegiatan</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Jam Masuk</th>
+                                    <th scope="col">Jam Pulang</th>
+                                    <th scope="col">Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($rekap_bulanan as $data): ?>
+                                <?php $data_found = false; ?>
+                                <?php foreach ($rekap_harian as $rekap_harian): ?>
+                                <?php if (date('n', strtotime($rekap_harian['date'])) == $data['bulan']): ?>
+                                <?php $data_found = true; ?>
                                 <tr>
-                                    <td><?= date("F", mktime(0, 0, 0, $data['bulan'], 1)); ?></td>
-                                    <td><?= $data['total_absensi']; ?></td>
+                                    <td><?= $rekap_harian['id']; ?></td>
+                                    <td><?= $rekap_harian['date']; ?></td>
+                                    <td><?= $rekap_harian['kegiatan']; ?></td>
+                                    <td><?= $rekap_harian['jam_masuk']; ?></td>
+                                    <td><?= $rekap_harian['jam_pulang']; ?></td>
+                                    <td><?= $rekap_harian['keterangan_izin']; ?></td>
                                 </tr>
-                                <tr class="detail-row" data-month="<?= $data['bulan'] ?>">
-                                    <td colspan="2">
-                                        <div class="scrollspy">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Nama</th>
-                                                        <th>Tanggal</th>
-                                                        <th>Kegiatan</th>
-                                                        <th>Masuk</th>
-                                                        <th>Pulang</th>
-                                                        <th>Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php foreach ($rekap_harian as $rekap_harian): ?>
-                                                    <?php if (date('n', strtotime($rekap_harian['tanggal'])) == $data['bulan']): ?>
-                                                    <tr>
-                                                        <td><?= $rekap_harian['id']; ?></td>
-                                                        <td><?= tampil_full_nama_byid($rekap_harian['id_karyawan']) ?>
-                                                        </td>
-                                                        <td><?= $rekap_harian['tanggal']; ?></td>
-                                                        <td><?= $rekap_harian['kegiatan']; ?></td>
-                                                        <td><?= $rekap_harian['jam_masuk']; ?></td>
-                                                        <td><?= $rekap_harian['jam_pulang']; ?></td>
-                                                        <td><?= $rekap_harian['status']; ?></td>
-                                                    </tr>
-                                                    <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <?php endif; ?>
                                 <?php endforeach; ?>
+                                <?php if (!$data_found): ?>
+                                <tr>
+                                    <td colspan="7">Tidak ada data untuk bulan ini.</td>
+                                </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
+                </tbody>
+                </table>
+            </div>
 
 
 
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <!-- LOGOUT -->
-                <script>
-                function confirmLogout() {
-                    Swal.fire({
-                        title: 'Yakin mau LogOut?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "<?php echo base_url('auth') ?>";
-                        }
-                    });
-                }
-                </script>
-                <script>
-                function toggleSidebar() {
-                    var sidebar = document.getElementById("sidebar");
-                    var content = document.getElementById("content");
-                    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-                }
-                </script>
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-                </script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <!-- LOGOUT -->
+            <script>
+            function confirmLogout() {
+                Swal.fire({
+                    title: 'Yakin mau LogOut?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "<?php echo base_url('auth') ?>";
+                    }
+                });
+            }
+            </script>
+            <script>
+            function toggleSidebar() {
+                var sidebar = document.getElementById("sidebar");
+                var content = document.getElementById("content");
+                sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+                content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+            }
+            </script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

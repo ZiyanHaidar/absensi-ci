@@ -119,16 +119,16 @@
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-check mr-2"></i>
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekap_harian') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
                 </a>
-                <a href="<?php echo base_url('admin/rekap_mingguan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekap_bulanan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Bulanan
                 </a>
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
@@ -146,22 +146,24 @@
                         <h1>Rekap Mingguan</h1>
                         <div class="profile-details">
                             <div class="profile-content">
-                                <?php
-                                $image_url = isset($this->session->userdata['image']) ? base_url('images/user/' . $this->session->userdata('image')) : base_url('images/user/User.png');
-                                ?>
-                                <a href="<?php echo base_url('admin/profile') ?>">
-                                    <img src="<?php echo $image_url; ?>" alt="profileImg">
-                                </a>
-                            </div>
-
-                            <div class="name-job">
-                                <div class="profile_name">
-                                    <?php echo $this->session->userdata('username'); ?>
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('admin/profile') ?>">
+                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
                                 </div>
-                                <div class="job">
-                                    <marquee scrolldelay="200">
-                                        <?php echo $_SESSION['email']; ?>
-                                    </marquee>
+                                <?php endforeach ?>
+
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
                                 </div>
                             </div>
 
@@ -192,7 +194,7 @@
                     <br>
                     <div class="table-responsive">
                         <?php if (empty($perminggu)): ?>
-                        <h5 class="text-center">Tidak ada data diminggu ini ini.</h5>
+                        <h5 class="text-center">Tidak ada data diminggu ini.</h5>
                         <p class="text-center">Silahkan pilih Minggu lain.</p>
                         <?php else: ?>
                         <table class="table">
@@ -222,12 +224,9 @@
                         <?php endif; ?>
                     </div>
                 </div>
-            </div>
-            </main>
-        </div>
 
-    </div>
-    </div>
+            </div>
+        </div>
     </div>
 
 

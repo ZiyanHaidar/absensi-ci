@@ -14,45 +14,55 @@ class Admin_model extends CI_Model {
         return $data; 
     }
 
-    public function getRekapHarian($tanggal) {
-        $this->db->select('absensi.id, absensi.tanggal, absensi.kegiatan, absensi.id_karyawan, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
-        $this->db->from('absensi');
-        $this->db->where('absensi.tanggal', $tanggal); // Menyaring data berdasarkan tanggal
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-    
-    public function getAbsensiLast7Days() {
-        $this->load->database();
-        $end_tanggal = date('Y-m-d');
-        $start_tanggal = date('Y-m-d', strtotime('-7 days', strtotime($end_tanggal)));            
-        $query = $this->db->select('tanggal, kegiatan, jam_masuk, jam_pulang, keterangan_izin, status, COUNT(*) AS total_absences')
-                    ->from('absensi')
-                    ->where('tanggal >=', $start_tanggal)
-                    ->where('tanggal <=', $end_tanggal)
-                    ->group_by('tanggal, kegiatan, jam_masuk, jam_pulang, keterangan_izin, status')
-                    ->get();
+    public function getPerHari($tanggal)
+        {
+            $this->db->select('absensi.*, users.username');
+            $this->db->from('absensi');
+            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+            $this->db->where('date', $tanggal);
+            $query = $this->db->get();
+            return $query->result();
+        }
 
-        return $query->result_array();
-    }
-    
-    
-    public function getRekapBulanan($bulan) {
-        $this->db->select('MONTH(tanggal) as bulan, COUNT(*) as total_absensi');
-        $this->db->from('absensi');
-        $this->db->where('MONTH(tanggal)', $bulan); // Menyaring data berdasarkan bulan
-        $this->db->group_by('bulan');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
+        public function getRekapPerMinggu($start_date, $end_date) {
+            $this->db->select('absensi.*, users.username');
+            $this->db->from('absensi');
+            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+            $this->db->where('date >', $start_date);
+            $this->db->where('date <', $end_date);
+            $query = $this->db->get();
+            return $query->result();
+        }        
 
-    public function getRekapHarianByBulan($bulan) {
-        $this->db->select('absensi.id, absensi.tanggal, absensi.kegiatan, absensi.id_karyawan, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
-        $this->db->from('absensi');
-        $this->db->where('MONTH(absensi.tanggal)', $bulan);
-        $query = $this->db->get();
-        return $query->result_array();
-    }    
+        public function getRekapPerBulan($bulan) {
+            $this->db->select('MONTH(date) as bulan, COUNT(*) as total_absensi, users.username');
+            $this->db->from('absensi');
+            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+            $this->db->where('MONTH(date)', $bulan); // Menyaring data berdasarkan bulan
+            $this->db->group_by('bulan');
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+
+        public function getRekapHarianByBulan($bulan) {
+            $this->db->select('absensi.*, users.username');
+            $this->db->from('absensi');
+            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+            $this->db->where('MONTH(absensi.date)', $bulan);
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+
+        public function getBulanan($bulan)
+        {
+            $this->db->select("absensi.*, users.username");
+            $this->db->from("absensi");
+            $this->db->join("users", "absensi.id_karyawan = users.id", "left");
+            $this->db->where("DATE_FORMAT(date, '%m') = ", $bulan); // Perbaikan di sini
+            $query = $this->db->get();
+            return $query->result();
+        }
+ 
     
     public function getExportKaryawan() {
         $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.tanggal, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
@@ -62,7 +72,7 @@ class Admin_model extends CI_Model {
     
         return $query->result();
     }
-    
+
     public function exportDataRekapHarian($tanggal_awal, $tanggal_akhir) {
         $this->db->select('tanggal, COUNT(*) as total_absensi');
         $this->db->from('absensi');
@@ -103,55 +113,15 @@ class Admin_model extends CI_Model {
         $query = $this->db->get('absensi');
         return $query->result();
     }
-    public function image_user()
-        {
-            $id_karyawan = $this->session->userdata('id');
-            $this->db->select('image');
-            $this->db->from('users');
-            $this->db->where('id_karyawan');
-            $query = $this->db->get();
-
-            if ($query->num_rows() > 0) {
-                $result = $query->row();
-                return $result->image;
-            } else {
-                return false;
-            }
-        }
-
-        public function update_image($user_id, $new_image) {
-            $data = array(
-                'image' => $new_image
-            );
-    
-            $this->db->where('id', $user_id); // Sesuaikan dengan kolom dan nama tabel yang sesuai
-            $this->db->update('users', $data); // Sesuaikan dengan nama tabel Anda
-    
-            return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
-        }
-
-        public function get_current_image($user_id) {
-            $this->db->select('image');
-            $this->db->from('users'); // Gantilah 'user_table' dengan nama tabel Anda
-            $this->db->where('id', $user_id);
-            $query = $this->db->get();
-    
-            if ($query->num_rows() > 0) {
-                $row = $query->row();
-                return $row->image;
-            }
-    
-            return null; // Kembalikan null jika data tidak ditemukan
-        }
-        public function getBulanan($bulan)
-        {
-            $this->db->select("absensi.*, users.username");
-            $this->db->from("absensi");
-            $this->db->join("users", "absensi.id_karyawan = users.id", "left");
-            $this->db->where("DATE_FORMAT(tanggal, '%m') = ", $bulan); // Perbaikan di sini
-            $query = $this->db->get();
-            return $query->result();
-        }
+  
+    public function getDataAbsensi()
+    {
+        // Ganti 'absensi' dengan tabel yang sesuai dalam database Anda
+        $this->db->select('absensi.*, users.username');
+        $this->db->from('absensi');
+        $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
+        return $this->db->get()->result();
+    }
 
         public function get_absensi_count() {
             return $this->db->count_all_results('absensi');
@@ -167,21 +137,92 @@ class Admin_model extends CI_Model {
             return $this->db->get('users');
         }
 
-        public function getDataAbsensi()
+        public function update_data($table, $data, $where)
         {
-            // Ganti 'absensi' dengan tabel yang sesuai dalam database Anda
-            $this->db->select('absensi.*, users.username');
-            $this->db->from('absensi');
-            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
-            return $this->db->get()->result();
+            $this->db->update($table, $data, $where);
+            return $this->db->affected_rows();
         }
-        public function getPerHari($tanggal)
-        {
-            $this->db->select('absensi.*, users.username');
-            $this->db->from('absensi');
-            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
-            $this->db->where('tanggal', $tanggal);
-            $query = $this->db->get();
-            return $query->result();
-        }
+         
+            public function image_akun()
+            {
+                $id_karyawan = $this->session->akundata('id');
+                $this->db->select('image');
+                $this->db->from('users');
+                $this->db->where('id_karyawan');
+                $query = $this->db->get();
+        
+                if ($query->num_rows() > 0) {
+                    $result = $query->row();
+                    return $result->image;
+                } else {
+                    return false;
+                }
+            }
+            
+            public function get_karyawan_image_by_id($id)
+            {
+                $this->db->select('image');
+                $this->db->from('users');
+                $this->db->where('id', $id);
+                $query = $this->db->get();
+        
+                if ($query->num_rows() > 0) {
+                    $result = $query->row();
+                    return $result->image;
+                } else {
+                    return false;
+                }
+            }
+            public function update_image($akun_id, $new_image)
+            {
+                $data = array(
+                    'image' => $new_image
+                );
+        
+                $this->db->where('id', $akun_id); // Sesuaikan dengan kolom dan nama tabel yang sesuai
+                $this->db->update('users', $data); // Sesuaikan dengan nama tabel Anda
+        
+                return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
+            }
+        
+            public function get_current_image($akun_id)
+            {
+                $this->db->select('image');
+                $this->db->from('users'); // Gantilah 'akun_table' dengan nama tabel Anda
+                $this->db->where('id', $akun_id);
+                $query = $this->db->get();
+        
+                if ($query->num_rows() > 0) {
+                    $row = $query->row();
+                    return $row->image;
+                }
+        
+                return null; // Kembalikan null jika data tidak ditemukan
+            }
+            public function ubah_data($table, $data, $where) { 
+                $this->db->update($table, $data, $where); 
+                return $this->db->affected_rows(); 
+            }
+            function get_masuk($id_karyawan) {
+                $this->db->where('id_karyawan', $id_karyawan);
+                return $this->db->get('absensi')->result();
+            }
+    
+            function get_izin($table, $id_karyawan)
+            {
+                return $this->db->where('id_karyawan', $id_karyawan)
+                ->where('kegiatan', '-')
+                ->get($table);
+            }
+    
+            function get_absen($table, $id_karyawan)
+            {
+                return $this->db->where('id_karyawan', $id_karyawan)
+                ->where('keterangan_izin', '-')
+                ->get($table);
+            }
+            function get_absensi_by_karyawan($id_karyawan) {
+                $this->db->where('id_karyawan', $id_karyawan);
+                return $this->db->get('absensi')->result();
+            }
 }

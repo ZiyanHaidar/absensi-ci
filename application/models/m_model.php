@@ -29,22 +29,20 @@ class M_model extends CI_Model{
         $this->db->update($table, $data, $where); 
         return $this->db->affected_rows(); 
     }
-    
-
 
     public function register_user($data) {
         // Masukkan data ke dalam tabel 'users' dan kembalikan hasilnya
             return $this->db->insert('users', $data);
     }
     
-    
-        public function addAbsensi($data) {
+    public function addAbsensi($data) {
             // Fungsi ini digunakan untuk menambahkan data absensi.
-            // Anda dapat mengisi tanggal dan jam masuk sesuai dengan waktu saat ini.
+            // Anda dapat mengisi date dan jam masuk sesuai dengan waktu saat ini.
             // Anda juga harus mengatur status ke "belum Pulang".
-            $data['tanggal'] = date('Y-m-d');
+            $data['date'] = date('Y-m-d');
             $data['jam_masuk'] = date('H:i:s');
             $data['status'] = 'Belum Pulang';
+            $data['keterangan_izin'] = '-';
         
             // Selanjutnya, masukkan data ini ke tabel "absensi".
             $this->db->insert('absensi', $data);
@@ -54,30 +52,34 @@ class M_model extends CI_Model{
         }
     
         public function setAbsensiPulang($absen_id) {
+            // Set zona waktu ke Asia/Jakarta
+            date_default_timezone_set('Asia/Jakarta');
+        
             // Fungsi ini digunakan untuk mengisi jam pulang dan mengubah status menjadi "pulang".
             $data = array(
-                'jam_pulang' => date('H:i:s'),
+                'jam_pulang' => date('H:i:s'), // Mengambil waktu saat ini dalam format 24-jam
                 'status' => 'Pulang'
             );
-    
+        
             // Ubah data absensi berdasarkan absen_id.
             $this->db->where('id', $absen_id);
             $this->db->update('absensi', $data);
         }
+        
     
         public function addIzin($data) {
             // Fungsi ini digunakan untuk menambahkan izin.
-            // Anda dapat mengisi tanggal saat ini sebagai tanggal izin.
-            // Anda juga perlu mengatur status ke "done" dan jam masuk serta jam pulang ke NULL.
+            // Anda dapat mengisi date saat ini sebagai date izin.
+            // Anda juga perlu mengatur status ke "izin" dan jam masuk serta jam pulang ke NULL.
         
             $data = array(
                 'id_karyawan' => $data['id_karyawan'], // Menggunakan data dari parameter
                 'keterangan_izin' => $data['keterangan'],      // Menggunakan data dari parameter
-                'tanggal' => date('Y-m-d'),
+                'date' => date('Y-m-d'),
                 'kegiatan' => '-',
                 'jam_masuk' => '-',
                 'jam_pulang' => '-',
-                'status' => 'done'
+                'status' => 'Izin'
             );
         
             // Selanjutnya, masukkan data ini ke tabel "absensi".
@@ -99,34 +101,29 @@ class M_model extends CI_Model{
             return $this->db->get_where('absensi', array('id' => $absen_id))->row();
         }      
     
-        public function update($table, $data, $where)
-        {
-            $data = $this->db->update($table, $data, $where);
-            return $this->db->affected_rows();
-        }
+        public function update_data($table, $data, $where)
+    {
+        $this->db->update($table, $data, $where);
+        return $this->db->affected_rows();
+    }
        // get karyawan
         public function get_karyawan($table)
         {
         return $this->db->where('role', 'karyawan')
                         ->get($table);
         }
-        public function count_absen() {
-            return $this->db->count_all_results('absensi'); 
+        function get_absensi_by_karyawan($id_karyawan) {
+            $this->db->where('id_karyawan', $id_karyawan);
+            return $this->db->get('absensi')->result();
         }
-        public function get_absen_page($limit, $offset)
+        public function image_akun()
         {
-            $this->db->limit($limit, $offset);
-            $query = $this->db->get('absensi');
-            return $query->result();
-        }
-        public function image_user()
-        {
-            $id_karyawan = $this->session->userdata('id');
+            $id_karyawan = $this->session->akundata('id');
             $this->db->select('image');
             $this->db->from('users');
             $this->db->where('id_karyawan');
             $query = $this->db->get();
-
+    
             if ($query->num_rows() > 0) {
                 $result = $query->row();
                 return $result->image;
@@ -134,22 +131,57 @@ class M_model extends CI_Model{
                 return false;
             }
         }
+        
+        function get_masuk($id_karyawan) {
+            $this->db->where('id_karyawan', $id_karyawan);
+            return $this->db->get('absensi')->result();
+        }
 
-        public function update_image($user_id, $new_image) {
+        function get_izin($table, $id_karyawan)
+        {
+            return $this->db->where('id_karyawan', $id_karyawan)
+            ->where('kegiatan', '-')
+            ->get($table);
+        }
+
+        function get_absen($table, $id_karyawan)
+        {
+            return $this->db->where('id_karyawan', $id_karyawan)
+            ->where('keterangan_izin', '-')
+            ->get($table);
+        }
+        
+        public function get_karyawan_image_by_id($id)
+        {
+            $this->db->select('image');
+            $this->db->from('users');
+            $this->db->where('id', $id);
+            $query = $this->db->get();
+    
+            if ($query->num_rows() > 0) {
+                $result = $query->row();
+                return $result->image;
+            } else {
+                return false;
+            }
+        }
+        public function update_image($akun_id, $new_image)
+        {
             $data = array(
                 'image' => $new_image
             );
     
-            $this->db->where('id', $user_id); // Sesuaikan dengan kolom dan nama tabel yang sesuai
+            $this->db->where('id', $akun_id); // Sesuaikan dengan kolom dan nama tabel yang sesuai
             $this->db->update('users', $data); // Sesuaikan dengan nama tabel Anda
     
             return $this->db->affected_rows(); // Mengembalikan jumlah baris yang diupdate
         }
-
-        public function get_current_image($user_id) {
+    
+        public function get_current_image($akun_id)
+        {
             $this->db->select('image');
-            $this->db->from('users'); // Gantilah 'user_table' dengan nama tabel Anda
-            $this->db->where('id', $user_id);
+            $this->db->from('users'); // Gantilah 'akun_table' dengan nama tabel Anda
+            $this->db->where('id', $akun_id);
             $query = $this->db->get();
     
             if ($query->num_rows() > 0) {
