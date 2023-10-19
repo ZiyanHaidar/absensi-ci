@@ -123,12 +123,7 @@ class Karyawan extends CI_Controller
             redirect('karyawan/history');
         }
     }
-	public function hapus_history($id)
-	{
-		$this->m_model->delete('absensi', 'id', $id);
-		$this->session->set_flashdata('success', 'History berhasil dihapus!');
-		redirect(base_url('karyawan/history'));
-	}
+
 
     public function ubah_absensi($absen_id) {
         if ($this->session->userdata('role') === 'karyawan') {
@@ -141,17 +136,14 @@ class Karyawan extends CI_Controller
                 if ($this->input->post()) {
                     // Lakukan validasi terhadap input
                     $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
-                    $this->form_validation->set_rules('jam_masuk', 'Jam Masuk', 'required');
 
                     if ($this->form_validation->run() === TRUE) {
                         // Dapatkan data input pengguna
                         $kegiatan = $this->input->post('kegiatan');
-                        $jam_masuk = $this->input->post('jam_masuk');
-
+    
                         // Lakukan pembaruan data absensi
                         $data = array(
-                            'kegiatan' => $kegiatan,
-                            'jam_masuk' => $jam_masuk
+                            'kegiatan' => $kegiatan
                         );
 
                         $this->m_model->updateAbsensi($absen_id, $data);

@@ -165,7 +165,6 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
@@ -207,11 +206,7 @@
                                     <input type="text" class="form-control" id="kegiatan" name="kegiatan"
                                         value="<?= $absensi->kegiatan; ?>" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="jam_masuk" class="form-label">Jam Masuk:</label>
-                                    <input type="text" class="form-control" id="jam_masuk" name="jam_masuk"
-                                        value="<?= $absensi->jam_masuk; ?>" required>
-                                </div>
+
                                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                             </form>
                         </div>

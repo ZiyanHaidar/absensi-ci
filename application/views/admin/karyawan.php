@@ -115,12 +115,11 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Karyawan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
+                    Rekap Keseluruhan
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
@@ -143,7 +142,7 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
-                        <h1>Daftar Karyawan</h1>
+                        <h1>Rekap Keseluruhan</h1>
                         <div class="profile-details">
                             <div class="profile-content">
                                 <?php foreach ($akun as $users): ?>
@@ -170,12 +169,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="mb-4 shadow" style="background-color:#fff">
-                    <div class="py-3">
-                        <a class="btn btn-primary mb-2" href="<?= base_url('admin/export_karyawan')?>">Export</a>
-                    </div>
-                    <table class="table table-hover table-responsive">
+                <div class="card mb-4 shadow" style="background-color:#fff">
+                    <table class="table table-light table-hover">
+                        <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
                         <thead class="table-dark">
                             <tr>
                                 <th>No</th>
@@ -185,6 +181,7 @@
                                 <th>Jam Pulang</th>
                                 <th>Keterangan Izin</th>
                                 <th>Status</th>
+                                <th class="text-center">Aksi</th>
 
                             </tr>
                         </thead>
@@ -212,47 +209,84 @@
                                 <td>
                                     <?php echo $row->status?>
                                 </td>
+                                <td class="text-center">
+                                    <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </td>
 
                             </tr>
                             <?php endforeach ?>
 
-                        </tbody>
                     </table>
+                    </tbody>
                 </div>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+    </div>
 
 
 
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <!-- LOGOUT -->
-                <script>
-                function confirmLogout() {
-                    Swal.fire({
-                        title: 'Yakin mau LogOut?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "<?php echo base_url('auth') ?>";
-                        }
-                    });
-                }
-                </script>
-                <script>
-                function toggleSidebar() {
-                    var sidebar = document.getElementById("sidebar");
-                    var content = document.getElementById("content");
-                    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-                }
-                </script>
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-                </script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+    function hapus(id) {
+        Swal.fire({
+            title: 'Yakin DI Hapus?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?php echo base_url('admin/hapus_karyawan/') ?>" + id;
+            }
+        });
+    }
+    </script>
+    <!-- LOGOUT -->
+    <script>
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Yakin mau LogOut?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?php echo base_url('auth') ?>";
+            }
+        });
+    }
+
+    function showSweetAlert(message) {
+        Swal.fire({
+            icon: 'info',
+            text: message,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+    </script>
+    <script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        var content = document.getElementById("content");
+        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+        content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+    }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

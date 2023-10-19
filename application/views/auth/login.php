@@ -70,7 +70,7 @@
             <div class="mt-3">
                 <p>Belum punya akun?</p>
                 <a href="<?php echo base_url('auth/register'); ?>" class="btn btn-success me-2">Register Karyawan</a>
-                <a href="<?php echo base_url('auth/register_admin'); ?>" class="btn btn-danger">Register Admin</a>
+
             </div>
         </div>
     </div>

@@ -142,7 +142,6 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>

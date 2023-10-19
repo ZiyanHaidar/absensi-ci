@@ -115,7 +115,6 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
                     Karyawan
                 </a>
@@ -197,9 +196,7 @@
                                     <td>
                                         <?php if ($row->status == 'Izin'): ?>
                                         Izin
-                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+
                                         <?php elseif ($row->status == 'Pulang'): ?>
                                         <button class="btn btn-secondary" disabled>
                                             <i class="fas fa-house-user"></i>Pulang
@@ -208,9 +205,6 @@
                                             class="btn btn-primary">
                                             <i class="fas fa-edit"></i> Ubah
                                         </a>
-                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
                                         <?php else: ?>
                                         <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>"
                                             class="btn btn-success" id="pulangButton_<?php echo $row->id ?>">
@@ -220,9 +214,7 @@
                                             class="btn btn-primary">
                                             <i class="fas fa-edit"></i> Ubah
                                         </a>
-                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
+
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -237,23 +229,7 @@
 
     </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-    function hapus(id) {
-        Swal.fire({
-            title: 'Yakin DI Hapus?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('karyawan/hapus_history/') ?>" + id;
-            }
-        });
-    }
-    </script>
+
     <?php if ($this->session->flashdata('success')): ?>
     <script>
     Swal.fire({

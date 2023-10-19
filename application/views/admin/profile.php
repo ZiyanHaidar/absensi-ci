@@ -321,12 +321,11 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Karyawan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
+                    Rekap Keseluruhan
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
@@ -378,7 +377,7 @@
                         </div>
 
                         <div class="card">
-                            <form action="<?php echo base_url('admin/edit_profile'); ?>" class="profile-form"
+                            <form class="profile-form" action="<?php echo base_url('admin/edit_profile'); ?>"
                                 enctype="multipart/form-data" method="post">
 
                                 <div class="form-group">
@@ -401,15 +400,22 @@
                                         value="<?php echo $users->nama_belakang ?>">
                                 </div>
                                 <div class="form-group">
+                                    <label for="password">Kata Sandi Saat Ini</label>
+                                    <input type="password" id="password" name="password">
+
+                                </div>
+                                <div class="form-group">
                                     <label for="password_baru">Kata Sandi Baru</label>
                                     <input type="password" id="password_baru" name="password_baru">
+
                                 </div>
                                 <div class="form-group">
                                     <label for="konfirmasi_password">Konfirmasi Kata Sandi Baru</label>
                                     <input type="password" id="konfirmasi_password" name="konfirmasi_password">
-                                    <button class="save" type="submit"><i class="fa-solid fa-save"></i><span>Simpan
-                                            Perubahan</span></button>
 
+                                    <div id="error-message" style="color: red;"></div>
+                                    <button class="save" type="submit">Simpan Perubahan</button>
+                                </div>
                             </form>
 
                         </div>
@@ -439,22 +445,50 @@
 
         </section>
         <script>
-        function togglePassword(inputId) {
-            var x = document.getElementById(inputId);
-            var icon = document.getElementById("icon-" + inputId);
+        document.querySelector(".profile-form").addEventListener("submit", function(event) {
+            var passwordLama = document.getElementById("password").value;
+            var passwordBaru = document.getElementById("password_baru").value;
+            var konfirmasiPassword = document.getElementById("konfirmasi_password").value;
+            var errorPesan = document.getElementById("error-message");
 
-            if (x.type === "password") {
-                x.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            } else {
-                x.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
+            errorPesan.innerHTML = ""; // Menghapus pesan error sebelumnya
+
+            if (passwordLama === "") {
+                errorPesan.innerHTML = "Password lama harus diisi!";
+                event.preventDefault();
+                return false;
             }
-        }
-        </script>
 
+            if (passwordBaru === "") {
+                errorPesan.innerHTML = "Password baru harus diisi!";
+                event.preventDefault();
+                return false;
+            }
+
+            if (konfirmasiPassword === "") {
+                errorPesan.innerHTML = "Konfirmasi password harus diisi!";
+                event.preventDefault();
+                return false;
+            }
+
+            if (passwordBaru.length < 8) {
+                errorPesan.innerHTML = "Password baru harus terdiri dari minimal 8 karakter!";
+                event.preventDefault();
+                return false;
+            }
+
+            if (passwordBaru !== konfirmasiPassword) {
+                errorPesan.innerHTML = "Password baru dan konfirmasi password tidak cocok!";
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi lainnya jika diperlukan
+            // ...
+
+            return true;
+        });
+        </script>
         <script>
         const arrows = document.querySelectorAll(".arrow");
 

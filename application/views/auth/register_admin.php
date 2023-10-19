@@ -89,7 +89,7 @@
                     <input type="password" name="password" id="password" minlength="8"
                         class="form-control form-control-sm" placeholder="Masukkan kata sandi Anda" class="form-control"
                         name="password" required>
-                    <small class="text-warning">Kata sandi minimal harus 8 karakter!</small>
+                    <small class="text-warning">*Kata sandi minimal harus 8 karakter!</small>
                 </div>
 
                 <button type="submit" class="btn btn-warning btn-block ">Register</button>

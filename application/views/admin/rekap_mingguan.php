@@ -115,12 +115,11 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Karyawan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
+                    Rekap Keseluruhan
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
@@ -172,107 +171,70 @@
                 </div>
 
                 <div class="card mb-4 shadow" style="background-color:#fff">
-                    <form action="<?= base_url('admin/rekapPerMinggu'); ?>" method="get">
-                        <div class="d-flex justify-content-between">
-                            <div class="input-group">
-                                <span class="input-group-text">Tanggal awal</span>
-                                <input type="date" class="form-control" id="start_date" name="start_date"
-                                    value="<?php echo isset($_GET['start_date']) ? $_GET['start_date'] : ''; ?>">
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text">Tanggal akhir</span>
-                                <input type="date" class="form-control" id="end_date" name="end_date"
-                                    value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>">
-                            </div>
-                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
-                                formaction="<?php echo base_url('admin/export_mingguan')?>">Export</button>
-                            <button type="submit" class="btn btn-success">Filter</button>
-                        </div>
-                    </form>
-                    <br>
-                    <hr>
-                    <br>
+                    <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/export_rekap_mingguan') ?>" ;
+                        ?>Eksport</a>
                     <div class="table-responsive">
-                        <?php if (empty($perminggu)): ?>
-                        <h5 class="text-center">Tidak ada data diminggu ini.</h5>
-                        <p class="text-center">Silahkan pilih Minggu lain.</p>
-                        <?php else: ?>
-                        <table class="table">
-                            <thead>
+                        <table class="table table-light table-hover">
+                            <thead class="table-dark">
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Kegiatan</th>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Jam Masuk</th>
-                                    <th scope="col">Jam Pulang</th>
-                                    <th scope="col">Keterangan</th>
+                                    <th>No</th>
+                                    <th>Kegiatan</th>
+                                    <th>Tanggal</th>
+                                    <th>Masuk</th>
+                                    <th>Pulang</th>
+                                    <th>Izin</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no=0; foreach ($perminggu as $rekap): $no++; ?>
+                                <?php $no = 0; foreach ($absensi as $absen): $no++ ?>
                                 <tr>
                                     <td><?= $no; ?></td>
-                                    <td><?= $rekap->date; ?></td>
-                                    <td><?= $rekap->kegiatan; ?></td>
-                                    <td><?= $rekap->jam_masuk; ?></td>
-                                    <td><?= $rekap->jam_pulang; ?></td>
-                                    <td><?= $rekap->keterangan_izin; ?></td>
+                                    <td><?= $absen['kegiatan']; ?></td>
+                                    <td><?= $absen['date']; ?></td>
+                                    <td><?= $absen['jam_masuk']; ?></td>
+                                    <td><?= $absen['jam_pulang']; ?></td>
+                                    <td><?= $absen['keterangan_izin']; ?></td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <?php endif; ?>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
 
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Add an event listener for the "change" event on the select element
-        var selectElement = document.getElementById('bulan');
-        var formElement = selectElement.form; // Get the parent form
-
-        selectElement.addEventListener('change', function() {
-            formElement.submit(); // Submit the form when the select element changes
-        });
-    });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <!-- LOGOUT -->
-    <script>
-    function confirmLogout() {
-        Swal.fire({
-            title: 'Yakin mau LogOut?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('auth') ?>";
-            }
-        });
-    }
-    </script>
-    <script>
-    function toggleSidebar() {
-        var sidebar = document.getElementById("sidebar");
-        var content = document.getElementById("content");
-        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-        content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-    }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <!-- LOGOUT -->
+        <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Yakin mau LogOut?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "<?php echo base_url('auth') ?>";
+                }
+            });
+        }
+        </script>
+        <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var content = document.getElementById("content");
+            sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+            content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+        }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+        </script>
 </body>
 
 </html>

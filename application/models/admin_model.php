@@ -13,6 +13,11 @@ class Admin_model extends CI_Model {
         $data = $this->db->where($id_column, $id)->get($table); 
         return $data; 
     }
+    function delete($table, $field, $id)
+    {
+        $data = $this->db->delete($table, array($field => $id));
+        return $data;
+    }
 
     public function getPerHari($tanggal)
         {
@@ -24,15 +29,30 @@ class Admin_model extends CI_Model {
             return $query->result();
         }
 
-        public function getRekapPerMinggu($start_date, $end_date) {
-            $this->db->select('absensi.*, users.username');
-            $this->db->from('absensi');
-            $this->db->join('users', 'absensi.id_karyawan = users.id', 'left');
-            $this->db->where('date >', $start_date);
-            $this->db->where('date <', $end_date);
-            $query = $this->db->get();
-            return $query->result();
-        }        
+     
+    public function getMingguanData($tanggal_awal, $tanggal_akhir) {
+        $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.date as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
+        $this->db->from('absensi');
+        $this->db->join('users', 'users.id = absensi.id_karyawan', 'left');
+        $this->db->where("WEEK(absensi.date, 3) BETWEEN $tanggal_awal AND $tanggal_akhir");
+    
+        $query = $this->db->get();
+    
+        return $query->result();
+    }
+    public function getAbsensiLast7Days() {
+        $this->load->database();
+        $end_tanggal = date('Y-m-d');
+        $start_tanggal = date('Y-m-d', strtotime('-7 days', strtotime($end_tanggal)));            
+        $query = $this->db->select('date, kegiatan, jam_masuk, jam_pulang, keterangan_izin, status, COUNT(*) AS total_absences')
+                            ->from('absensi')
+                            ->where('date >=', $start_tanggal)
+                            ->where('date <=', $end_tanggal)
+                            ->group_by('date, kegiatan, jam_masuk, jam_pulang, keterangan_izin, status')
+                            ->get();
+
+        return $query->result_array();
+    }
 
         public function getRekapPerBulan($bulan) {
             $this->db->select('MONTH(date) as bulan, COUNT(*) as total_absensi, users.username');
@@ -65,7 +85,7 @@ class Admin_model extends CI_Model {
  
     
     public function getExportKaryawan() {
-        $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.tanggal, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
+        $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.date, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
         $this->db->from('absensi');
         $this->db->join('users', 'users.id = absensi.id_karyawan', 'left');
         $query = $this->db->get();

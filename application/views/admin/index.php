@@ -108,6 +108,123 @@
     .profile-details .job {
         font-size: 12px;
     }
+
+
+
+    .home-section .home-content {
+
+        display: flex;
+        align-items: center;
+    }
+
+    .home-section .home-content .fa-bars {
+        margin: 0 15px;
+        cursor: pointer;
+    }
+
+    .home-section .home-content .text {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+
+
+    /* Tabel */
+    .table-wrap {
+        max-width: 1000px;
+        margin: 40px auto;
+        overflow-x: auto;
+
+    }
+
+    table,
+    td,
+    th {
+        /*   border: 1px solid #ddd; */
+        text-align: center;
+        font-size: 15px;
+        text-transform: capitalize;
+    }
+
+    table thead tr {
+        background-color: #6699ff;
+        color: #fff;
+    }
+
+    table tbody tr td {
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        white-space: nowrap;
+    }
+
+    table tbody tr:nth-child(odd) {
+        background: #b4b4b442;
+        color: #000;
+        font-weight: 500;
+    }
+
+
+    .edit {
+        background-color: #6699ff;
+        /* Ubah warna latar belakang sesuai tema ikon */
+    }
+
+    .pulang {
+        background-color: #00ff00;
+        /* Ubah warna latar belakang sesuai tema ikon */
+    }
+
+    .delete {
+        background-color: #ff6666;
+        /* Ubah warna latar belakang sesuai tema ikon */
+    }
+
+    .icon-btn {
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        border-radius: 4px;
+    }
+
+    .icon-btn:hover {
+        background-color: #555;
+        /* Efek hover untuk semua tombol */
+    }
+
+    /* Style untuk filter-form */
+    .filter-form {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .btn-green {
+        background-color: #00ff00;
+        color: #fff;
+
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-green:hover {
+        background-color: #66ff66;
+    }
     </style>
 </head>
 
@@ -115,12 +232,11 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <h3> <i class="fas fa-chart-line mr-2"></i> Dashboard</h3>
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Karyawan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
+                    Rekap Keseluruhan
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Harian
@@ -170,6 +286,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card mb-4 shadow" style="background-color:#fff">
                     <div class="row">
                         <div class="col-md-4 mb-4">
@@ -211,40 +328,113 @@
                             </div>
                         </div>
                     </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Username</th>
+                                    <th>Nama depan</th>
+                                    <th>Nama belakang</th>
+                                    <th>image</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 0;
+                                  foreach ($get_karyawan as $row):
+                                  $no++ ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $no ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row->username ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row->nama_depan ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row->nama_belakang ?>
+                                    </td>
+                                    <td>
+                                        <img style="width:80px; height:80px; border-radius:50%"
+                                            src="<?= base_url('images/user/' . $row->image) ?>" alt="">
+
+                                    </td>
+                                    <td>
+                                        <?php echo $row->email ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
+    <script>
+    const arrows = document.querySelectorAll(".arrow");
+
+    arrows.forEach((arrow) => {
+        arrow.addEventListener("click", (e) => {
+            const arrowParent = e.target.closest(".arrow").parentElement
+                .parentElement;
+            arrowParent.classList.toggle("showMenu");
+        });
+    });
+
+    const sidebar = document.querySelector(".sidebar");
+    const sidebarBtn = document.querySelector(".fa-bars");
+
+    sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    </div>
+    </div>
 
 
 
-                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                    <!-- LOGOUT -->
-                    <script>
-                    function confirmLogout() {
-                        Swal.fire({
-                            title: 'Yakin mau LogOut?',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = "<?php echo base_url('auth') ?>";
-                            }
-                        });
-                    }
-                    </script>
-                    <script>
-                    function toggleSidebar() {
-                        var sidebar = document.getElementById("sidebar");
-                        var content = document.getElementById("content");
-                        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                        content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-                    }
-                    </script>
-                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-                    </script>
-                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- LOGOUT -->
+    <script>
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Yakin mau LogOut?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "<?php echo base_url('auth') ?>";
+            }
+        });
+    }
+    </script>
+    <script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        var content = document.getElementById("content");
+        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+        content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+    }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
