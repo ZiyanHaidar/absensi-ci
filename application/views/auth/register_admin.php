@@ -7,6 +7,8 @@
     <title>Register</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
     .body {
         height: 100vh;
@@ -98,6 +100,8 @@
                     class="btn btn-info btn-sm">Login</a></p>
         </div>
     </div>
+
+
 </body>
 
 </html>

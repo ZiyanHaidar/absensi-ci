@@ -118,16 +118,16 @@
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
-                    Rekap Keseluruhan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
+                    Rekap Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
                     Rekap Harian
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
                     Rekap Bulanan
                 </a>
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
@@ -142,7 +142,7 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
-                        <h1>Rekap Keseluruhan</h1>
+                        <h1>Rekap Karyawan</h1>
                         <div class="profile-details">
                             <div class="profile-content">
                                 <?php foreach ($akun as $users): ?>

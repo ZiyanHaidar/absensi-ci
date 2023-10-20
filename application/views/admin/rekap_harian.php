@@ -118,16 +118,16 @@
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
-                    Rekap Keseluruhan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
+                    Rekap Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
                     Rekap Harian
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
                     Rekap Bulanan
                 </a>
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
@@ -178,12 +178,11 @@
                             <input type="date" class="form-control" id="tanggal" name="tanggal"
                                 value="<?php echo isset($_GET['tanggal']) ? $_GET['tanggal'] : ''; ?>">
                             <button type="submit" class="btn btn-success">Filter</button>
-                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
-                                formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
                         </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                            formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
                     </form>
                     <br>
-                    <hr>
                     <br>
                     <div class="table-responsive">
                         <?php if(!empty($perhari)): ?>

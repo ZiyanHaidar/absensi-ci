@@ -115,19 +115,19 @@
     <div class="container-fluid">
         <div class="row">
             <div id="sidebar" class="col-md-3 col-lg-2 d-md-block">
-                <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
+            <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
-                    Rekap Keseluruhan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
+                    Rekap Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
                     Rekap Harian
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
                     Rekap Bulanan
                 </a>
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
@@ -173,58 +173,57 @@
                 <!-- Role Karyawan - History Absen -->
                 <div class="card mb-4 shadow" style="background-color:#fff">
                     <!-- Filter Bulan -->
+                    <div class="d-flex justify-content-between">
+                        <select class="form-control" id="bulan" name="bulan">
+                            <option>Pilih Bulan</option>
+                            <option value="1"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '1') echo 'selected'; ?>>
+                                Januari
+                            </option>
+                            <option value="2"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '2') echo 'selected'; ?>>
+                                Februari</option>
+                            <option value="3"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '3') echo 'selected'; ?>>
+                                Maret
+                            </option>
+                            <option value="4"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '4') echo 'selected'; ?>>
+                                April
+                            </option>
+                            <option value="5"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '5') echo 'selected'; ?>>Mei
+                            </option>
+                            <option value="6"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '6') echo 'selected'; ?>>
+                                Juni
+                            </option>
+                            <option value="7"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '7') echo 'selected'; ?>>
+                                Juli
+                            </option>
+                            <option value="8"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '8') echo 'selected'; ?>>
+                                Agustus
+                            </option>
+                            <option value="9"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '9') echo 'selected'; ?>>
+                                September</option>
+                            <option value="10"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '10') echo 'selected'; ?>>
+                                Oktober</option>
+                            <option value="11"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '11') echo 'selected'; ?>>
+                                November</option>
+                            <option value="12"
+                                <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '12') echo 'selected'; ?>>
+                                Desember</option>
+                        </select>
+                        <button type="submit" class="btn btn-success">Filter</button>
+                    </div>
                     <form action="<?= base_url('admin/rekapPerBulan'); ?>" method="get">
-
-                        <div class="d-flex justify-content-between">
-                            <select class="form-control" id="bulan" name="bulan">
-                                <option>Pilih Bulan</option>
-                                <option value="1"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '1') echo 'selected'; ?>>
-                                    Januari
-                                </option>
-                                <option value="2"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '2') echo 'selected'; ?>>
-                                    Februari</option>
-                                <option value="3"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '3') echo 'selected'; ?>>
-                                    Maret
-                                </option>
-                                <option value="4"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '4') echo 'selected'; ?>>
-                                    April
-                                </option>
-                                <option value="5"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '5') echo 'selected'; ?>>Mei
-                                </option>
-                                <option value="6"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '6') echo 'selected'; ?>>
-                                    Juni
-                                </option>
-                                <option value="7"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '7') echo 'selected'; ?>>
-                                    Juli
-                                </option>
-                                <option value="8"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '8') echo 'selected'; ?>>
-                                    Agustus
-                                </option>
-                                <option value="9"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '9') echo 'selected'; ?>>
-                                    September</option>
-                                <option value="10"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '10') echo 'selected'; ?>>
-                                    Oktober</option>
-                                <option value="11"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '11') echo 'selected'; ?>>
-                                    November</option>
-                                <option value="12"
-                                    <?php if(isset($_GET['bulan']) && $_GET['bulan'] == '12') echo 'selected'; ?>>
-                                    Desember</option>
-                            </select>
-                            <button type="submit" class="btn btn-success">Filter</button>
-                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
-                                formaction="<?php echo base_url('admin/export_bulanan')?>">Export</button>
-                        </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                            formaction="<?php echo base_url('admin/export_bulanan')?>">Export</button>
                     </form>
                     <br>
 

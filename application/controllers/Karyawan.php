@@ -176,42 +176,49 @@ class Karyawan extends CI_Controller
     }
 
     public function edit_profile()
-    {
-        $password_baru = $this->input->post('password_baru');
-        $konfirmasi_password = $this->input->post('konfirmasi_password');
-        $email = $this->input->post('email');
-        $username = $this->input->post('username');
-        $nama_depan = $this->input->post('nama_depan');
-        $nama_belakang = $this->input->post('nama_belakang');
+	{
+		$password_lama = $this->input->post('password_lama');
+		$password_baru = $this->input->post('password_baru');
+		$konfirmasi_password = $this->input->post('konfirmasi_password');
+		$email = $this->input->post('email');
+		$username = $this->input->post('username');
+		$nama_depan = $this->input->post('nama_depan');
+		$nama_belakang = $this->input->post('nama_belakang');
 
-        $data = array(
-            'email' => $email,
-            'username' => $username,
-            'nama_depan' => $nama_depan,
-            'nama_belakang' => $nama_belakang,
-        );
+		$data = array(
+			'email' => $email,
+			'username' => $username,
+			'nama_depan' => $nama_depan,
+			'nama_belakang' => $nama_belakang,
+		);
 
-        if (!empty($password_baru)) {
-            if ($password_baru === $konfirmasi_password) {
-                $data['password'] = md5($password_baru);
-                $this->session->set_flashdata('ubah_password', 'Berhasil mengubah password');
-            } else {
-                $this->session->set_flashdata('kesalahan_password', 'Password baru dan Konfirmasi password tidak sama');
-                redirect(base_url('karyawan/profile'));
+		$stored_password = $this->m_model->getPasswordById($this->session->userdata('id')); // Ganti dengan metode sesuai dengan struktur database Anda
+        if (md5($password_lama) != $stored_password) {
+            $this->session->set_flashdata('kesalahan_password_lama', 'Password lama yang dimasukkan salah');
+            redirect(base_url('karyawan/profile'));
+        } else {
+            if (!empty($password_baru)) {
+                if ($password_baru === $konfirmasi_password) {
+                    $data['password'] = md5($password_baru);
+                    $this->session->set_flashdata('ubah_password', 'Berhasil mengubah password');
+                } else {
+                    $this->session->set_flashdata('kesalahan_password', 'Password baru dan Konfirmasi password tidak sama');
+                    redirect(base_url('karyawan/profile'));
+                }
             }
         }
 
-        $this->session->set_userdata($data);
-        $update_result = $this->m_model->update_data('users', $data, array('id' => $this->session->userdata('id')));
+		$this->session->set_userdata($data);
+		$update_result = $this->m_model->update_data('users', $data, array('id' => $this->session->userdata('id')));
 
-        if ($update_result) {
-            $this->session->set_flashdata('update_akun', 'Data berhasil diperbarui');
-            redirect(base_url('karyawan/profile'));
-        } else {
-            $this->session->set_flashdata('gagal_update', 'Gagal memperbarui data');
-            redirect(base_url('karyawan/profile'));
-        }
-    }
+		if ($update_result) {
+			$this->session->set_flashdata('update_user', 'Data berhasil diperbarui');
+			redirect(base_url('karyawan/profile'));
+		} else {
+			$this->session->set_flashdata('gagal_update', 'Gagal memperbarui data');
+			redirect(base_url('karyawan/profile'));
+		}
+	}
 
     public function edit_image()
     {

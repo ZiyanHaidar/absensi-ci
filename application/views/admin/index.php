@@ -7,6 +7,8 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
     body {
         display: flex;
@@ -235,16 +237,16 @@
                 <a href="<?php echo base_url('admin') ?>"><i class="fas fa-chart-line mr-2"></i>
                     Dashboard
                 </a>
-                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-calendar mr-2"></i>
-                    Rekap Keseluruhan
+                <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
+                    Rekap Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
                     Rekap Harian
                 </a>
                 <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
                     Rekap Mingguan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file mr-2"></i>
+                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
                     Rekap Bulanan
                 </a>
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
