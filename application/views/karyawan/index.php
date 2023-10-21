@@ -200,7 +200,7 @@
                                         <i class="fas fa-user-tie mr-2" style="font-size: 60px;"></i>
                                         <p class="m-0"></p>
                                     </div>
-                                    <div class="ml-auto">Total</div>
+                                    <div class="ml-auto">Total Keseluruhan</div>
                                     <span style="font-size: 24px;">
                                         <h2><?php echo $absensi_count; ?></h2>
                                     </span>

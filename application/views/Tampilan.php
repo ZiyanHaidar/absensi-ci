@@ -66,13 +66,12 @@
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color: #337CCF;">
+    <h1 class="text-center">Welcome</h1>
     <div class="card mt-5 w-50 justify-content-center mx-auto">
-        <h1 class="text-center">Welcome</h1>
         <a href="auth/register" class="login-button">REGISTER KARYAWAN</a>
-        <br>
-
     </div>
+    <br>
     <div class="card mt-5 w-50 justify-content-center mx-auto">
         <a href="./auth" class="login-butto">LOGIN</a>
     </div>

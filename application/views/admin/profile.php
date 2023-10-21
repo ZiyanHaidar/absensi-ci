@@ -356,15 +356,16 @@
 
                     </div>
                     <div class="card">
-                        <div class="row">
-                            <div class="card-body text-center">
+                        <div class="card-body text-center">
+
+                            <div class="col-xl-15">
                                 <div class="profile-image">
                                     <img src="<?php echo base_url('images/admin/' . $users->image) ?>" alt="profileImg"
                                         class="rounded-circle">
-
-                                    <input name="id" type="hidden" value="<?php echo $users->id ?>">
                                     <button for="image_upload" class="edit-button" data-bs-toggle="modal"
                                         data-bs-target="#editImageModal"><i class="fa-solid fa-pen"></i></button>
+                                    <input name="id" type="hidden" value="<?php echo $users->id ?>">
+
                                     <input type="file" id="image" name="image" accept="image/*" style="display:none;">
                                 </div>
                                 <h5 class="card-title">
@@ -375,79 +376,102 @@
                                 </p>
                             </div>
                         </div>
-
-                        <div class="col-xl-15">
-                            <div class="card mb-4">
-                                <div class="card-header">Informasi Data</div>
-                                <div class="card-body">
-                                    <form action="<?php echo base_url('admin/edit_profile'); ?>"
-                                        enctype="multipart/form-data" method="post">
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="email">Email</label>
-                                            <input class="form-control" id="email" type="email"
-                                                placeholder="Masukan email" value="<?php echo $users->email ?>"
-                                                name="email">
+                    </div>
+                    <br>
+                    <div class="col-xl-15">
+                        <!-- Account details card-->
+                        <div class="card mb-4">
+                            <div class="card-header">Informasi Data</div>
+                            <div class="card-body">
+                                <form action="<?php echo base_url('admin/edit_profile'); ?>"
+                                    enctype="multipart/form-data" method="post">
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="email">Email</label>
+                                        <input class="form-control" id="email" type="email" placeholder="Masukan email"
+                                            value="<?php echo $users->email ?>" name="email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="username">Username</label>
+                                        <input class="form-control" id="username" type="text"
+                                            placeholder="Masukan username" value="<?php echo $users->username ?>"
+                                            name="username">
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="nama_depan">Nama Depan</label>
+                                            <input class="form-control" id="nama_depan" type="text"
+                                                placeholder="Masukan nama depan"
+                                                value="<?php echo $users->nama_depan ?>" name="nama_depan">
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="username">Username</label>
-                                            <input class="form-control" id="username" type="text"
-                                                placeholder="Masukan username" value="<?php echo $users->username ?>"
-                                                name="username">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="nama_belakang">Nama
+                                                Belakang</label>
+                                            <input class="form-control" id="nama_belakang" type="text"
+                                                placeholder="Masukan nama belakang"
+                                                value="<?php echo $users->nama_belakang ?>" name="nama_belakang">
                                         </div>
-                                        <div class="row gx-3 mb-3">
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="nama_depan">Nama Depan</label>
-                                                <input class="form-control" id="nama_depan" type="text"
-                                                    placeholder="Masukan nama depan"
-                                                    value="<?php echo $users->nama_depan ?>" name="nama_depan">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="nama_belakang">Nama Belakang</label>
-                                                <input class="form-control" id="nama_belakang" type="text"
-                                                    placeholder="Masukan nama belakang"
-                                                    value="<?php echo $users->nama_belakang ?>" name="nama_belakang">
-                                            </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="password">Password Lama</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="password_lama" type="password"
+                                                placeholder="Masukan Password Lama" name="password_lama">
+                                            <span class="input-group-text" onclick="togglePassword('password_lama')"><i
+                                                    id="icon-konfirmasi" class="fas fa-eye"></i></span>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="password">Password Lama</label>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="password">Password Baru</label>
                                             <div class="input-group">
-                                                <input class="form-control" id="password_lama" type="password"
-                                                    placeholder="Masukan Password Lama" name="password_lama">
+                                                <input class="form-control" id="password" type="password"
+                                                    placeholder="Password baru" name="password_baru">
+                                                <span class="input-group-text" onclick="togglePassword('password')"><i
+                                                        id="icon-password" class="fas fa-eye"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="password">Konfirmasi
+                                                Password</label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="konfirmasi_password" type="password"
+                                                    placeholder="Konfirmasi password" name="konfirmasi_password">
                                                 <span class="input-group-text"
-                                                    onclick="togglePassword('password_lama')"><i id="icon-konfirmasi"
-                                                        class="fas fa-eye"></i></span>
+                                                    onclick="togglePassword('konfirmasi_password')"><i
+                                                        id="icon-konfirmasi" class="fas fa-eye"></i></span>
                                             </div>
                                         </div>
-                                        <div class="row gx-3 mb-3">
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="password">Password Baru</label>
-                                                <div class="input-group">
-                                                    <input class="form-control" id="password" type="password"
-                                                        placeholder="Password baru" name="password_baru">
-                                                    <span class="input-group-text"
-                                                        onclick="togglePassword('password')"><i id="icon-password"
-                                                            class="fas fa-eye"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="password">Konfirmasi Password</label>
-                                                <div class="input-group">
-                                                    <input class="form-control" id="konfirmasi_password" type="password"
-                                                        placeholder="Konfirmasi password" name="konfirmasi_password">
-                                                    <span class="input-group-text"
-                                                        onclick="togglePassword('konfirmasi_password')"><i
-                                                            id="icon-konfirmasi" class="fas fa-eye"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    </div>
 
-                                        <button class="btn btn-success" type="submit">Simpan Perubahan</button>
-                                    </form>
-                                </div>
+                                    <button class="btn btn-success" type="submit">Simpan Perubahan</button>
+                                </form>
                             </div>
                         </div>
-                        <?php endforeach ?>
                     </div>
+                    <?php endforeach ?>
+                    <!-- Modal -->
+                    <div class="modal" id="imageModal">
+                        <div class="modal-content">
+                            <span class="close" id="closeModal">&times;</span>
+                            <form action="<?php echo base_url('karyawan/edit_image'); ?>" method="post"
+                                enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="<?php echo $users->id; ?>">
+                                <label for="image">Pilih gambar:</label>
+                                <input type="file" id="image" name="image" accept="image/*">
+                                <button type="submit">Simpan</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Modal Image-->
+                    <div class="modalimg" id="imageModall">
+                        <div class="modal-content">
+                            <span class="closes" id="closeModall">&times;</span>
+                            <img src="<?php echo base_url('images/karyawan/' . $users->image) ?>" alt="profileImg"
+                                class="modal-image">
+                        </div>
+                    </div>
+
 </body>
 
 <script>

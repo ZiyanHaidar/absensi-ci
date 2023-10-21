@@ -330,6 +330,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="card mb-4 shadow" style="background-color:#fff">
                     <div class="table-responsive">
                         <table class="table table-bordered">
 

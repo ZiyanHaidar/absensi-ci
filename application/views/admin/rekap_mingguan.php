@@ -169,10 +169,12 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card mb-4 shadow" style="background-color:#fff">
+                <div class=" shadow" style="background-color:#fff">
                     <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/export_rekap_mingguan') ?>" ;
                         ?>Eksport</a>
+                </div>
+
+                <div class="card mb-4 shadow" style="background-color:#fff">
                     <div class="table-responsive">
                         <table class="table table-light table-hover">
                             <thead class="table-dark">

@@ -178,9 +178,9 @@
                             <input type="date" class="form-control" id="tanggal" name="tanggal"
                                 value="<?php echo isset($_GET['tanggal']) ? $_GET['tanggal'] : ''; ?>">
                             <button type="submit" class="btn btn-success">Filter</button>
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                                formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
                         </div>
-                        <button type="submit" name="submit" class="btn btn-sm btn-primary"
-                            formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
                     </form>
                     <br>
                     <br>
@@ -190,8 +190,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Kegiatan</th>
                                     <th scope="col">Tanggal</th>
+                                    <th scope="col">Kegiatan</th>
                                     <th scope="col">Jam Masuk</th>
                                     <th scope="col">Jam Pulang</th>
                                     <th scope="col">Keterangan</th>

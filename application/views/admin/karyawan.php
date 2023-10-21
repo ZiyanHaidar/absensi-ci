@@ -169,9 +169,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="shadow" style="background-color:#fff">
+
+                    <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
+                </div>
                 <div class="card mb-4 shadow" style="background-color:#fff">
                     <table class="table table-light table-hover">
-                        <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
+
                         <thead class="table-dark">
                             <tr>
                                 <th>No</th>

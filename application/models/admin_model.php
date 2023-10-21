@@ -84,14 +84,16 @@ class Admin_model extends CI_Model {
         }
  
     
-    public function getExportKaryawan() {
-        $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.date, absensi.jam_masuk, absensi.jam_pulang, absensi.status');
-        $this->db->from('absensi');
-        $this->db->join('users', 'users.id = absensi.id_karyawan', 'left');
-        $query = $this->db->get();
-    
-        return $query->result();
-    }
+        public function getExportKaryawan() {
+            $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.date as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
+            $this->db->from('absensi');
+            $this->db->join('users', 'users.id = absensi.id_karyawan', 'left');
+
+        
+            $query = $this->db->get();
+        
+            return $query->result();
+        }
 
     public function exportDataRekapHarian($tanggal_awal, $tanggal_akhir) {
         $this->db->select('tanggal, COUNT(*) as total_absensi');
