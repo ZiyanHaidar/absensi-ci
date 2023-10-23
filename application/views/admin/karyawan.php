@@ -119,116 +119,118 @@
                     Dashboard
                 </a>
                 <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Rekap Karyawan
+                    Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
-                    Rekap Harian
+                <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file mr-2"></i> Rekap
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
-                    Rekap Mingguan
-                </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
-                    Rekap Bulanan
-                </a>
+                <div class="dropdown-menu" aria-labelledby="rekapDropdown">
+                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
+                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
+                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                </div>
+
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
                     Profile
                 </a>
-                <a type="button" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
-                </a>
-            </div>
+                <div class="logout-button mt-auto">
+                    <a type="button" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt text-danger">LogOut</i>
+                    </a>
+                </div>
 
-            <div id="content" role="main">
-                <div class="card mb-4 shadow">
-                    <div class="card-body d-flex text-white justify-content-between align-items-center"
-                        style="background-color:#1D267D">
-                        <h1>Rekap Karyawan</h1>
-                        <div class="profile-details">
-                            <div class="profile-content">
-                                <?php foreach ($akun as $users): ?>
+                <div id="content" role="main">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body d-flex text-white justify-content-between align-items-center"
+                            style="background-color:#1D267D">
+                            <h1>Rekap Karyawan</h1>
+                            <div class="profile-details">
                                 <div class="profile-content">
-                                    <a href="<?php echo base_url('admin/profile') ?>">
-                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
-                                            alt="profileImg">
-                                    </a>
-                                </div>
-                                <?php endforeach ?>
+                                    <?php foreach ($akun as $users): ?>
+                                    <div class="profile-content">
+                                        <a href="<?php echo base_url('admin/profile') ?>">
+                                            <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
+                                                alt="profileImg">
+                                        </a>
+                                    </div>
+                                    <?php endforeach ?>
 
-                                <div class="name-job">
-                                    <div class="profile_name">
-                                        <?php echo $this->session->userdata('username'); ?>
-                                    </div>
-                                    <div class="job">
-                                        <marquee scrolldelay="200">
-                                            <?php echo $_SESSION['email']; ?>
-                                        </marquee>
+                                    <div class="name-job">
+                                        <div class="profile_name">
+                                            <?php echo $this->session->userdata('username'); ?>
+                                        </div>
+                                        <div class="job">
+                                            <marquee scrolldelay="200">
+                                                <?php echo $_SESSION['email']; ?>
+                                            </marquee>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="shadow" style="background-color:#fff">
+                    <div class="shadow" style="background-color:#fff">
 
-                    <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
-                </div>
-                <div class="card mb-4 shadow" style="background-color:#fff">
-                    <table class="table table-light table-hover">
+                        <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
+                    </div>
+                    <div class="card mb-4 shadow" style="background-color:#fff">
+                        <table class="table table-light table-hover">
 
-                        <thead class="table-dark">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Kegiatan</th>
-                                <th>Jam Masuk</th>
-                                <th>Jam Pulang</th>
-                                <th>Keterangan Izin</th>
-                                <th>Status</th>
-                                <th class="text-center">Aksi</th>
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Kegiatan</th>
+                                    <th>Jam Masuk</th>
+                                    <th>Jam Pulang</th>
+                                    <th>Keterangan Izin</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Aksi</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $no = 0;
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 0;
                                     foreach ($absensi as $row):
                                         $no++ ?>
-                            <tr>
-                                <td>
-                                    <?php echo $no ?>
-                                </td>
-                                <td>
-                                    <?php echo tampil_full_nama_byid($row->id_karyawan) ?>
-                                </td>
-                                <td>
-                                    <?php echo $row->kegiatan ?>
-                                </td>
-                                <td>
-                                    <?php echo $row->jam_masuk ?>
-                                </td>
-                                <td>
-                                    <?php echo $row->jam_pulang ?>
-                                </td>
-                                <td><?php echo $row->keterangan_izin ?></td>
-                                <td>
-                                    <?php echo $row->status?>
-                                </td>
-                                <td class="text-center">
-                                    <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </td>
+                                <tr>
+                                    <td>
+                                        <?php echo $no ?>
+                                    </td>
+                                    <td>
+                                        <?php echo tampil_full_nama_byid($row->id_karyawan) ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row->kegiatan ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row->jam_masuk ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row->jam_pulang ?>
+                                    </td>
+                                    <td><?php echo $row->keterangan_izin ?></td>
+                                    <td>
+                                        <?php echo $row->status?>
+                                    </td>
+                                    <td class="text-center">
+                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </td>
 
-                            </tr>
-                            <?php endforeach ?>
+                                </tr>
+                                <?php endforeach ?>
 
-                    </table>
-                    </tbody>
+                        </table>
+                        </tbody>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
     </div>
     </div>

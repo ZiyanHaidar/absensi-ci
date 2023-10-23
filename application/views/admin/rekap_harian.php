@@ -119,140 +119,142 @@
                     Dashboard
                 </a>
                 <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Rekap Karyawan
+                    Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
-                    Rekap Harian
+                <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file mr-2"></i> Rekap
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
-                    Rekap Mingguan
-                </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
-                    Rekap Bulanan
-                </a>
+                <div class="dropdown-menu" aria-labelledby="rekapDropdown">
+                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
+                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
+                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                </div>
+
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
                     Profile
                 </a>
-                <a type="button" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
-                </a>
-            </div>
+                <div class="logout-button mt-auto">
+                    <a type="button" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt text-danger">LogOut</i>
+                    </a>
+                </div>
 
-            <div id="content" role="main">
-                <div class="card mb-4 shadow">
-                    <div class="card-body d-flex text-white justify-content-between align-items-center"
-                        style="background-color:#1D267D">
-                        <h1>Rekap Harian</h1>
-                        <div class="profile-details">
-                            <div class="profile-content">
-                                <?php foreach ($akun as $users): ?>
+                <div id="content" role="main">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body d-flex text-white justify-content-between align-items-center"
+                            style="background-color:#1D267D">
+                            <h1>Rekap Harian</h1>
+                            <div class="profile-details">
                                 <div class="profile-content">
-                                    <a href="<?php echo base_url('admin/profile') ?>">
-                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
-                                            alt="profileImg">
-                                    </a>
-                                </div>
-                                <?php endforeach ?>
+                                    <?php foreach ($akun as $users): ?>
+                                    <div class="profile-content">
+                                        <a href="<?php echo base_url('admin/profile') ?>">
+                                            <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
+                                                alt="profileImg">
+                                        </a>
+                                    </div>
+                                    <?php endforeach ?>
 
-                                <div class="name-job">
-                                    <div class="profile_name">
-                                        <?php echo $this->session->userdata('username'); ?>
-                                    </div>
-                                    <div class="job">
-                                        <marquee scrolldelay="200">
-                                            <?php echo $_SESSION['email']; ?>
-                                        </marquee>
+                                    <div class="name-job">
+                                        <div class="profile_name">
+                                            <?php echo $this->session->userdata('username'); ?>
+                                        </div>
+                                        <div class="job">
+                                            <marquee scrolldelay="200">
+                                                <?php echo $_SESSION['email']; ?>
+                                            </marquee>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-
                         </div>
                     </div>
-                </div>
 
-                <!-- Role Karyawan - History Absen -->
-                <div class="card mb-4 shadow" style="background-color:#fff">
-                    <!-- Filter Tanggal -->
-                    <form action="<?= base_url('admin/rekapPerHari'); ?>" method="get">
-                        <div class="d-flex justify-content-between">
-                            <input type="date" class="form-control" id="tanggal" name="tanggal"
-                                value="<?php echo isset($_GET['tanggal']) ? $_GET['tanggal'] : ''; ?>">
-                            <button type="submit" class="btn btn-success">Filter</button>
-                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
-                                formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
+                    <!-- Role Karyawan - History Absen -->
+                    <div class="card mb-4 shadow" style="background-color:#fff">
+                        <!-- Filter Tanggal -->
+                        <form action="<?= base_url('admin/rekapPerHari'); ?>" method="get">
+                            <div class="d-flex justify-content-between">
+                                <input type="date" class="form-control" id="tanggal" name="tanggal"
+                                    value="<?php echo isset($_GET['tanggal']) ? $_GET['tanggal'] : ''; ?>">
+                                <button type="submit" class="btn btn-success">Filter</button>
+                                <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                                    formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
+                            </div>
+                        </form>
+                        <br>
+                        <br>
+                        <div class="table-responsive">
+                            <?php if(!empty($perhari)): ?>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Tanggal</th>
+                                        <th scope="col">Kegiatan</th>
+                                        <th scope="col">Jam Masuk</th>
+                                        <th scope="col">Jam Pulang</th>
+                                        <th scope="col">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no=0;foreach ($perhari as $rekap): $no++ ?>
+                                    <tr>
+                                        <td><?= $no; ?></td>
+                                        <td><?= $rekap->date; ?></td>
+                                        <td><?= $rekap->kegiatan; ?></td>
+                                        <td><?= $rekap->jam_masuk; ?></td>
+                                        <td><?= $rekap->jam_pulang; ?></td>
+                                        <td><?= $rekap->keterangan_izin; ?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <?php else: ?>
+                            <h5 class="text-center">Tidak ada data untuk tanggal ini.</h5>
+                            <p class="text-center">Silahkan pilih tanggal lain.</p>
+                            <?php endif; ?>
                         </div>
-                    </form>
-                    <br>
-                    <br>
-                    <div class="table-responsive">
-                        <?php if(!empty($perhari)): ?>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Kegiatan</th>
-                                    <th scope="col">Jam Masuk</th>
-                                    <th scope="col">Jam Pulang</th>
-                                    <th scope="col">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $no=0;foreach ($perhari as $rekap): $no++ ?>
-                                <tr>
-                                    <td><?= $no; ?></td>
-                                    <td><?= $rekap->date; ?></td>
-                                    <td><?= $rekap->kegiatan; ?></td>
-                                    <td><?= $rekap->jam_masuk; ?></td>
-                                    <td><?= $rekap->jam_pulang; ?></td>
-                                    <td><?= $rekap->keterangan_izin; ?></td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                        <?php else: ?>
-                        <h5 class="text-center">Tidak ada data untuk tanggal ini.</h5>
-                        <p class="text-center">Silahkan pilih tanggal lain.</p>
-                        <?php endif; ?>
                     </div>
+                    </tbody>
+                    </table>
                 </div>
-                </tbody>
-                </table>
-            </div>
 
 
 
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-            <!-- LOGOUT -->
-            <script>
-            function confirmLogout() {
-                Swal.fire({
-                    title: 'Yakin mau LogOut?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "<?php echo base_url('auth') ?>";
-                    }
-                });
-            }
-            </script>
-            <script>
-            function toggleSidebar() {
-                var sidebar = document.getElementById("sidebar");
-                var content = document.getElementById("content");
-                sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-            }
-            </script>
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-            </script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                <!-- LOGOUT -->
+                <script>
+                function confirmLogout() {
+                    Swal.fire({
+                        title: 'Yakin mau LogOut?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "<?php echo base_url('auth') ?>";
+                        }
+                    });
+                }
+                </script>
+                <script>
+                function toggleSidebar() {
+                    var sidebar = document.getElementById("sidebar");
+                    var content = document.getElementById("content");
+                    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+                    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+                }
+                </script>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+                </script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

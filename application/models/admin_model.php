@@ -83,7 +83,19 @@ class Admin_model extends CI_Model {
             return $query->result();
         }
  
+        public function getPasswordById($id)
+        {
+            $this->db->select('password');
+            $this->db->where('id', $id);
+            $query = $this->db->get('users');
     
+            if ($query->num_rows() == 1) {
+                $row = $query->row();
+                return $row->password;
+            } else {
+                return false;
+            }
+        }
         public function getExportKaryawan() {
             $this->db->select('absensi.id, users.username, absensi.kegiatan, absensi.date as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
             $this->db->from('absensi');

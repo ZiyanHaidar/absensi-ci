@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
     body {
         top: 0;
@@ -117,6 +120,15 @@
     .login-link a:hover {
         color: #70c1ff;
     }
+
+    .field-icon {
+        position: absolute;
+        top: 60%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        user-select: none;
+    }
     </style>
 </head>
 
@@ -154,12 +166,13 @@
                             class="block mb-2 text-sm" required>
                     </div>
 
-                    <div class="form-group">
+
+                    <div class="mb-2 position-relative">
                         <label for="password">Password</label>
-                        <input type="password" name="password" id="password" minlength="8"
-                            class="form-control form-control-sm" placeholder="Masukkan kata sandi Anda"
-                            class="form-control" name="password" required>
-                        <small class="text-warning">*Kata sandi minimal harus 8 karakter!</small>
+                        <input type="password" class="form-control form-control-sm" id="password" name="password"
+                            placeholder="Password" required>
+                        <i class="fas fa-eye-slash field-icon toggle-password" onclick="togglePassword()"
+                            style="position: absolute; right: 10px;"></i>
                     </div>
 
 
@@ -170,8 +183,28 @@
             </div>
         </div>
 
+        <div class="mb-2 position-relative">
+            <input type="password" class="form-control form-control-sm" id="password" name="password"
+                placeholder="Password" required>
+            <i class="fas fa-eye-slash field-icon toggle-password" onclick="togglePassword()"
+                style="position: absolute; right: 10px;"></i>
+        </div>
+        <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            var icon = document.querySelector(".toggle-password");
 
-
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            }
+        }
+        </script>
 </body>
 
 </html>

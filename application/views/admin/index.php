@@ -227,6 +227,19 @@
     .btn-green:hover {
         background-color: #66ff66;
     }
+
+    .dropdown-menu {
+        background-color: #0C134F;
+        border: none;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+
+    .dropdown-item:hover {
+        background-color: #1D267D;
+    }
     </style>
 </head>
 
@@ -238,23 +251,26 @@
                     Dashboard
                 </a>
                 <a href="<?php echo base_url('admin/karyawan') ?>"><i class="fas fa-user-tie mr-2"></i>
-                    Rekap Karyawan
+                    Karyawan
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerHari') ?>"><i class="fas fa-calendar-check mr-2"></i>
-                    Rekap Harian
+                <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file mr-2"></i> Rekap
                 </a>
-                <a href="<?php echo base_url('admin/rekapPerMinggu') ?>"><i class="fas fa-file mr-2"></i>
-                    Rekap Mingguan
-                </a>
-                <a href="<?php echo base_url('admin/rekapPerBulan') ?>"><i class="fas fa-file-invoice mr-2"></i>
-                    Rekap Bulanan
-                </a>
+                <div class="dropdown-menu" aria-labelledby="rekapDropdown">
+                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
+                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
+                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                </div>
+
                 <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
                     Profile
                 </a>
-                <a type="button" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
-                </a>
+                <div class="logout-button mt-auto">
+                    <a type="button" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt text-danger">LogOut</i>
+                    </a>
+                </div>
             </div>
 
             <div id="content" role="main">
@@ -382,6 +398,24 @@
 
     </div>
     </div>
+    <!-- Tambahkan pustaka Bootstrap JavaScript di sini jika diperlukan -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    // Menggunakan jQuery untuk menangani klik pada item dropdown
+    $('.dropdown-item').on('click', function() {
+        // Mengambil nilai data-target dari item yang diklik
+        var target = $(this).data('target');
+
+        // Menyembunyikan semua konten rekap
+        $('#rekapHarian, #rekapMingguan, #rekapBulanan').hide();
+
+        // Menampilkan konten rekap sesuai dengan data-target yang dipilih
+        $('#' + target).show();
+    });
+    </script>
 
     <script>
     const arrows = document.querySelectorAll(".arrow");
