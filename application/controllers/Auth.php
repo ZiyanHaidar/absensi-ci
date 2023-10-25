@@ -38,7 +38,7 @@ class Auth extends CI_Controller {
     redirect(base_url()."karyawan") ;
    }
  else {
-    redirect(base_url()."auth");
+    redirect(base_url()."home");
    }
   } else {
    redirect(base_url()."auth");
@@ -78,7 +78,8 @@ public function aksi_register()
         // Username sudah digunakan, beri pesan error
         $this->session->set_flashdata('error', 'Username sudah digunakan.');
         redirect(base_url() . "auth/register");
-    } else {
+        
+    }else {
         // Email dan username belum digunakan, lanjutkan dengan proses registrasi
         $password = md5($this->input->post('password', true));
         $nama_depan = $this->input->post('nama_depan', true);
@@ -127,7 +128,8 @@ public function aksi_register()
                 'nama_belakang' => $nama_belakang,
                 'image' => $image // Ubah ini sesuai dengan variabel gambar yang Anda gunakan
             ]);
-            redirect(base_url() . "auth");
+            $this->session->set_flashdata('register_success', 'Registrasi berhasil. Silakan login.');
+            redirect(base_url() . "home");
         } else {
             // Registrasi gagal
             redirect(base_url() . "auth/register");
@@ -205,7 +207,7 @@ public function aksi_register()
             'nama_belakang' => $nama_belakang,
             'image' => $image
         ]);
-        redirect(base_url() . "auth");
+        redirect(base_url() . "home");
     } else {
         // Registrasi gagal
         redirect(base_url() . "auth/register_admin");
@@ -213,4 +215,41 @@ public function aksi_register()
 }
 
 }
+public function ubah_password()
+	{
+		$password_lama = $this->input->post('password_lama');
+		$password_baru = $this->input->post('password_baru');
+		$konfirmasi_password = $this->input->post('konfirmasi_password');
+
+		$data = array(
+			'password' => $password,
+		);
+
+		$stored_password = $this->m_model->getPasswordByIdd($this->session->userdata('id')); // Ganti dengan metode sesuai dengan struktur database Anda
+        if (md5($password_lama) != $stored_password) {
+            $this->session->set_flashdata('kesalahan_password_lama', 'Password lama yang dimasukkan salah');
+            redirect(base_url('auth/ubah_password'));
+        } else {
+            if (!empty($password_baru)) {
+                if ($password_baru === $konfirmasi_password) {
+                    $data['password'] = md5($password_baru);
+                    $this->session->set_flashdata('ubah_password', 'Berhasil mengubah password');
+                } else {
+                    $this->session->set_flashdata('kesalahan_password', 'Password baru dan Konfirmasi password tidak sama');
+                    redirect(base_url('auth/ubah_password'));
+                }
+            }
+        }
+
+		$this->session->set_userdata($data);
+		$update_result = $this->m_model->update_data('users', $data, array('id' => $this->session->userdata('id')));
+
+		if ($update_result) {
+			$this->session->set_flashdata('update_user', 'Data berhasil diperbarui');
+			redirect(base_url('auth/ubah_password'));
+		} else {
+			$this->session->set_flashdata('gagal_update', 'Gagal memperbarui data');
+			redirect(base_url('auth/ubah_password'));
+		}
+	}
 }

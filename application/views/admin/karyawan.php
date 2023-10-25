@@ -7,6 +7,8 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
     body {
         display: flex;
@@ -103,7 +105,24 @@
 
     }
 
+    .dropdown-menu {
+        background-color: #0C134F;
+        border: none;
+    }
 
+    .dropdown-item {
+        color: #fff;
+    }
+
+    .dropdown-item:hover {
+        background-color: #1D267D;
+    }
+
+    .logout-button a {
+        margin-top: 180%;
+        text-align: left;
+        /* Posisi teks pada tengah */
+    }
 
     .profile-details .job {
         font-size: 12px;
@@ -123,118 +142,125 @@
                 </a>
                 <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file mr-2"></i> Rekap
+                    <i class="fas fa-file mr-2"></i> Menu Rekap
                 </a>
                 <div class="dropdown-menu" aria-labelledby="rekapDropdown">
-                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
-                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
-                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerHari') ?>"
+                        data-target="rekapHarian"> <i class="fas fa-file-signature mr-2"></i>Rekap Harian</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerMinggu') ?>"
+                        data-target="rekapMingguan"> <i class="fas fa-file-invoice mr-2"></i>Rekap Mingguan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerBulan') ?>"
+                        data-target="rekapBulanan"> <i class="fas fa-file-contract mr-2"></i>Rekap Bulanan</a>
                 </div>
-
-                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
-                    Profile
-                </a>
                 <div class="logout-button mt-auto">
                     <a type="button" onclick="confirmLogout()">
                         <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                     </a>
                 </div>
-
-                <div id="content" role="main">
-                    <div class="card mb-4 shadow">
-                        <div class="card-body d-flex text-white justify-content-between align-items-center"
-                            style="background-color:#1D267D">
-                            <h1>Rekap Karyawan</h1>
-                            <div class="profile-details">
-                                <div class="profile-content">
-                                    <?php foreach ($akun as $users): ?>
-                                    <div class="profile-content">
-                                        <a href="<?php echo base_url('admin/profile') ?>">
-                                            <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
-                                                alt="profileImg">
-                                        </a>
-                                    </div>
-                                    <?php endforeach ?>
-
-                                    <div class="name-job">
-                                        <div class="profile_name">
-                                            <?php echo $this->session->userdata('username'); ?>
-                                        </div>
-                                        <div class="job">
-                                            <marquee scrolldelay="200">
-                                                <?php echo $_SESSION['email']; ?>
-                                            </marquee>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="shadow" style="background-color:#fff">
-
-                        <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
-                    </div>
-                    <div class="card mb-4 shadow" style="background-color:#fff">
-                        <table class="table table-light table-hover">
-
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Kegiatan</th>
-                                    <th>Jam Masuk</th>
-                                    <th>Jam Pulang</th>
-                                    <th>Keterangan Izin</th>
-                                    <th>Status</th>
-                                    <th class="text-center">Aksi</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $no = 0;
-                                    foreach ($absensi as $row):
-                                        $no++ ?>
-                                <tr>
-                                    <td>
-                                        <?php echo $no ?>
-                                    </td>
-                                    <td>
-                                        <?php echo tampil_full_nama_byid($row->id_karyawan) ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row->kegiatan ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row->jam_masuk ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $row->jam_pulang ?>
-                                    </td>
-                                    <td><?php echo $row->keterangan_izin ?></td>
-                                    <td>
-                                        <?php echo $row->status?>
-                                    </td>
-                                    <td class="text-center">
-                                        <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </td>
-
-                                </tr>
-                                <?php endforeach ?>
-
-                        </table>
-                        </tbody>
-                    </div>
-                </div>
             </div>
 
+            <div id="content" role="main">
+                <div class="card mb-4 shadow">
+                    <div class="card-body d-flex text-white justify-content-between align-items-center"
+                        style="background-color:#1D267D">
+                        <h1>Rekap Karyawan</h1>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('admin/profile') ?>">
+                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
+                                </div>
+                                <?php endforeach ?>
+
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="shadow" style="background-color:#fff">
+
+                    <a class="btn btn-sm btn-primary" href="<?= base_url('admin/export_karyawan') ?>">Export</a>
+                </div>
+                <div class="card mb-4 shadow" style="background-color:#fff">
+                    <table class="table table-light table-hover">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Kegiatan</th>
+                                <th>Jam Masuk</th>
+                                <th>Jam Pulang</th>
+                                <th>Keterangan Izin</th>
+                                <th>Status</th>
+                                <th class="text-center">Aksi</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 0;
+                                    foreach ($absensi as $row):
+                                        $no++ ?>
+                            <tr>
+                                <td>
+                                    <?php echo $no ?>
+                                </td>
+                                <td>
+                                    <?php echo tampil_full_nama_byid($row->id_karyawan) ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->kegiatan ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->jam_masuk ?>
+                                </td>
+                                <td>
+                                    <?php echo $row->jam_pulang ?>
+                                </td>
+                                <td><?php echo $row->keterangan_izin ?></td>
+                                <td>
+                                    <?php echo $row->status?>
+                                </td>
+                                <td class="text-center">
+                                    <button onClick="hapus(<?php echo $row->id; ?>)" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </td>
+
+                            </tr>
+                            <?php endforeach ?>
+
+                    </table>
+                    </tbody>
+                </div>
+            </div>
         </div>
 
     </div>
+
+    </div>
     </div>
 
+    <script>
+    $(document).ready(function() {
+        $("#rekapDropdown").click(function() {
+            $(this).next(".dropdown-menu").toggleClass("show");
+        });
+    });
+    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -267,7 +293,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('auth') ?>";
+                window.location.href = "<?php echo base_url('home') ?>";
             }
         });
     }

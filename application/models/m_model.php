@@ -27,6 +27,19 @@ class M_model extends CI_Model{
             return false;
         }
     }
+    public function getPasswordByIdd($id)
+    {
+        $this->db->select('password');
+        $this->db->where('id', $id);
+        $query = $this->db->get('users');
+
+        if ($query->num_rows() == 1) {
+            $row = $query->row();
+            return $row->password;
+        } else {
+            return false;
+        }
+    }
     function tambah_data($table, $data)
     {
         $this->db->insert($table, $data);

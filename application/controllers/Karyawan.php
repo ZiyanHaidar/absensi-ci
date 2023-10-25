@@ -109,21 +109,33 @@ class Karyawan extends CI_Controller
         }
     }
 
-    public function pulang($absen_id) {
+    public function pulang($absen_id)
+    {
         if ($this->session->userdata('role') === 'karyawan') {
-            $this->m_model->setAbsensiPulang($absen_id);
-    
-            // Set pesan sukses
-            $this->session->set_flashdata('success', 'Jam pulang berhasil diisi.');
-    
-            
-    
-            redirect('karyawan/history');
+            date_default_timezone_set('Asia/Jakarta');
+            $current_time = date('H:i:s');
+
+            // Periksa apakah sudah melewati jam 17:00
+            if ($current_time >= '17:00:00') {
+                $this->karyawan_model->setAbsensiPulang($absen_id);
+                redirect('karyawan/history');
+            } else {
+                // Tampilkan notifikasi SweetAlert jika belum pulang setelah jam 17:00
+                $this->session->set_flashdata('error_message', 'Anda hanya dapat pulang setelah pukul 17:00.');
+                redirect('karyawan/history');
+            }
         } else {
+               // Set pesan sukses
+               $this->session->set_flashdata('success', 'Jam pulang berhasil diisi.');
             redirect('karyawan/history');
         }
     }
 
+    public function ubah_izin($id)
+	{
+		$data['absensi']=$this->m_model->get_by_id('absensi', 'id', $id)->result();
+		$this->load->view('karyawan/ubah_izin', $data);
+	}
 
     public function ubah_absensi($absen_id) {
         if ($this->session->userdata('role') === 'karyawan') {

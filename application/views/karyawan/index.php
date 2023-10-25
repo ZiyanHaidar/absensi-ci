@@ -103,7 +103,11 @@
 
     }
 
-
+    .logout-button a {
+        margin-top: 160%;
+        text-align: left;
+        /* Posisi teks pada tengah */
+    }
 
     .profile-details .job {
         font-size: 12px;
@@ -127,12 +131,11 @@
                 <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Menu Izin
                 </a>
-                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
-                    Profile
-                </a>
-                <a type="button" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
-                </a>
+                <div class="logout-button mt-auto">
+                    <a type="button" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt text-danger">LogOut</i>
+                    </a>
+                </div>
             </div>
 
             <div id="content" role="main">
@@ -289,7 +292,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('auth') ?>";
+                window.location.href = "<?php echo base_url('home') ?>";
             }
         });
     }

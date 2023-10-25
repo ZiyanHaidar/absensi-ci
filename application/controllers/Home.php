@@ -13,7 +13,7 @@ $this->load->helper('my_helper');
  public function index()
  {
   $data['title'] = 'Home Page';
-  $this->load->view('Tampilan', $data);
+  $this->load->view('Login', $data);
  }
 }
 ?>

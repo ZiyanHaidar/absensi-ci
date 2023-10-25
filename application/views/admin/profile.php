@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
     body {
         display: flex;
@@ -312,6 +314,25 @@
     .profile-image img {
         cursor: pointer;
     }
+
+    .dropdown-menu {
+        background-color: #0C134F;
+        border: none;
+    }
+
+    .dropdown-item {
+        color: #fff;
+    }
+
+    .dropdown-item:hover {
+        background-color: #1D267D;
+    }
+
+    .logout-button a {
+        margin-top: 180%;
+        text-align: left;
+        /* Posisi teks pada tengah */
+    }
     </style>
 </head>
 
@@ -329,350 +350,356 @@
                 </a>
                 <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file mr-2"></i> Rekap
+                    <i class="fas fa-file mr-2"></i> Menu Rekap
                 </a>
                 <div class="dropdown-menu" aria-labelledby="rekapDropdown">
-                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
-                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
-                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerHari') ?>"
+                        data-target="rekapHarian"> <i class="fas fa-file-signature mr-2"></i>Rekap Harian</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerMinggu') ?>"
+                        data-target="rekapMingguan"> <i class="fas fa-file-invoice mr-2"></i>Rekap Mingguan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerBulan') ?>"
+                        data-target="rekapBulanan"> <i class="fas fa-file-contract mr-2"></i>Rekap Bulanan</a>
                 </div>
-
-                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
-                    Profile
-                </a>
                 <div class="logout-button mt-auto">
                     <a type="button" onclick="confirmLogout()">
                         <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                     </a>
                 </div>
+            </div>
 
-                <div id="content" role="main">
-                    <div class="card mb-4 shadow">
-                        <div class="card-body d-flex text-white justify-content-between align-items-center"
-                            style="background-color:#1D267D">
-                            <h1>Profile</h1>
-                        </div>
+            <div id="content" role="main">
+                <div class="card mb-4 shadow">
+                    <div class="card-body d-flex text-white justify-content-between align-items-center"
+                        style="background-color:#1D267D">
+                        <h1>Profile</h1>
                     </div>
-                    <section class="home-section">
-                        <div class="home-content">
+                </div>
+                <section class="home-section">
+                    <div class="home-content">
 
-                        </div>
-                        <div class="card">
-                            <div class="card-body text-center">
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
 
-                                <div class="col-xl-15">
-                                    <div class="profile-image">
-                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
-                                            alt="profileImg" class="rounded-circle">
-                                        <button for="image_upload" class="edit-button" data-bs-toggle="modal"
-                                            data-bs-target="#editImageModal"><i class="fa-solid fa-pen"></i></button>
-                                        <input name="id" type="hidden" value="<?php echo $users->id ?>">
+                            <div class="col-xl-15">
+                                <div class="profile-image">
+                                    <img src="<?php echo base_url('images/admin/' . $users->image) ?>" alt="profileImg"
+                                        class="rounded-circle">
+                                    <button for="image_upload" class="edit-button" data-bs-toggle="modal"
+                                        data-bs-target="#editImageModal"><i class="fa-solid fa-pen"></i></button>
+                                    <input name="id" type="hidden" value="<?php echo $users->id ?>">
 
-                                        <input type="file" id="image" name="image" accept="image/*"
-                                            style="display:none;">
-                                    </div>
-                                    <h5 class="card-title">
-                                        <?php echo $this->session->userdata('username'); ?>
-                                    </h5>
-                                    <p class="card-text">
-                                        <?php echo $this->session->userdata('email'); ?>
-                                    </p>
+                                    <input type="file" id="image" name="image" accept="image/*" style="display:none;">
                                 </div>
+                                <h5 class="card-title">
+                                    <?php echo $this->session->userdata('username'); ?>
+                                </h5>
+                                <p class="card-text">
+                                    <?php echo $this->session->userdata('email'); ?>
+                                </p>
                             </div>
                         </div>
-                        <br>
-                        <div class="col-xl-15">
-                            <!-- Account details card-->
-                            <div class="card mb-4">
-                                <div class="card-header">Informasi Data</div>
-                                <div class="card-body">
-                                    <form action="<?php echo base_url('admin/edit_profile'); ?>"
-                                        enctype="multipart/form-data" method="post">
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="email">Email</label>
-                                            <input class="form-control" id="email" type="email"
-                                                placeholder="Masukan email" value="<?php echo $users->email ?>"
-                                                name="email">
+                    </div>
+                    <br>
+                    <div class="col-xl-15">
+                        <!-- Account details card-->
+                        <div class="card mb-4">
+                            <div class="card-header">Informasi Data</div>
+                            <div class="card-body">
+                                <form action="<?php echo base_url('admin/edit_profile'); ?>"
+                                    enctype="multipart/form-data" method="post">
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="email">Email</label>
+                                        <input class="form-control" id="email" type="email" placeholder="Masukan email"
+                                            value="<?php echo $users->email ?>" name="email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="username">Username</label>
+                                        <input class="form-control" id="username" type="text"
+                                            placeholder="Masukan username" value="<?php echo $users->username ?>"
+                                            name="username">
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="nama_depan">Nama Depan</label>
+                                            <input class="form-control" id="nama_depan" type="text"
+                                                placeholder="Masukan nama depan"
+                                                value="<?php echo $users->nama_depan ?>" name="nama_depan">
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="username">Username</label>
-                                            <input class="form-control" id="username" type="text"
-                                                placeholder="Masukan username" value="<?php echo $users->username ?>"
-                                                name="username">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="nama_belakang">Nama
+                                                Belakang</label>
+                                            <input class="form-control" id="nama_belakang" type="text"
+                                                placeholder="Masukan nama belakang"
+                                                value="<?php echo $users->nama_belakang ?>" name="nama_belakang">
                                         </div>
-                                        <div class="row gx-3 mb-3">
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="nama_depan">Nama Depan</label>
-                                                <input class="form-control" id="nama_depan" type="text"
-                                                    placeholder="Masukan nama depan"
-                                                    value="<?php echo $users->nama_depan ?>" name="nama_depan">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="nama_belakang">Nama
-                                                    Belakang</label>
-                                                <input class="form-control" id="nama_belakang" type="text"
-                                                    placeholder="Masukan nama belakang"
-                                                    value="<?php echo $users->nama_belakang ?>" name="nama_belakang">
-                                            </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="password_lama">Password Lama</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="password_lama" type="password"
+                                                placeholder="Masukan Password Lama" name="password_lama">
+                                            <span class="input-group-text"
+                                                onclick="togglePassword('password_lama', 'icon-password_lama')">
+                                                <i id="icon-password_lama" class="fas fa-eye-slash"></i>
+                                            </span>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="small mb-1" for="password_lama">Password Lama</label>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="password_baru">Password Baru</label>
                                             <div class="input-group">
-                                                <input class="form-control" id="password_lama" type="password"
-                                                    placeholder="Masukan Password Lama" name="password_lama">
+                                                <input class="form-control" id="password_baru" type="password"
+                                                    placeholder="Password baru" name="password_baru">
                                                 <span class="input-group-text"
-                                                    onclick="togglePassword('password_lama', 'icon-password_lama')">
-                                                    <i id="icon-password_lama" class="fas fa-eye-slash"></i>
+                                                    onclick="togglePassword('password_baru', 'icon-password_baru')">
+                                                    <i id="icon-password_baru" class="fas fa-eye-slash"></i>
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="row gx-3 mb-3">
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="password_baru">Password Baru</label>
-                                                <div class="input-group">
-                                                    <input class="form-control" id="password_baru" type="password"
-                                                        placeholder="Password baru" name="password_baru">
-                                                    <span class="input-group-text"
-                                                        onclick="togglePassword('password_baru', 'icon-password_baru')">
-                                                        <i id="icon-password_baru" class="fas fa-eye-slash"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1" for="konfirmasi_password">Konfirmasi
-                                                    Password</label>
-                                                <div class="input-group">
-                                                    <input class="form-control" id="konfirmasi_password" type="password"
-                                                        placeholder="Konfirmasi password" name="konfirmasi_password">
-                                                    <span class="input-group-text"
-                                                        onclick="togglePassword('konfirmasi_password', 'icon-konfirmasi_password')">
-                                                        <i id="icon-konfirmasi_password" class="fas fa-eye-slash"></i>
-                                                    </span>
-                                                </div>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="konfirmasi_password">Konfirmasi
+                                                Password</label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="konfirmasi_password" type="password"
+                                                    placeholder="Konfirmasi password" name="konfirmasi_password">
+                                                <span class="input-group-text"
+                                                    onclick="togglePassword('konfirmasi_password', 'icon-konfirmasi_password')">
+                                                    <i id="icon-konfirmasi_password" class="fas fa-eye-slash"></i>
+                                                </span>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <button class="btn btn-success" type="submit">Simpan Perubahan</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach ?>
-                        <!-- Modal -->
-                        <div class="modal" id="imageModal">
-                            <div class="modal-content">
-                                <span class="close" id="closeModal">&times;</span>
-                                <form action="<?php echo base_url('admin/edit_image'); ?>" method="post"
-                                    enctype="multipart/form-data">
-                                    <input type="hidden" name="id" value="<?php echo $users->id; ?>">
-                                    <label for="image">Pilih gambar:</label>
-                                    <input type="file" id="image" name="image" accept="image/*">
-                                    <button type="submit">Simpan</button>
+                                    <button class="btn btn-success" type="submit">Simpan Perubahan</button>
                                 </form>
                             </div>
                         </div>
-
-                        <!-- Modal Image-->
-                        <div class="modalimg" id="imageModall">
-                            <div class="modal-content">
-                                <span class="closes" id="closeModall">&times;</span>
-                                <img src="<?php echo base_url('images/admin/' . $users->image) ?>" alt="profileImg"
-                                    class="modal-image">
-                            </div>
+                    </div>
+                    <?php endforeach ?>
+                    <!-- Modal -->
+                    <div class="modal" id="imageModal">
+                        <div class="modal-content">
+                            <span class="close" id="closeModal">&times;</span>
+                            <form action="<?php echo base_url('admin/edit_image'); ?>" method="post"
+                                enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="<?php echo $users->id; ?>">
+                                <label for="image">Pilih gambar:</label>
+                                <input type="file" id="image" name="image" accept="image/*">
+                                <button type="submit">Simpan</button>
+                            </form>
                         </div>
+                    </div>
 
-</body>
+                    <!-- Modal Image-->
+                    <div class="modalimg" id="imageModall">
+                        <div class="modal-content">
+                            <span class="closes" id="closeModall">&times;</span>
+                            <img src="<?php echo base_url('images/admin/' . $users->image) ?>" alt="profileImg"
+                                class="modal-image">
+                        </div>
+                    </div>
 
-<script>
-$(document).ready(function() {
-    // Ketika input file berubah
-    $('#image_upload').on('change', function(e) {
-        var fileInput = $(this)[0];
-        var file = fileInput.files[0];
-        var reader = new FileReader();
+                    <script>
+                    $(document).ready(function() {
+                        $("#rekapDropdown").click(function() {
+                            $(this).next(".dropdown-menu").toggleClass("show");
+                        });
+                    });
+                    </script>
 
-        // Jika ada file yang dipilih
-        if (file) {
-            reader.onload = function(e) {
-                // Menampilkan pratinjau gambar
-                $('#preview-image').attr('src', e.target.result);
-                $('#preview-container').show();
-            }
-            // Membaca data gambar sebagai URL
-            reader.readAsDataURL(file);
-        } else {
-            // Jika tidak ada file yang dipilih, sembunyikan pratinjau
-            $('#preview-container').hide();
-        }
-    });
-});
+                    <script>
+                    $(document).ready(function() {
+                        // Ketika input file berubah
+                        $('#image_upload').on('change', function(e) {
+                            var fileInput = $(this)[0];
+                            var file = fileInput.files[0];
+                            var reader = new FileReader();
 
-function togglePassword(inputId, iconId) {
-    var x = document.getElementById(inputId);
-    var icon = document.getElementById(iconId);
+                            // Jika ada file yang dipilih
+                            if (file) {
+                                reader.onload = function(e) {
+                                    // Menampilkan pratinjau gambar
+                                    $('#preview-image').attr('src', e.target.result);
+                                    $('#preview-container').show();
+                                }
+                                // Membaca data gambar sebagai URL
+                                reader.readAsDataURL(file);
+                            } else {
+                                // Jika tidak ada file yang dipilih, sembunyikan pratinjau
+                                $('#preview-container').hide();
+                            }
+                        });
+                    });
 
-    if (x.type === "password") {
-        x.type = "text";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye");
-    } else {
-        x.type = "password";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash");
-    }
-}
-</script>
-<?php if($this->session->flashdata('kesalahan_password')){ ?>
-<script>
-Swal.fire({
-    title: "Error!",
-    text: "<?php echo $this->session->flashdata('kesalahan_password'); ?>",
-    icon: "warning",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
+                    function togglePassword(inputId, iconId) {
+                        var x = document.getElementById(inputId);
+                        var icon = document.getElementById(iconId);
 
-<?php if($this->session->flashdata('gagal_update')){ ?>
-<script>
-Swal.fire({
-    title: "Error!",
-    text: "<?php echo $this->session->flashdata('gagal_update'); ?>",
-    icon: "error",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
+                        if (x.type === "password") {
+                            x.type = "text";
+                            icon.classList.remove("fa-eye-slash");
+                            icon.classList.add("fa-eye");
+                        } else {
+                            x.type = "password";
+                            icon.classList.remove("fa-eye");
+                            icon.classList.add("fa-eye-slash");
+                        }
+                    }
+                    </script>
+                    <?php if($this->session->flashdata('kesalahan_password')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Error!",
+                        text: "<?php echo $this->session->flashdata('kesalahan_password'); ?>",
+                        icon: "warning",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
 
-<?php if($this->session->flashdata('error_profile')){ ?>
-<script>
-Swal.fire({
-    title: "Error!",
-    text: "<?php echo $this->session->flashdata('error_profile'); ?>",
-    icon: "error",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
+                    <?php if($this->session->flashdata('gagal_update')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Error!",
+                        text: "<?php echo $this->session->flashdata('gagal_update'); ?>",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
 
-<?php if($this->session->flashdata('kesalahan_password_lama')){ ?>
-<script>
-Swal.fire({
-    title: "Error!",
-    text: "<?php echo $this->session->flashdata('kesalahan_password_lama'); ?>",
-    icon: "error",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
+                    <?php if($this->session->flashdata('error_profile')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Error!",
+                        text: "<?php echo $this->session->flashdata('error_profile'); ?>",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
 
-<?php if($this->session->flashdata('berhasil_ubah_foto')){ ?>
-<script>
-Swal.fire({
-    title: "Berhasil",
-    text: "<?php echo $this->session->flashdata('berhasil_ubah_foto'); ?>",
-    icon: "success",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
+                    <?php if($this->session->flashdata('kesalahan_password_lama')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Error!",
+                        text: "<?php echo $this->session->flashdata('kesalahan_password_lama'); ?>",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
 
-<?php if($this->session->flashdata('ubah_password')){ ?>
-<script>
-Swal.fire({
-    title: "Success!",
-    text: "<?php echo $this->session->flashdata('ubah_password'); ?>",
-    icon: "success",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
+                    <?php if($this->session->flashdata('berhasil_ubah_foto')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Berhasil",
+                        text: "<?php echo $this->session->flashdata('berhasil_ubah_foto'); ?>",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
 
-<?php if($this->session->flashdata('update_user')){ ?>
-<script>
-Swal.fire({
-    title: "Success!",
-    text: "<?php echo $this->session->flashdata('update_user'); ?>",
-    icon: "success",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
-<?php } ?>
-<script>
-// Membuka modal saat tombol edit diklik
-document.querySelector('.edit-button').addEventListener('click', () => {
-    document.querySelector('.modal').style.display = 'block';
-});
+                    <?php if($this->session->flashdata('ubah_password')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Success!",
+                        text: "<?php echo $this->session->flashdata('ubah_password'); ?>",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
 
-// Menutup modal saat tombol close pada modal diklik
-document.querySelector('#closeModal').addEventListener('click', () => {
-    document.querySelector('.modal').style.display = 'none';
-});
+                    <?php if($this->session->flashdata('update_user')){ ?>
+                    <script>
+                    Swal.fire({
+                        title: "Success!",
+                        text: "<?php echo $this->session->flashdata('update_user'); ?>",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    </script>
+                    <?php } ?>
+                    <script>
+                    // Membuka modal saat tombol edit diklik
+                    document.querySelector('.edit-button').addEventListener('click', () => {
+                        document.querySelector('.modal').style.display = 'block';
+                    });
 
-// Menutup modal jika area luar modal diklik
-window.addEventListener('click', (e) => {
-    if (e.target == document.querySelector('.modal')) {
-        document.querySelector('.modal').style.display = 'none';
-    }
-});
-</script>
-<script>
-// Script untuk membuka modal ketika gambar diklik
-document.querySelectorAll('.trigger-modall').forEach(item => {
-    item.addEventListener('click', event => {
-        document.getElementById('imageModall').style.display = "block";
-    });
-});
+                    // Menutup modal saat tombol close pada modal diklik
+                    document.querySelector('#closeModal').addEventListener('click', () => {
+                        document.querySelector('.modal').style.display = 'none';
+                    });
 
-// Script untuk menutup modal
-document.getElementById('closeModall').addEventListener('click', function() {
-    document.getElementById('imageModall').style.display = "none";
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-</script>
+                    // Menutup modal jika area luar modal diklik
+                    window.addEventListener('click', (e) => {
+                        if (e.target == document.querySelector('.modal')) {
+                            document.querySelector('.modal').style.display = 'none';
+                        }
+                    });
+                    </script>
+                    <script>
+                    // Script untuk membuka modal ketika gambar diklik
+                    document.querySelectorAll('.trigger-modall').forEach(item => {
+                        item.addEventListener('click', event => {
+                            document.getElementById('imageModall').style.display = "block";
+                        });
+                    });
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!-- LOGOUT -->
-<script>
-function confirmLogout() {
-    Swal.fire({
-        title: 'Yakin mau LogOut?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Batal'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = "<?php echo base_url('auth') ?>";
-        }
-    });
-}
-</script>
-<script>
-function toggleSidebar() {
-    var sidebar = document.getElementById("sidebar");
-    var content = document.getElementById("content");
-    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-}
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-</script>
+                    // Script untuk menutup modal
+                    document.getElementById('closeModall').addEventListener('click', function() {
+                        document.getElementById('imageModall').style.display = "none";
+                    });
+                    </script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                        crossorigin="anonymous">
+                    </script>
+
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                    <!-- LOGOUT -->
+                    <script>
+                    function confirmLogout() {
+                        Swal.fire({
+                            title: 'Yakin mau LogOut?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "<?php echo base_url('home') ?>";
+                            }
+                        });
+                    }
+                    </script>
+                    <script>
+                    function toggleSidebar() {
+                        var sidebar = document.getElementById("sidebar");
+                        var content = document.getElementById("content");
+                        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+                        content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+                    }
+                    </script>
+                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                        crossorigin="anonymous">
+                    </script>
 </body>
 
 </html>

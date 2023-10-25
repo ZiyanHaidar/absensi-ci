@@ -205,6 +205,30 @@
             }
         }
         </script>
+        <?php if($this->session->flashdata('register_gagal')){ ?>
+        <script>
+        Swal.fire({
+            title: 'Register Gagal',
+            text: '<?php echo $this->session->flashdata('register_gagal'); ?>',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+        <?php } ?>
+
+        <?php if($this->session->flashdata('error')){ ?>
+        <script>
+        Swal.fire({
+            title: 'Register Gagal',
+            text: '<?php echo $this->session->flashdata('error'); ?>',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+        <?php } ?>
+
 </body>
 
 </html>

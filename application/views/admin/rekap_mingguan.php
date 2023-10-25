@@ -7,6 +7,8 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
     body {
         display: flex;
@@ -103,7 +105,24 @@
 
     }
 
+    .dropdown-menu {
+        background-color: #0C134F;
+        border: none;
+    }
 
+    .dropdown-item {
+        color: #fff;
+    }
+
+    .dropdown-item:hover {
+        background-color: #1D267D;
+    }
+
+    .logout-button a {
+        margin-top: 180%;
+        text-align: left;
+        /* Posisi teks pada tengah */
+    }
 
     .profile-details .job {
         font-size: 12px;
@@ -123,122 +142,129 @@
                 </a>
                 <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file mr-2"></i> Rekap
+                    <i class="fas fa-file mr-2"></i> Menu Rekap
                 </a>
                 <div class="dropdown-menu" aria-labelledby="rekapDropdown">
-                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
-                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
-                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerHari') ?>"
+                        data-target="rekapHarian"> <i class="fas fa-file-signature mr-2"></i>Rekap Harian</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerMinggu') ?>"
+                        data-target="rekapMingguan"> <i class="fas fa-file-invoice mr-2"></i>Rekap Mingguan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerBulan') ?>"
+                        data-target="rekapBulanan"> <i class="fas fa-file-contract mr-2"></i>Rekap Bulanan</a>
                 </div>
-
-                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
-                    Profile
-                </a>
                 <div class="logout-button mt-auto">
                     <a type="button" onclick="confirmLogout()">
                         <i class="fas fa-sign-out-alt text-danger">LogOut</i>
                     </a>
                 </div>
+            </div>
 
-                <div id="content" role="main">
-                    <div class="card mb-4 shadow">
-                        <div class="card-body d-flex text-white justify-content-between align-items-center"
-                            style="background-color:#1D267D">
-                            <h1>Rekap Mingguan</h1>
-                            <div class="profile-details">
+            <div id="content" role="main">
+                <div class="card mb-4 shadow">
+                    <div class="card-body d-flex text-white justify-content-between align-items-center"
+                        style="background-color:#1D267D">
+                        <h1>Rekap Mingguan</h1>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <?php foreach ($akun as $users): ?>
                                 <div class="profile-content">
-                                    <?php foreach ($akun as $users): ?>
-                                    <div class="profile-content">
-                                        <a href="<?php echo base_url('admin/profile') ?>">
-                                            <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
-                                                alt="profileImg">
-                                        </a>
-                                    </div>
-                                    <?php endforeach ?>
+                                    <a href="<?php echo base_url('admin/profile') ?>">
+                                        <img src="<?php echo base_url('images/admin/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
+                                </div>
+                                <?php endforeach ?>
 
-                                    <div class="name-job">
-                                        <div class="profile_name">
-                                            <?php echo $this->session->userdata('username'); ?>
-                                        </div>
-                                        <div class="job">
-                                            <marquee scrolldelay="200">
-                                                <?php echo $_SESSION['email']; ?>
-                                            </marquee>
-                                        </div>
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
                                     </div>
                                 </div>
-
                             </div>
-                        </div>
-                    </div>
-                    <div class=" shadow" style="background-color:#fff">
-                        <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/export_rekap_mingguan') ?>" ;
-                            ?>Export</a>
-                    </div>
 
-                    <div class="card mb-4 shadow" style="background-color:#fff">
-                        <div class="table-responsive">
-                            <table class="table table-light table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kegiatan</th>
-                                        <th>Tanggal</th>
-                                        <th>Masuk</th>
-                                        <th>Pulang</th>
-                                        <th>Izin</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $no = 0; foreach ($absensi as $absen): $no++ ?>
-                                    <tr>
-                                        <td><?= $no; ?></td>
-                                        <td><?= $absen['kegiatan']; ?></td>
-                                        <td><?= $absen['date']; ?></td>
-                                        <td><?= $absen['jam_masuk']; ?></td>
-                                        <td><?= $absen['jam_pulang']; ?></td>
-                                        <td><?= $absen['keterangan_izin']; ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class=" shadow" style="background-color:#fff">
+                    <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/export_rekap_mingguan') ?>" ;
+                        ?>Export</a>
+                </div>
 
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-            <!-- LOGOUT -->
-            <script>
-            function confirmLogout() {
-                Swal.fire({
-                    title: 'Yakin mau LogOut?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "<?php echo base_url('auth') ?>";
-                    }
-                });
-            }
-            </script>
-            <script>
-            function toggleSidebar() {
-                var sidebar = document.getElementById("sidebar");
-                var content = document.getElementById("content");
-                sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-            }
-            </script>
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-            </script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
-            </script>
+                <div class="card mb-4 shadow" style="background-color:#fff">
+                    <div class="table-responsive">
+                        <table class="table table-light table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kegiatan</th>
+                                    <th>Tanggal</th>
+                                    <th>Masuk</th>
+                                    <th>Pulang</th>
+                                    <th>Izin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 0; foreach ($absensi as $absen): $no++ ?>
+                                <tr>
+                                    <td><?= $no; ?></td>
+                                    <td><?= $absen['kegiatan']; ?></td>
+                                    <td><?= $absen['date']; ?></td>
+                                    <td><?= $absen['jam_masuk']; ?></td>
+                                    <td><?= $absen['jam_pulang']; ?></td>
+                                    <td><?= $absen['keterangan_izin']; ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        $(document).ready(function() {
+            $("#rekapDropdown").click(function() {
+                $(this).next(".dropdown-menu").toggleClass("show");
+            });
+        });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <!-- LOGOUT -->
+        <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Yakin mau LogOut?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "<?php echo base_url('home') ?>";
+                }
+            });
+        }
+        </script>
+        <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var content = document.getElementById("content");
+            sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+            content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+        }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+        </script>
 </body>
 
 </html>

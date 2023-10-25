@@ -150,12 +150,14 @@
                         <i class="fas fa-eye-slash field-icon toggle-password" onclick="togglePassword()"
                             style="position: absolute; right: 10px;"></i>
                     </div>
+
+                    <a href="<?php echo base_url('auth/ubah_password'); ?>" style="color:red">Forgot Password?</a>
                     <br>
                     <button type="submit" class="btn btn-warning btn-block ">Login</button>
                 </form>
                 <br>
                 <p>Belum punya akun?</p>
-                <a href="<?php echo base_url('auth/register'); ?>" class="btn btn-success">Register Karyawan</a>
+                <a href="<?php echo base_url('auth/register'); ?>" class="btn btn-success">Register</a>
 
             </div>
         </div>

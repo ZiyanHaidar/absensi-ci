@@ -240,6 +240,12 @@
     .dropdown-item:hover {
         background-color: #1D267D;
     }
+
+    .logout-button a {
+        margin-top: 180%;
+        text-align: left;
+        /* Posisi teks pada tengah */
+    }
     </style>
 </head>
 
@@ -255,17 +261,16 @@
                 </a>
                 <a class="dropdown-toggle" href="#" id="rekapDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file mr-2"></i> Rekap
+                    <i class="fas fa-file mr-2"></i> Menu Rekap
                 </a>
                 <div class="dropdown-menu" aria-labelledby="rekapDropdown">
-                    <a class="dropdown-item" href="#" data-target="rekapHarian">Harian</a>
-                    <a class="dropdown-item" href="#" data-target="rekapMingguan">Mingguan</a>
-                    <a class="dropdown-item" href="#" data-target="rekapBulanan">Bulanan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerHari') ?>"
+                        data-target="rekapHarian"> <i class="fas fa-file-signature mr-2"></i>Rekap Harian</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerMinggu') ?>"
+                        data-target="rekapMingguan"> <i class="fas fa-file-invoice mr-2"></i>Rekap Mingguan</a>
+                    <a class="dropdown-item" href="<?php echo base_url('admin/rekapPerBulan') ?>"
+                        data-target="rekapBulanan"> <i class="fas fa-file-contract mr-2"></i>Rekap Bulanan</a>
                 </div>
-
-                <a href="<?php echo base_url('admin/profile') ?>"><i class="fas fa-user mr-2"></i>
-                    Profile
-                </a>
                 <div class="logout-button mt-auto">
                     <a type="button" onclick="confirmLogout()">
                         <i class="fas fa-sign-out-alt text-danger">LogOut</i>
@@ -402,45 +407,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-    // Menggunakan jQuery untuk menangani klik pada item dropdown
-    $('.dropdown-item').on('click', function() {
-        // Mengambil nilai data-target dari item yang diklik
-        var target = $(this).data('target');
-
-        // Menyembunyikan semua konten rekap
-        $('#rekapHarian, #rekapMingguan, #rekapBulanan').hide();
-
-        // Menampilkan konten rekap sesuai dengan data-target yang dipilih
-        $('#' + target).show();
-    });
-    </script>
-
-    <script>
-    const arrows = document.querySelectorAll(".arrow");
-
-    arrows.forEach((arrow) => {
-        arrow.addEventListener("click", (e) => {
-            const arrowParent = e.target.closest(".arrow").parentElement
-                .parentElement;
-            arrowParent.classList.toggle("showMenu");
+    $(document).ready(function() {
+        $("#rekapDropdown").click(function() {
+            $(this).next(".dropdown-menu").toggleClass("show");
         });
     });
-
-    const sidebar = document.querySelector(".sidebar");
-    const sidebarBtn = document.querySelector(".fa-bars");
-
-    sidebarBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("close");
-    });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    </div>
-    </div>
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- LOGOUT -->
@@ -456,7 +429,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('auth') ?>";
+                window.location.href = "<?php echo base_url('home') ?>";
             }
         });
     }

@@ -124,7 +124,11 @@
 
     }
 
-
+    .logout-button a {
+        margin-top: 160%;
+        text-align: left;
+        /* Posisi teks pada tengah */
+    }
 
     .profile-details .job {
         font-size: 12px;
@@ -148,12 +152,11 @@
                 <a href="<?php echo base_url('karyawan/menu_izin') ?>"><i class="fas fa-user-check mr-2"></i>
                     Menu Izin
                 </a>
-                <a href="<?php echo base_url('karyawan/profile') ?>"><i class="fas fa-user mr-2"></i>
-                    Profile
-                </a>
-                <a type="button" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt text-danger">LogOut</i>
-                </a>
+                <div class="logout-button mt-auto">
+                    <a type="button" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt text-danger">LogOut</i>
+                    </a>
+                </div>
             </div>
 
             <div id="content" role="main">
@@ -189,58 +192,61 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <div class="col-md-6 mb-10">
+                        <div class="col-md-12 mb-20">
                             <div class="card shadow bg-D8D9DA text-black shadow border-15 rounded ">
-                                <div class="card-body">
-                                    <form action="<?= base_url('karyawan/aksi_menu_izin'); ?>" method="post">
-                                        <div class="mb-3">
-                                            <label for="keterangan">Keterangan Izin</label>
-                                            <textarea class="form-control" id="keterangan" name="keterangan" rows="4"
-                                                required></textarea>
+                                <form action="<?= base_url('karyawan/aksi_menu_izin'); ?>" method="post">
+                                    <div class="mb-3">
+                                        <div class=" d-flex flex-column align-items-center">
+                                            <h4>Keterangan Izin</h4>
                                         </div>
+                                        <textarea class="form-control" id="keterangan" name="keterangan" rows="4"
+                                            required></textarea>
+                                    </div>
+                                    <div class=" d-flex flex-column align-items-center">
                                         <button type="submit" class="btn btn-primary">Ajukan Izin</button>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-                </script>
-                <script src="path/to/your/custom.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <!-- LOGOUT -->
-                <script>
-                function confirmLogout() {
-                    Swal.fire({
-                        title: 'Yakin mau LogOut?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "<?php echo base_url('auth') ?>";
-                        }
-                    });
-                }
-                </script>
-                <script>
-                function toggleSidebar() {
-                    var sidebar = document.getElementById("sidebar");
-                    var content = document.getElementById("content");
-                    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-                    content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
-                }
-                </script>
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
-                </script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
-                </script>
+
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+            </script>
+            <script src="path/to/your/custom.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <!-- LOGOUT -->
+            <script>
+            function confirmLogout() {
+                Swal.fire({
+                    title: 'Yakin mau LogOut?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "<?php echo base_url('home') ?>";
+                    }
+                });
+            }
+            </script>
+            <script>
+            function toggleSidebar() {
+                var sidebar = document.getElementById("sidebar");
+                var content = document.getElementById("content");
+                sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+                content.style.marginLeft = content.style.marginLeft === "250px" ? "0" : "250px";
+            }
+            </script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+            </script>
 </body>
 
 </html>
