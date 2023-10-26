@@ -13,7 +13,7 @@ class Karyawan extends CI_Controller
         $this->load->library('upload');
 		$this->load->library('form_validation'); // Memuat pustaka form_validation
 		if ($this->session->userdata('logged_in')  != true && $this->session->userdata('role') != 'karyawan') {
-			redirect(base_url() . 'auth');
+			redirect(base_url() . 'home');
 		}
 	}
 	
