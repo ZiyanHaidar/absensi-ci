@@ -198,8 +198,8 @@
                         <div class="d-flex justify-content-between">
                             <input type="date" class="form-control" id="tanggal" name="tanggal"
                                 value="<?php echo isset($_GET['tanggal']) ? $_GET['tanggal'] : ''; ?>">
-                            <button type="submit" class="btn btn-success">Filter</button>
-                            <button type="submit" name="submit" class="btn btn-sm btn-primary"
+                            <button type="submit" class="btn btn-success m-2">Filter</button>
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary m-2"
                                 formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
                         </div>
                     </form>

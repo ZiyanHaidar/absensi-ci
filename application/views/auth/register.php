@@ -123,7 +123,7 @@
 
     .field-icon {
         position: absolute;
-        top: 60%;
+        top: 50%;
         right: 10px;
         transform: translateY(-50%);
         cursor: pointer;
@@ -173,12 +173,13 @@
                             placeholder="Password" required>
                         <i class="fas fa-eye-slash field-icon toggle-password" onclick="togglePassword()"
                             style="position: absolute; right: 10px;"></i>
+                        <small class="text-warning">*Kata sandi minimal harus 8 karakter!</small>
                     </div>
 
 
                     <button type="submit" class="btn btn-warning btn-block ">Register</button>
                 </form>
-                <p class="text-center mt-3">Sudah punya akun? <a href="<?php echo base_url('auth'); ?>"
+                <p class="text-center mt-3">Sudah punya akun? <a href="<?php echo base_url('home'); ?>"
                         class="btn btn-info btn-sm">Login</a></p>
             </div>
         </div>

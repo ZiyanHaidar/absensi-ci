@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="path/to/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="path/to/sweetalert2.min.css">
 
     <style>
     body {
@@ -151,7 +153,6 @@
                             style="position: absolute; right: 10px;"></i>
                     </div>
 
-                    <a href="<?php echo base_url('auth/ubah_password'); ?>" style="color:red">Forgot Password?</a>
                     <br>
                     <button type="submit" class="btn btn-warning btn-block ">Login</button>
                 </form>
@@ -177,6 +178,7 @@
             }
         }
         </script>
+
 
 </body>
 

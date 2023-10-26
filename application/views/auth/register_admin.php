@@ -174,7 +174,7 @@
 
                     <button type="submit" class="btn btn-warning btn-block ">Register</button>
                 </form>
-                <p class="text-center mt-3">Sudah punya akun? <a href="<?php echo base_url('auth'); ?>"
+                <p class="text-center mt-3">Sudah punya akun? <a href="<?php echo base_url('home'); ?>"
                         class="btn btn-info btn-sm">Login</a></p>
             </div>
         </div>
