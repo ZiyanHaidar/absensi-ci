@@ -247,8 +247,7 @@
 
                     </form>
                 </div>
-                <br>
-
+                <hr>
                 <br>
                 <div class="table-responsive">
                     <?php if (empty($rekap_harian)): ?>

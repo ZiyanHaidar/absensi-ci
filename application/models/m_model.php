@@ -59,7 +59,7 @@ class M_model extends CI_Model{
         // Masukkan data ke dalam tabel 'users' dan kembalikan hasilnya
             return $this->db->insert('users', $data);
     }
-    
+
     public function addAbsensi($data) {
             // Fungsi ini digunakan untuk menambahkan data absensi.
             // Anda dapat mengisi date dan jam masuk sesuai dengan waktu saat ini.

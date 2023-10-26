@@ -200,8 +200,10 @@
                                     <td><?php echo $row->status ?></td>
                                     <td>
                                         <?php if ($row->status == 'Izin'): ?>
-                                        Izin
-
+                                        <a href="<?php echo base_url('karyawan/ubah_izin/') . $row->id ?>"
+                                            class="btn btn-primary">
+                                            <i class="fas fa-edit"></i> Ubah
+                                        </a>
                                         <?php elseif ($row->status == 'Pulang'): ?>
                                         <button class="btn btn-secondary" disabled>
                                             <i class="fas fa-house-user"></i>Pulang

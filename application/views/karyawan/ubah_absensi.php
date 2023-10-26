@@ -159,10 +159,46 @@
         }
     }
 
+
+    .profile-details {
+        background: #f3f1f6;
+
+    }
+
+    .profile-details {
+        background: none;
+    }
+
+    .profile-details {
+        width: 78px;
+    }
+
+
+
+    .profile-details img {
+        height: 52px;
+        width: 52px;
+        object-fit: cover;
+        border-radius: 20px;
+
+        background: #1d1b31;
+    }
+
+    .profile-details .profile_name,
+    .profile-details .job {
+        color: #fff;
+        font-size: 18px;
+
+    }
+
     .logout-button a {
         margin-top: 160%;
         text-align: left;
         /* Posisi teks pada tengah */
+    }
+
+    .profile-details .job {
+        font-size: 12px;
     }
     </style>
 </head>
@@ -194,10 +230,33 @@
                 <div class="card mb-4 shadow">
                     <div class="card-body d-flex text-white justify-content-between align-items-center"
                         style="background-color:#1D267D">
+                        <h1>Izin/cuti</h1>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <?php foreach ($akun as $users): ?>
+                                <div class="profile-content">
+                                    <a href="<?php echo base_url('karyawan/profile') ?>">
+                                        <img src="<?php echo base_url('images/user/' . $users->image) ?>"
+                                            alt="profileImg">
+                                    </a>
+                                </div>
+                                <?php endforeach ?>
 
-                        <h1>Profile</h1>
+                                <div class="name-job">
+                                    <div class="profile_name">
+                                        <?php echo $this->session->userdata('username'); ?>
+                                    </div>
+                                    <div class="job">
+                                        <marquee scrolldelay="200">
+                                            <?php echo $_SESSION['email']; ?>
+                                        </marquee>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
 
                 <section class="home-section">
                     <div class="home-content">

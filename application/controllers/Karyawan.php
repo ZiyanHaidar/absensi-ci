@@ -131,17 +131,12 @@ class Karyawan extends CI_Controller
         }
     }
 
-    public function ubah_izin($id)
-	{
-		$data['absensi']=$this->m_model->get_by_id('absensi', 'id', $id)->result();
-		$this->load->view('karyawan/ubah_izin', $data);
-	}
-
+  
     public function ubah_absensi($absen_id) {
         if ($this->session->userdata('role') === 'karyawan') {
             // Mengambil data absensi berdasarkan ID yang diberikan
             $absensi = $this->m_model->getAbsensiById($absen_id);
-
+            $data['akun'] = $this->m_model->get_by_id('users', 'id', $this->session->userdata('id'))->result();
             // Periksa apakah data absensi ditemukan
             if ($absensi) {
                 // Mengecek apakah pengguna mengirimkan formulir perubahan

@@ -203,6 +203,7 @@
                                 formaction="<?php echo base_url('admin/export_harian')?>">Export</button>
                         </div>
                     </form>
+                    <hr>
                     <br>
                     <br>
                     <div class="table-responsive">
